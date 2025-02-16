@@ -44,7 +44,7 @@ yarn build
 В качестве архитектуры была выбрана модель данных MVP
 
 Interface Basket
-```
+```typescript
 interface Basket {
   item: CatalogItem;
   finalPrice: number;
