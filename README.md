@@ -42,3 +42,11 @@ yarn build
 ```
 ## Документация
 В качестве архитектуры была выбрана модель данных MVP
+
+Interface Basket
+```
+interface Basket {
+  item: CatalogItem;
+  finalPrice: number;
+}
+```
