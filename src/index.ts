@@ -7,8 +7,7 @@ import { API_URL, CDN_URL } from './utils/constants';
 fetch(`https://larek-api.nomoreparties.co/api/weblarek/product`)
 	.then((res) => res.json())
 	.then((res) => {
-		res as CatalogItem
-		console.log(res)
+		console.log(res);
 	});
 
 class CardItem {
@@ -20,5 +19,6 @@ class CardItem {
 		});
 	}
 }
+function renderCatalog() {}
 
-new CardItem()
+new CardItem();
