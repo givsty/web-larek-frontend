@@ -10,6 +10,7 @@ const gallery = document.querySelector('.gallery')
 fetch(`https://larek-api.nomoreparties.co/api/weblarek/product`)
 	.then((res) => res.json())
 	.then((res) => {
+		console.log(res)
 		renderCatalog(res.items as []);
 	})
 	.catch((error) => {
@@ -22,17 +23,20 @@ class CardItem {
 	protected title: HTMLElement;
 	protected image: HTMLImageElement;
 	protected price: HTMLElement;
-
+	protected priceValue: number | null
+	
 	getItem(card: CatalogItemCard, element:HTMLElement){
 		
 		this.category = element.querySelector('.card__category_soft');
 		this.title = element.querySelector('.card__title');
 		this.image = element.querySelector('.card__image');
 		this.price = element.querySelector('.card__price');
+		this.priceValue = card.price
 
 		this.category.textContent = card.category
 		this.title.textContent = card.title
 		this.image.src = card.image
+		this.price.textContent = this.priceValue!== null ? this.priceValue.toString() : '0'
 		
 		return element
 	}
@@ -44,5 +48,3 @@ function renderCatalog(card: []) {
 		gallery.append(carditem.getItem(element, cloneTemplate(cardCatalogTemplate)))
 	});
 }
-
-

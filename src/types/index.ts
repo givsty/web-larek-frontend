@@ -1,10 +1,13 @@
+export interface CatalogItemArr {
+  cards: CatalogItemCard[]
+}
 
 export interface CatalogItemCard {
 	category: string;
 	description: string;
 	id: string;
 	image: string;
-	price: number;
+	price: number | null;
 	title: string;
 }
 
