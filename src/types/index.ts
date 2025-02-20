@@ -1,3 +1,4 @@
+
 export interface CatalogItemCard {
 	category: string;
 	description: string;
