@@ -7,6 +7,9 @@ import { cloneTemplate, ensureElement } from './utils/utils';
 
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const gallery = document.querySelector('.gallery')
+
+
+
 fetch(`https://larek-api.nomoreparties.co/api/weblarek/product`)
 	.then((res) => res.json())
 	.then((res) => {
@@ -48,3 +51,4 @@ function renderCatalog(card: []) {
 		gallery.append(carditem.getItem(element, cloneTemplate(cardCatalogTemplate)))
 	});
 }
+

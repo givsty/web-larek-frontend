@@ -1,30 +1,25 @@
-export interface CatalogItemArr {
-  cards: CatalogItemCard[]
-}
+import { EventEmitter } from "../components/base/events";
 
 export interface CatalogItemCard {
 	category: string;
-	description: string;
 	id: string;
 	image: string;
 	price: number | null;
 	title: string;
 }
 
-export interface CatalogItem{
-  category: string;
-  title: string;
-  image: string;
-  price: number;
-}
-
-export interface Basket {
-  item: CatalogItem;
-  finalPrice: number;
+export interface CatalogItemCardModal extends CatalogItemCard{
+  description: string;
 }
 
 export interface BasketItem {
-  position: string;
-  name: string;
+  counter: number;
+  descrption: string;
   price: number;
+}
+
+export interface ICardApi {
+	getCard: () => Promise<CatalogItemCardModal[]>;
+	setItem(items: CatalogItemCard[]): void;
+	getItem(id: string): CatalogItemCard;
 }
