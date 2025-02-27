@@ -1,4 +1,4 @@
-export class Page{
+export class Component {
   constructor(){
     
   }
