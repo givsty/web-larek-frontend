@@ -12,20 +12,24 @@ export interface CatalogItemCardModal extends CatalogItemCard {
 	description: string;
 }
 
+export interface CatalogPage<T> {
+	cards: T[];
+}
+
 export interface BasketItem {
 	counter: number;
 	descrption: string;
 	price: number;
 }
 
-export interface ICardApi {
-	getCard: () => Promise<CatalogItemCardModal[]>;
-	setItem(items: CatalogItemCard[]): void;
-	getItem(id: string): CatalogItemCard;
+export interface BasketPage {
+	cardsBasket: BasketItem[]
 }
 
-export interface Basket {}
+export interface ICardApi {
+	items: CatalogItemCard[]
+}
 
-export interface Order {}
-
-export interface Page {}
+export interface Order {
+	amount: number
+}
