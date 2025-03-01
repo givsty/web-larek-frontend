@@ -1,35 +1,35 @@
-import { EventEmitter } from '../components/base/events';
-
-export interface CatalogItemCard {
+export interface CardApi {
 	category: string;
 	id: string;
-	image: string;
 	price: number | null;
 	title: string;
+	image?: string;
+	description?: string;
 }
 
-export interface CatalogItemCardModal extends CatalogItemCard {
-	description: string;
+export interface CatalogListItem{
+	items:CardApi[]
 }
 
-export interface CatalogPage<T> {
-	cards: T[];
+export interface CardModal {
+	item: CardApi;
 }
 
-export interface BasketItem {
-	counter: number;
-	descrption: string;
-	price: number;
+export interface Page<T>{
+	catalogList: CatalogListItem[];
+	cardModal: CardModal;
 }
 
-export interface BasketPage {
-	cardsBasket: BasketItem[]
+export interface Basket {
+	items: CardApi[];
+	amount: number;
 }
 
-export interface ICardApi {
-	items: CatalogItemCard[]
+export interface Registration {
+	payment: 'Онлайн' | 'При получении'
+	addres: string;
 }
 
-export interface Order {
-	amount: number
+export interface Order extends Registration{
+	number: string;
 }
