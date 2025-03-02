@@ -19,11 +19,11 @@ export class Card implements Card{
 }
 
 export class CardList<T> implements CardListModel<T> {
+  lodad(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 	items: T[];
-	async load() {
-		const result = await this.api.load(
-			this.pages.current, // передаём номер страницы
-			this.searchQuery // и поисковый запрос
-		);
+	async load(): Promise<void>  {
+
 	}
 }
