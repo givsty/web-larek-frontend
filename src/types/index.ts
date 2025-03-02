@@ -1,4 +1,4 @@
-export interface CardApi {
+export interface ICardItem {
 	category: string;
 	id: string;
 	price: number | null;
@@ -7,29 +7,20 @@ export interface CardApi {
 	description?: string;
 }
 
-export interface CatalogListItem{
-	items:CardApi[]
+export interface CardList<T> {
+	items: T[],
+	total: number
 }
 
-export interface CardModal {
-	item: CardApi;
+export interface CardListModel<T> {
+	items: T[],
+	lodad(): Promise<void>
 }
 
-export interface Page<T>{
-	catalogList: CatalogListItem[];
-	cardModal: CardModal;
+export interface Catalog {
+	
 }
 
-export interface Basket {
-	items: CardApi[];
-	amount: number;
-}
+export interface AppState{
 
-export interface Registration {
-	payment: 'Онлайн' | 'При получении'
-	addres: string;
-}
-
-export interface Order extends Registration{
-	number: string;
 }
