@@ -17,6 +17,10 @@ export interface CardListModel<T> {
 	lodad(): Promise<void>
 }
 
+export interface ICardApi<T> {
+	items: ICardItem[],
+}
+
 export interface Catalog {
 	
 }

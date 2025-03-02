@@ -18,6 +18,11 @@ export class Card implements Card{
   }
 }
 
+export class CardView {
+  protected button: HTMLButtonElement;
+
+}
+
 export class CardList<T> implements CardListModel<T> {
   lodad(): Promise<void> {
     throw new Error("Method not implemented.");
