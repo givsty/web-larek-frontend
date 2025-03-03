@@ -1,3 +1,3 @@
 export class Order {
-  
+  constructor(){}
 }

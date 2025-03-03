@@ -14,5 +14,3 @@ export class Card {
     this.price.textContent = items.price.toString()
   }
 }
-
-

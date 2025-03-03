@@ -7,7 +7,7 @@ export interface ICardItem {
 	description?: string;
 }
 
-type payment = 'Онлайн' | 'При получении'
+export type payment = 'Онлайн' | 'При получении'
 
 export interface CardList {
 	items: ICardItem[]
