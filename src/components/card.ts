@@ -1,34 +1,18 @@
-import { CardListModel } from "../types";
+import { ICardItem } from "../types";
 
-export class Card implements Card{
-  category: string;
-	id: string;
-	price: number | null;
-	title: string;
-	image: string;
-	description: string;
-  
-  constructor(data: Card) {
-    this.category = data.category
-    this.id = data.id
-    this.price = data.price
-    this.title = data.title
-    this.image = data.image
-    this.description = data.description
+export class Card {
+  protected title: HTMLTitleElement;
+  protected description: HTMLSpanElement;
+  protected buy: HTMLButtonElement;
+  protected image: HTMLImageElement;
+  protected price: HTMLSpanElement;
+
+  constructor(items: ICardItem) {
+    this.title.textContent = items.title
+    this.description.textContent = items.description
+    this.image.src = items.image
+    this.price.textContent = items.price.toString()
   }
 }
 
-export class CardView {
-  protected button: HTMLButtonElement;
 
-}
-
-export class CardList<T> implements CardListModel<T> {
-  lodad(): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-	items: T[];
-	async load(): Promise<void>  {
-
-	}
-}

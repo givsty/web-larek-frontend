@@ -6,7 +6,11 @@ import { cloneTemplate, ensureElement } from './utils/utils';
 
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const gallery = document.querySelector('.gallery')
+const basket = document.querySelector('.header__basket')
 
+basket.addEventListener('click', ()=>{
+	console.log('aasfafafaf')
+})
 
 fetch(`https://larek-api.nomoreparties.co/api/weblarek/product`)
 	.then((res) => res.json())

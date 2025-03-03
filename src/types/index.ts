@@ -7,24 +7,35 @@ export interface ICardItem {
 	description?: string;
 }
 
-export interface CardList<T> {
-	items: T[],
-	total: number
-}
+type payment = 'Онлайн' | 'При получении'
 
-export interface CardListModel<T> {
-	items: T[],
-	lodad(): Promise<void>
+export interface CardList {
+	items: ICardItem[]
 }
 
 export interface ICardApi<T> {
+	items: T[],
+}
+
+export interface IBasket {
 	items: ICardItem[],
+	ammount: number,
 }
 
-export interface Catalog {
-	
+export interface IOrder {
+	payment: payment,
+	addres: string,
 }
 
-export interface AppState{
+export interface ICustomer {
+	email: string,
+	phone: string,
+}
 
+export interface IOrderStatus {
+	amount: number
+}
+
+export interface IModal {
+	content: HTMLElement
 }
