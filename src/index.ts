@@ -1,15 +1,18 @@
 import { Api } from './components/base/api';
 import { EventEmitter } from './components/base/events';
+import { Modal } from './components/Modal';
 import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { cloneTemplate, ensureElement } from './utils/utils';
 
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const gallery = document.querySelector('.gallery')
-const basket = document.querySelector('.header__basket')
+const modal = document.querySelector('.modal') as HTMLElement
+const basket = document.querySelector('.header__basket') as HTMLElement
 
 basket.addEventListener('click', ()=>{
-	console.log('aasfafafaf')
+	const modalBasket = new Modal(modal)
+	modalBasket.open()
 })
 
 fetch(`https://larek-api.nomoreparties.co/api/weblarek/product`)

@@ -39,3 +39,7 @@ export interface IOrderStatus {
 export interface IModal {
 	content: HTMLElement
 }
+
+export interface AppState {
+	
+}
