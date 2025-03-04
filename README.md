@@ -87,3 +87,15 @@ export interface IModal {
 	content: HTMLElement
 }
 ```
+Interface AppState
+```typescript
+export interface AppState {
+	items: Map<string, ICardItem>;
+
+	selectedCard: ICardItem;
+
+	openModal(modal: HTMLElement):void
+
+	loadApi: Promise<void>
+}
+```
