@@ -1,11 +1,11 @@
 import { ICardItem } from "../types";
 
 export class Card {
-  protected title: HTMLTitleElement;
-  protected description: HTMLSpanElement;
-  protected buy: HTMLButtonElement;
-  protected image: HTMLImageElement;
   protected price: HTMLSpanElement;
+  protected title: HTMLTitleElement;
+  protected buy: HTMLButtonElement;
+  protected image?: HTMLImageElement;
+  protected description?: HTMLSpanElement;
 
   constructor(items: ICardItem) {
     this.title.textContent = items.title

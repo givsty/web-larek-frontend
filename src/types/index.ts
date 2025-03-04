@@ -7,9 +7,13 @@ export interface ICardItem {
 	description?: string;
 }
 
+export interface Card {
+	items: ICardItem[]
+}
+
 export type payment = 'Онлайн' | 'При получении'
 
-export interface CardList {
+export interface ICardList {
 	items: ICardItem[]
 }
 
@@ -37,9 +41,16 @@ export interface IOrderStatus {
 }
 
 export interface IModal {
-	content: HTMLElement
+	open(): void
+	close(): void
 }
 
 export interface AppState {
-	
+	items: Map<string, ICardItem>;
+
+	selectedCard: ICardItem;
+
+	openModal(modal: HTMLElement):void
+
+	loadApi: Promise<void>
 }
