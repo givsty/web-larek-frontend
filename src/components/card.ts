@@ -1,16 +1,25 @@
 import { ICardItem } from "../types";
+import { EventEmitter } from "./base/events";
 
 export class Card {
-  protected price: HTMLSpanElement;
+  protected category: HTMLSpanElement;
   protected title: HTMLTitleElement;
-  protected buy: HTMLButtonElement;
-  protected image?: HTMLImageElement;
-  protected description?: HTMLSpanElement;
+  protected price: HTMLSpanElement;
+  protected image: HTMLImageElement
 
-  constructor(items: ICardItem) {
-    this.title.textContent = items.title
-    this.description.textContent = items.description
-    this.image.src = items.image
-    this.price.textContent = items.price.toString()
+  constructor(protected container: HTMLElement, protected events: EventEmitter
+  ) {
+    this.category = container.querySelector('.card__category')
+    this.title = container.querySelector('.card__title')
+    this.price = container.querySelector('.card__price')
+    this.image = container.querySelector('.card__image')
+  }
+
+  render(data: ICardItem) {
+    this.category.textContent = data.category
+    this.title.textContent = data.title
+    this.price.textContent = data.price.toString()
+    this.image.textContent = data.image
+    return this.container
   }
 }

@@ -1,7 +1,6 @@
 import { Api } from './components/base/api';
 import { EventEmitter } from './components/base/events';
-import { Card } from './components/Card';
-import { Modal } from './components/Modal';
+import { Modal } from './components/modal';
 import './scss/styles.scss';
 import { ICardItem } from './types';
 import { API_URL, CDN_URL } from './utils/constants';
@@ -17,10 +16,11 @@ basket.addEventListener('click', ()=>{
 	const modalBasket = new Modal(modal)
 	modalBasket.open()
 })
+
 console.log(basketTemplate)
 api.get('/api/weblarek/product')
 	.then((res)=>{
-		console.log(res as ICardItem)
+		console.log(res)
 	})
 	.catch((err)=>{
 		console.log(err)

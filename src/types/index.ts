@@ -7,10 +7,12 @@ export interface ICardItem {
 	description?: string;
 }
 
-export interface Card {
+export interface CardItem {
 	items: ICardItem[]
+	render(card: ICardItem[]): void
 }
-
+export interface ICard {
+}
 export type payment = 'Онлайн' | 'При получении'
 
 export interface ICardList {
