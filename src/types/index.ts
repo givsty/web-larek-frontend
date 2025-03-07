@@ -8,43 +8,45 @@ export interface ICardItem {
 }
 
 export interface CardItem {
-	items: ICardItem[]
-	render(card: ICardItem[]): void
+	items: ICardItem[];
+	render(card: ICardItem[]): void;
 }
-export interface ICard {
-}
-export type payment = 'Онлайн' | 'При получении'
+
+export interface ICard {}
+
+export type payment = 'Онлайн' | 'При получении';
 
 export interface ICardList {
-	items: ICardItem[]
+	items: ICardItem[];
 }
 
 export interface ICardApi<T> {
-	items: T[],
+	items: T[];
 }
 
-export interface IBasket {
-	items: ICardItem[],
-	ammount: number,
+export interface IBasketModel {
+	items: Map<string, number>
+	add(id: string): void
+	remove(id: string): void
 }
 
 export interface IOrder {
-	payment: payment,
-	addres: string,
+	payment: payment;
+	addres: string;
 }
 
 export interface ICustomer {
-	email: string,
-	phone: string,
+	email: string;
+	phone: string;
 }
 
 export interface IOrderStatus {
-	amount: number
+	amount: number;
 }
 
 export interface IModal {
-	open(): void
-	close(): void
+	open(): void;
+	close(): void;
 }
 
 export interface AppState {
@@ -52,7 +54,7 @@ export interface AppState {
 
 	selectedCard: ICardItem;
 
-	openModal(modal: HTMLElement):void
+	openModal(modal: HTMLElement): void;
 
-	loadApi: Promise<void>
+	loadApi: Promise<void>;
 }

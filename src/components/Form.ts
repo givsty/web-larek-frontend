@@ -1,5 +1,6 @@
 export class Form {
-  constructor(){
-    
+  protected input: HTMLInputElement
+  constructor(input: HTMLInputElement){
+    this.input = input
   }
 }
