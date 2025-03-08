@@ -16,5 +16,4 @@ export class Modal implements IModal{
 	public open() {
     this.modal.classList.add('modal_active')
   }
-
 }

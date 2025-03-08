@@ -1,7 +1,7 @@
 import { ICardItem } from "../types";
 import { EventEmitter } from "./base/events";
 
-export class Card {
+export class Card{
   protected category: HTMLSpanElement;
   protected title: HTMLTitleElement;
   protected price: HTMLSpanElement;

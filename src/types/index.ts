@@ -12,8 +12,6 @@ export interface CardItem {
 	render(card: ICardItem[]): void;
 }
 
-export interface ICard {}
-
 export type payment = 'Онлайн' | 'При получении';
 
 export interface ICardList {
@@ -47,14 +45,4 @@ export interface IOrderStatus {
 export interface IModal {
 	open(): void;
 	close(): void;
-}
-
-export interface AppState {
-	items: Map<string, ICardItem>;
-
-	selectedCard: ICardItem;
-
-	openModal(modal: HTMLElement): void;
-
-	loadApi: Promise<void>;
 }
