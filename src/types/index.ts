@@ -29,8 +29,8 @@ export interface IBasketModel {
 }
 
 export interface IOrder {
-	payment: payment;
-	addres: string;
+	orderDataBuyer: Map<string, payment>;
+	add(): void
 }
 
 export interface ICustomer {

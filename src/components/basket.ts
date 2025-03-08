@@ -21,10 +21,3 @@ export class BasketModel implements IBasketModel {
 		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
 	}
 }
-
-export class Basket {
-	items: ICardItem;
-	constructor() {
-    
-  }
-}

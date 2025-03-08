@@ -7,8 +7,6 @@ const gallery = document.querySelector('.gallery')
 const modal = document.querySelector('.modal') as HTMLElement
 const basket = document.querySelector('.header__basket') as HTMLElement
 const api = new Api(API_URL)
-const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
-console.log(basketTemplate)
 api.get(`/product`)
 	.then((res)=>{
 		console.log(res)
