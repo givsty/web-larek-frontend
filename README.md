@@ -54,48 +54,143 @@ export interface ICardItem {
 	description?: string;
 }
 
-type payment = 'Онлайн' | 'При получении'
+export interface CardItem {
+	items: ICardItem[];
+	render(card: ICardItem[]): void;
+}
 
-export interface CardList {
-	items: ICardItem[]
+export type payment = 'Онлайн' | 'При получении';
+
+export interface ICardList {
+	items: ICardItem[];
 }
 
 export interface ICardApi<T> {
-	items: T[],
+	items: T[];
 }
 
-export interface IBasket {
-	items: ICardItem[],
-	ammount: number,
+export interface IBasketModel {
+	items: Map<string, number>
+	add(id: string): void
+	remove(id: string): void
 }
 
 export interface IOrder {
-	payment: payment,
-	addres: string,
+	payment: payment;
+	addres: string;
 }
 
 export interface ICustomer {
-	email: string,
-	phone: string,
+	email: string;
+	phone: string;
 }
 
 export interface IOrderStatus {
-	amount: number
+	amount: number;
 }
 
 export interface IModal {
-	content: HTMLElement
+	open(): void;
+	close(): void;
+}
+
+```
+Interface BasketModel
+```typescript
+export class BasketModel implements IBasketModel {
+	items: Map<string, number> = new Map();
+	constructor(protected events: EventEmitter) {}
+	public add(id: string) {
+		if (this.items.has(id)) this.items.set(id, 0);
+		this.items.set(id, this.items.get(id) + 1);
+		this._changed();
+	}
+	public remove(id: string) {
+		if (this.items.has(id)) return;
+		if (this.items.get(id)! > 0) {
+			this.items.set(id, this.items.get(id)! - 1);
+			if (this.items.get(id) === 0) this.items.delete(id);
+		}
+		this._changed();
+	}
+	protected _changed() {
+		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
+	}
 }
 ```
-Interface AppState
+class Card
+
 ```typescript
-export interface AppState {
-	items: Map<string, ICardItem>;
+export class Card{
+  protected category: HTMLSpanElement;
+  protected title: HTMLTitleElement;
+  protected price: HTMLSpanElement;
+  protected image: HTMLImageElement
+  protected container: HTMLElement;
+  protected events:EventEmitter
+  protected description?: HTMLParagraphElement | null
 
-	selectedCard: ICardItem;
+  constructor(container: HTMLElement, events: EventEmitter) {
+    this.container = container
+    this.events = events
+    this.category = container.querySelector('.card__category')
+    this.title = container.querySelector('.card__title')
+    this.price = container.querySelector('.card__price')
+    this.image = container.querySelector('.card__image')
+  }
 
-	openModal(modal: HTMLElement):void
+  public render(data: ICardItem) {
+    this.category.textContent = data.category
+    this.title.textContent = data.title
+    this.price.textContent = data.price.toString()
+    this.image.textContent = data.image
+    this.description.textContent = data.description
 
-	loadApi: Promise<void>
+    return this.container
+  }
+}
+```
+class CardView
+```typescript
+export class CardView extends Card{
+  protected buyButton: HTMLButtonElement;
+  constructor(container: HTMLElement, events: EventEmitter){
+    super(container, events)
+    this.buyButton = container.querySelector('.card__button')
+    this.description = container.querySelector('.card__text')
+    super.render
+  }
+}
+```
+class Form
+```typescript
+export class Form {
+  protected input: HTMLInputElement;
+  protected email: string;
+  protected phone: string;
+  protected adress: string;
+  constructor(input: HTMLInputElement){
+    this.input = input
+  }
+}
+```
+class Modal
+```typescript
+export class Modal implements IModal{
+	protected modal:HTMLElement;
+	protected buttonClose: HTMLButtonElement;
+	constructor(modal:HTMLElement) {
+		this.modal = modal;
+		this.buttonClose = modal.querySelector('.modal__close') as HTMLButtonElement;
+	}
+	container: HTMLElement;
+
+	public close() {
+    this.modal.classList.remove("modal_active")
+	}
+
+	public open() {
+    this.modal.classList.add('modal_active')
+  }
 }
 ```
