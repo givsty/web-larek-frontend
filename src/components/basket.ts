@@ -21,3 +21,23 @@ export class BasketModel implements IBasketModel {
 		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
 	}
 }
+
+export class BasketView {
+  protected items: ICardItem
+  protected deleteButton: HTMLButtonElement;
+  protected index: HTMLSpanElement;
+  protected title: HTMLSpanElement;
+  protected price: HTMLSpanElement;
+
+  constructor(protected events: EventEmitter, items: ICardItem, container: HTMLElement) {
+    this.items = items
+    this.deleteButton = container.querySelector('.basket__item-delete ')
+    this.title = container.querySelector('.card__title')
+    this.index = container.querySelector('.basket__item-index')
+    this.price = container.querySelector('.card__price')
+  }
+  public render() {
+    this.price.textContent = this.items.price.toString()
+    this.title.textContent = this.items.title
+  }
+}

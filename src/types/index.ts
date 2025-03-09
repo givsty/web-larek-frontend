@@ -1,5 +1,5 @@
 export interface ICardItem {
-	category: string;
+	category?: string;
 	id: string;
 	price: number | null;
 	title: string;

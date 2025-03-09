@@ -3,11 +3,10 @@ import { IModal } from "../types";
 export class Modal implements IModal{
 	protected modal:HTMLElement;
 	protected buttonClose: HTMLButtonElement;
-	constructor(modal:HTMLElement) {
-		this.modal = modal;
-		this.buttonClose = modal.querySelector('.modal__close') as HTMLButtonElement;
+	constructor(container: HTMLElement) {
+		this.modal = container;
+		this.buttonClose = container.querySelector('.modal__close') as HTMLButtonElement;
 	}
-	container: HTMLElement;
 
 	public close() {
     this.modal.classList.remove("modal_active")
