@@ -28,3 +28,15 @@ export class OrderData extends Order {
     super.add
   }
 }
+
+export class OrderSuccess {
+  protected amount: number;
+  protected backButton: HTMLButtonElement;
+  protected descriptions: HTMLParagraphElement
+  constructor(protected events: EventEmitter, amount: number) {
+    this.amount = amount
+  }
+  setSumm() {
+    this.descriptions.textContent = this.amount.toString()
+  }
+} 
