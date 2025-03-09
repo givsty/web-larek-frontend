@@ -169,8 +169,20 @@ export class Form {
   protected email: string;
   protected phone: string;
   protected adress: string;
-  constructor(input: HTMLInputElement){
-    this.input = input
+  constructor(container: HTMLInputElement){
+    this.input = container
+  }
+
+  set setEmail(email: string) {
+    this.email = email
+  }
+
+  set setPhone(phone: string) {
+    this.phone = phone
+  }
+
+  set setAdress(adress: string) {
+    this.adress = adress
   }
 }
 ```
@@ -191,6 +203,53 @@ export class Modal implements IModal{
 
 	public open() {
     this.modal.classList.add('modal_active')
+  }
+}
+```
+
+class BasketModel
+```typescript
+export class BasketModel implements IBasketModel {
+	items: Map<string, number> = new Map();
+	constructor(protected events: EventEmitter) {}
+	public add(id: string) {
+		if (this.items.has(id)) this.items.set(id, 0);
+		this.items.set(id, this.items.get(id) + 1);
+		this._changed();
+	}
+	public remove(id: string) {
+		if (this.items.has(id)) return;
+		if (this.items.get(id)! > 0) {
+			this.items.set(id, this.items.get(id)! - 1);
+			if (this.items.get(id) === 0) this.items.delete(id);
+		}
+		this._changed();
+	}
+	protected _changed() {
+		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
+	}
+}
+```
+
+class BasketView
+```typescript
+export class BasketView {
+  protected items: ICardItem
+  protected deleteButton: HTMLButtonElement;
+  protected index: HTMLSpanElement;
+  protected title: HTMLSpanElement;
+  protected price: HTMLSpanElement;
+
+  constructor(protected events: EventEmitter, items: ICardItem, container: HTMLElement) {
+    this.items = items
+    this.deleteButton = container.querySelector('.basket__item-delete ')
+    this.title = container.querySelector('.card__title')
+    this.index = container.querySelector('.basket__item-index')
+    this.price = container.querySelector('.card__price')
+  }
+  public render() {
+    this.price.textContent = this.items.price.toString()
+    this.title.textContent = this.items.title
   }
 }
 ```
