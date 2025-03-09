@@ -33,15 +33,6 @@ export interface IOrder {
 	add(): void
 }
 
-export interface ICustomer {
-	email: string;
-	phone: string;
-}
-
-export interface IOrderStatus {
-	amount: number;
-}
-
 export interface IModal {
 	open(): void;
 	close(): void;
