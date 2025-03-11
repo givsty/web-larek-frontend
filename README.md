@@ -43,6 +43,7 @@ yarn build
 ## Документация
 В качестве архитектуры была выбрана модель данных MVP
 
+Типы данных
 Interface Basket
 ```typescript
 export interface ICardItem {
@@ -93,6 +94,11 @@ export interface IModal {
 	open(): void;
 	close(): void;
 }
+
+Модель данных
+```typescript
+
+```
 
 ```
 Interface BasketModel
