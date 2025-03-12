@@ -1,3 +1,4 @@
+//Карточка Товара
 export interface ICardItem {
 	category?: string;
 	id: string;
@@ -7,10 +8,32 @@ export interface ICardItem {
 	description?: string;
 }
 
-export interface CardItem {
+export interface IOrder {
+	name:string;
+	email: string;
+	phone: string;
+	payment: payment;
+}
+
+//Компонент Карточка товара 
+export interface Card {
 	items: ICardItem[];
 	render(card: ICardItem[]): void;
 }
+
+//Компонент Форма
+export interface Form {
+	setEmail(): void
+	setPhone(): void
+	setAdress(): void
+}
+
+//Компонент модальное окно
+export interface Modal {
+	open(): void
+	close(): void
+}
+
 
 export type payment = 'Онлайн' | 'При получении';
 
@@ -36,4 +59,18 @@ export interface IOrder {
 export interface IModal {
 	open(): void;
 	close(): void;
+}
+
+
+export interface AppState {
+	catalogItems:ICardItem[]
+	basketItems:ICardItem[]
+	basketViewItems:ICardItem[]
+
+	addBasketItems(): void
+
+	removeBasketItems(): void
+
+	renderCatalogItems(catalogItems: ICardItem): void
+
 }

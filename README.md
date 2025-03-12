@@ -96,8 +96,11 @@ export interface IModal {
 }
 
 Модель данных
-```typescript
 
+```typescript
+export interface AppState {
+	
+}
 ```
 
 ```
