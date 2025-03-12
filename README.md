@@ -173,7 +173,7 @@ export class CardView extends Card{
 }
 ```
 class Form
-С помощью класса форм устанавливается значение данных в форме, где пользователь указывает email phone adress
+С помощью класса форм устанавливается значение данных в форме, где пользователь указывает email, phone, adress
 ```typescript
 export class Form {
   protected input: HTMLInputElement;
@@ -200,8 +200,7 @@ export class Form {
 }
 
 ```
-class Modal
-Класс модальное осуществляет открытие и закрытие модального окна
+class Modal осуществляет открытие и закрытие модального окна
 ```typescript
 export class Modal implements IModal{
 	protected modal:HTMLElement;
@@ -226,7 +225,7 @@ export class Modal implements IModal{
 }
 ```
 
-class BasketView данный класс отображает товары в корзине
+class BasketView отображает товары в корзине
 ```typescript
 export class BasketView {
   protected items: ICardItem
