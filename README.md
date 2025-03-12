@@ -124,7 +124,7 @@ export class BasketModel implements IBasketModel {
 		}
 		this._changed();
 	}
-	
+
 	//Изменение состояния 
 	protected _changed() {
 		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
@@ -154,6 +154,7 @@ export class Card{
     this.image = container.querySelector('.card__image')
   }
 
+	//Присваивание значения для карточки
   public render(data: ICardItem) {
     this.category.textContent = data.category
     this.title.textContent = data.title
