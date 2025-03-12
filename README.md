@@ -43,6 +43,9 @@ yarn build
 ## Документация
 В качестве архитектуры была выбрана модель данных MVP
 
+Model-View-Presenter (MVP) — шаблон проектирования, производный от MVC, который используется в основном для построения пользовательского интерфейса.
+Элемент Presenter в данном шаблоне берёт на себя функциональность посредника (аналогично контроллеру в MVC) и отвечает за управление событиями пользовательского интерфейса (например, использование мыши) так же, как в других шаблонах обычно отвечает представление.
+
 Типы данных
 Interface Basket
 ```typescript
@@ -94,16 +97,10 @@ export interface IModal {
 	open(): void;
 	close(): void;
 }
-
-Модель данных
-
-```typescript
-export interface AppState {
-	
-}
 ```
 
-```
+Модель данных Model
+
 Interface BasketModel
 ```typescript
 export class BasketModel implements IBasketModel {
@@ -127,6 +124,8 @@ export class BasketModel implements IBasketModel {
 	}
 }
 ```
+
+Модель отображения View
 class Card
 
 ```typescript
@@ -160,9 +159,12 @@ export class Card{
 }
 ```
 class CardView
+
+Отображение данных карточки при нажатии на нее
 ```typescript
 export class CardView extends Card{
   protected buyButton: HTMLButtonElement;
+	//Конструктор принимает разметку карточки и событие
   constructor(container: HTMLElement, events: EventEmitter){
     super(container, events)
     this.buyButton = container.querySelector('.card__button')
@@ -172,6 +174,7 @@ export class CardView extends Card{
 }
 ```
 class Form
+С помощью класса форм устанавливается значение данных в форме, где пользователь указывает email phone adress
 ```typescript
 export class Form {
   protected input: HTMLInputElement;
@@ -182,61 +185,44 @@ export class Form {
     this.input = container
   }
 
+	//Установление почты
   set setEmail(email: string) {
     this.email = email
   }
-
+	//Установление телефона
   set setPhone(phone: string) {
     this.phone = phone
   }
-
+	//Установление адреса
   set setAdress(adress: string) {
     this.adress = adress
   }
 }
+
 ```
 class Modal
+Класс модальное осуществляет открывает окно и закрывает 
 ```typescript
 export class Modal implements IModal{
 	protected modal:HTMLElement;
 	protected buttonClose: HTMLButtonElement;
+
+	//Конструктор принимает разметку модального окна
 	constructor(modal:HTMLElement) {
 		this.modal = modal;
 		this.buttonClose = modal.querySelector('.modal__close') as HTMLButtonElement;
 	}
 	container: HTMLElement;
 
+	//Открытие модального окна
 	public close() {
     this.modal.classList.remove("modal_active")
 	}
 
+	//Закрытие модального окна
 	public open() {
     this.modal.classList.add('modal_active')
   }
-}
-```
-
-class BasketModel
-```typescript
-export class BasketModel implements IBasketModel {
-	items: Map<string, number> = new Map();
-	constructor(protected events: EventEmitter) {}
-	public add(id: string) {
-		if (this.items.has(id)) this.items.set(id, 0);
-		this.items.set(id, this.items.get(id) + 1);
-		this._changed();
-	}
-	public remove(id: string) {
-		if (this.items.has(id)) return;
-		if (this.items.get(id)! > 0) {
-			this.items.set(id, this.items.get(id)! - 1);
-			if (this.items.get(id) === 0) this.items.delete(id);
-		}
-		this._changed();
-	}
-	protected _changed() {
-		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
-	}
 }
 ```
 
@@ -249,6 +235,7 @@ export class BasketView {
   protected title: HTMLSpanElement;
   protected price: HTMLSpanElement;
 
+	//Данный конструктор принимает событие данные карточки и саму карточку
   constructor(protected events: EventEmitter, items: ICardItem, container: HTMLElement) {
     this.items = items
     this.deleteButton = container.querySelector('.basket__item-delete ')
@@ -256,9 +243,99 @@ export class BasketView {
     this.index = container.querySelector('.basket__item-index')
     this.price = container.querySelector('.card__price')
   }
+
+	//Установка значений
   public render() {
     this.price.textContent = this.items.price.toString()
     this.title.textContent = this.items.title
   }
 }
+
 ```
+Основной класс для обработки событий
+```typescript
+//Класс для обработки событий
+export class EventEmitter implements IEvents {
+	_events: Map<EventName, Set<Subscriber>>;
+
+	constructor() {
+		this._events = new Map<EventName, Set<Subscriber>>();
+	}
+
+	/**
+	 * Установить обработчик на событие
+	 */
+	on<T extends object>(eventName: EventName, callback: (event: T) => void) {
+		if (!this._events.has(eventName)) {
+			this._events.set(eventName, new Set<Subscriber>());
+		}
+		this._events.get(eventName)?.add(callback);
+	}
+
+	/**
+	 * Снять обработчик с события
+	 */
+	off(eventName: EventName, callback: Subscriber) {
+		if (this._events.has(eventName)) {
+			this._events.get(eventName)!.delete(callback);
+			if (this._events.get(eventName)?.size === 0) {
+				this._events.delete(eventName);
+			}
+		}
+	}
+
+	/**
+	 * Инициировать событие с данными
+	 */
+	emit<T extends object>(eventName: string, data?: T) {
+		this._events.forEach((subscribers, name) => {
+			if (name === '*')
+				subscribers.forEach((callback) =>
+					callback({
+						eventName,
+						data,
+					})
+				);
+			if (
+				(name instanceof RegExp && name.test(eventName)) ||
+				name === eventName
+			) {
+				subscribers.forEach((callback) => callback(data));
+			}
+		});
+	}
+
+	/**
+	 * Слушать все события
+	 */
+	onAll(callback: (event: EmitterEvent) => void) {
+		this.on('*', callback);
+	}
+
+	/**
+	 * Сбросить все обработчики
+	 */
+	offAll() {
+		this._events = new Map<string, Set<Subscriber>>();
+	}
+
+	/**
+	 * Сделать коллбек триггер, генерирующий событие при вызове
+	 */
+	trigger<T extends object>(eventName: string, context?: Partial<T>) {
+		return (event: object = {}) => {
+			this.emit(eventName, {
+				...(event || {}),
+				...(context || {}),
+			});
+		};
+	}
+}
+```
+
+События
+on: Установить обработчик на событие
+off: Снять обработчик с события
+emit: Инициировать событие с данными
+onAll: Слушать все события
+offAll: Сбросить все обработчики

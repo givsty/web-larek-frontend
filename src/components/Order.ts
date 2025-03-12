@@ -1,7 +1,7 @@
 import { IOrder, payment } from "../types"
 import { EventEmitter } from "./base/events";
 
-export class Order implements IOrder{
+export class Order{
   orderDataBuyer: Map<string, payment> = new Map()
   protected adress: string;
   protected payment: payment;

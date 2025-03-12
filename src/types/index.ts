@@ -34,7 +34,7 @@ export interface Modal {
 	close(): void
 }
 
-
+//Тип оплаты товара
 export type payment = 'Онлайн' | 'При получении';
 
 export interface ICardList {
@@ -61,16 +61,3 @@ export interface IModal {
 	close(): void;
 }
 
-
-export interface AppState {
-	catalogItems:ICardItem[]
-	basketItems:ICardItem[]
-	basketViewItems:ICardItem[]
-
-	addBasketItems(): void
-
-	removeBasketItems(): void
-
-	renderCatalogItems(catalogItems: ICardItem): void
-
-}
