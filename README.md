@@ -192,15 +192,15 @@ export class Form {
     this.input = container
   }
 
-	//Установление почты
+	//Почта клиента
   set setEmail(email: string) {
     this.email = email
   }
-	//Установление телефона
+	//Телефон клиента
   set setPhone(phone: string) {
     this.phone = phone
   }
-	//Установление адреса
+	//Адреса клиента
   set setAdress(adress: string) {
     this.adress = adress
   }
