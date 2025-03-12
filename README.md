@@ -179,8 +179,7 @@ export class CardView extends Card{
   }
 }
 ```
-class Form
-С помощью класса форм устанавливается значение данных в форме, где пользователь указывает email, phone, adress
+class Form форм устанавливает значение данных в форме, где пользователь указывает email, phone, adress
 ```typescript
 export class Form {
   protected input: HTMLInputElement;
