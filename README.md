@@ -100,17 +100,22 @@ export interface IModal {
 
 Модель данных Model
 
-Interface BasketModel 
 class BasketModel реализует добавление и удаление данных в корзине
 ```typescript
 export class BasketModel implements IBasketModel {
 	items: Map<string, number> = new Map();
+
+	//Конструктор принимает события
 	constructor(protected events: EventEmitter) {}
+
+	//Добавление товара в корзину
 	public add(id: string) {
 		if (this.items.has(id)) this.items.set(id, 0);
 		this.items.set(id, this.items.get(id) + 1);
 		this._changed();
 	}
+
+	//Удаление товара из корзины
 	public remove(id: string) {
 		if (this.items.has(id)) return;
 		if (this.items.get(id)! > 0) {
@@ -119,6 +124,8 @@ export class BasketModel implements IBasketModel {
 		}
 		this._changed();
 	}
+	
+	//Изменение состояния 
 	protected _changed() {
 		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
 	}
@@ -137,6 +144,7 @@ export class Card{
   protected events:EventEmitter
   protected description?: HTMLParagraphElement | null
 
+	//Конструктор принимает разметку карточки и события
   constructor(container: HTMLElement, events: EventEmitter) {
     this.container = container
     this.events = events
@@ -157,9 +165,7 @@ export class Card{
   }
 }
 ```
-class CardView
-
-Отображение данных карточки при нажатии на нее
+class CardView отображает данные карточки при нажатии на нее
 ```typescript
 export class CardView extends Card{
   protected buyButton: HTMLButtonElement;
