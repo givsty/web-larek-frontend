@@ -101,7 +101,8 @@ export interface IModal {
 
 Модель данных Model
 
-Interface BasketModel
+Interface BasketModel 
+class BasketModel реализует добавление и удаление данных в корзине
 ```typescript
 export class BasketModel implements IBasketModel {
 	items: Map<string, number> = new Map();
@@ -126,8 +127,7 @@ export class BasketModel implements IBasketModel {
 ```
 
 Модель отображения View
-class Card
-
+class Card отображает карточку товара
 ```typescript
 export class Card{
   protected category: HTMLSpanElement;
@@ -201,7 +201,7 @@ export class Form {
 
 ```
 class Modal
-Класс модальное осуществляет открывает окно и закрывает 
+Класс модальное осуществляет открытие и закрытие модального окна
 ```typescript
 export class Modal implements IModal{
 	protected modal:HTMLElement;
@@ -226,7 +226,7 @@ export class Modal implements IModal{
 }
 ```
 
-class BasketView
+class BasketView данный класс 
 ```typescript
 export class BasketView {
   protected items: ICardItem
@@ -250,8 +250,22 @@ export class BasketView {
     this.title.textContent = this.items.title
   }
 }
-
 ```
+Класс OrderSuccess отбражает заказ
+```typescript
+export class OrderSuccess {
+  protected amount: number;
+  protected backButton: HTMLButtonElement;
+  protected descriptions: HTMLParagraphElement
+  constructor(protected events: EventEmitter, amount: number) {
+    this.amount = amount
+  }
+  setSumm() {
+    this.descriptions.textContent = this.amount.toString()
+  }
+}
+```
+
 Основной класс для обработки событий
 ```typescript
 //Класс для обработки событий
