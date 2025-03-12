@@ -47,15 +47,14 @@ Model-View-Presenter (MVP) — шаблон проектирования, про
 Элемент Presenter в данном шаблоне берёт на себя функциональность посредника (аналогично контроллеру в MVC) и отвечает за управление событиями пользовательского интерфейса (например, использование мыши) так же, как в других шаблонах обычно отвечает представление.
 
 Типы данных
-Interface Basket
 ```typescript
 export interface ICardItem {
 	category: string;
 	id: string;
 	price: number | null;
 	title: string;
-	image?: string;
-	description?: string;
+	image: string;
+	description: string;
 }
 
 export interface CardItem {
