@@ -180,6 +180,7 @@ export class Form {
   protected email: string;
   protected phone: string;
   protected adress: string;
+	//Конструктор принимает html разметку с формой
   constructor(container: HTMLInputElement){
     this.input = container
   }
@@ -225,7 +226,7 @@ export class Modal implements IModal{
 }
 ```
 
-class BasketView данный класс 
+class BasketView данный класс отображает товары в корзине
 ```typescript
 export class BasketView {
   protected items: ICardItem
@@ -250,7 +251,7 @@ export class BasketView {
   }
 }
 ```
-Класс OrderSuccess отбражает заказ
+class OrderSuccess отбражает итоговый заказ 
 ```typescript
 export class OrderSuccess {
   protected amount: number;
@@ -259,6 +260,7 @@ export class OrderSuccess {
   constructor(protected events: EventEmitter, amount: number) {
     this.amount = amount
   }
+	//Отображение итоговой суммы заказа
   setSumm() {
     this.descriptions.textContent = this.amount.toString()
   }
@@ -347,8 +349,8 @@ export class EventEmitter implements IEvents {
 ```
 
 События
-on: Установить обработчик на событие
-off: Снять обработчик с события
-emit: Инициировать событие с данными
-onAll: Слушать все события
-offAll: Сбросить все обработчики
+- on: Установить обработчик на событие
+- off: Снять обработчик с события
+- emit: Инициировать событие с данными
+- onAll: Слушать все события
+- offAll: Сбросить все обработчики
