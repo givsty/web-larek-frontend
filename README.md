@@ -200,7 +200,7 @@ export class Form {
   set setPhone(phone: string) {
     this.phone = phone
   }
-	//Адреса клиента
+	//Адрес клиента
   set setAdress(adress: string) {
     this.adress = adress
   }
