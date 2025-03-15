@@ -132,7 +132,7 @@ export class BasketModel implements IBasketModel {
 }
 ```
 
-Модель отображения View
+Модель отображения View<br/>
 class Card отображает карточку товара
 ```typescript
 export class Card{
