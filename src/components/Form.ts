@@ -1,4 +1,4 @@
-export class Form {
+export abstract class Form {
   protected input: HTMLInputElement;
   protected email: string;
   protected phone: string;

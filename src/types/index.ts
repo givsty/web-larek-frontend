@@ -9,13 +9,13 @@ export interface ICardItem {
 }
 
 export interface IOrder {
-	name:string;
+	name: string;
 	email: string;
 	phone: string;
 	payment: payment;
 }
 
-//Компонент Карточка товара 
+//Компонент Карточка товара
 export interface Card {
 	items: ICardItem[];
 	render(card: ICardItem[]): void;
@@ -23,15 +23,15 @@ export interface Card {
 
 //Компонент Форма
 export interface Form {
-	setEmail(): void
-	setPhone(): void
-	setAdress(): void
+	setEmail(): void;
+	setPhone(): void;
+	setAdress(): void;
 }
 
 //Компонент модальное окно
 export interface Modal {
-	open(): void
-	close(): void
+	open(): void;
+	close(): void;
 }
 
 //Тип оплаты товара
@@ -46,17 +46,19 @@ export interface ICardApi<T> {
 }
 
 export interface IBasketModel {
-	items: Map<string, number>
-	add(id: string): void
-	remove(id: string): void
+	items: Map<string, number>;
+	add(id: string): void;
+	remove(id: string): void;
 }
 
 export interface IOrder {
 	orderDataBuyer: Map<string, payment>;
-	add(): void
+	add(): void;
 }
 
 export interface IModal {
 	open(): void;
 	close(): void;
 }
+
+export interface IPage {}
