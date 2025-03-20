@@ -4,9 +4,16 @@ export class Page implements IPage{
   protected headerBasket: HTMLButtonElement;
   protected headerBasketCounter: HTMLSpanElement;
   protected gallery: HTMLMediaElement;
-  constructor() {
-    this.headerBasket = document.querySelector('.header__basket')
-    this.gallery = document.querySelector('.gallery')
+  protected catalog?: HTMLElement;
+  constructor(protected container: HTMLElement) {
+    this.headerBasket = container.querySelector('.header__basket')
+    this.catalog = container.querySelector('.gallery')
+    this.headerBasket.addEventListener('click', ()=>{
+      console.log('открыть корзину')
+    })
   }
 
+  set setCatalog(items: HTMLElement[]) {
+    this.catalog.replaceChildren(...items)
+  }
 }

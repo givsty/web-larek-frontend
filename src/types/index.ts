@@ -62,3 +62,24 @@ export interface IModal {
 }
 
 export interface IPage {}
+
+export interface IProduct {
+	id: string;
+	title: string;
+}
+
+export interface CatalogModel {
+	items: ICardItem[];
+	setItems(items: ICardItem[]): void
+	getProduct(id: string): ICardItem
+}
+
+export class CatalogModel implements CatalogModel {
+	items: ICardItem[];
+	setItems(items: ICardItem[]): void {
+		this.items = items
+	}
+	getProduct(id: string): ICardItem {
+		return 
+	}
+}
