@@ -4,8 +4,9 @@ import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
 import { Card } from './components/Card';
 import { Page } from './components/Page';
-import { CatalogModel, ICardItem } from './types';
+import {ApiResponse, ICardItem, IProduct } from './types';
 import { cloneTemplate } from './utils/utils';
+import { AppState } from './components/Appstate';
 
 const gallery = document.querySelector('.gallery')
 const modal = document.querySelector('.modal') as HTMLElement
@@ -15,30 +16,23 @@ const page = new Page(document.querySelector('.page__wrapper'))
 
 const events = new EventEmitter
 const api = new Api(API_URL)
-const catalogModel = new CatalogModel()
+const appState = new AppState(events)
 
-function renderCatalog(items: ICardItem[]) {
+
+events.on('items:change', (items: ICardItem[]) => {
+	console.log(items)
 	page.setCatalog = items.map((item)=>{
 		const card = new Card(cloneTemplate(itemCard))
 		return card.render(item)
 	})
-}
-
-events.on('catalog:change', (event: {items: ICardItem[]}) => {
-	renderCatalog(event.items)
 })
 
-// events.on("items:change", (items: IProduct[]) => {
-// 	page.catalog = items.map((item) => {
-// 			const card = new Card(cloneTemplate(cardCatalogTemplate), {
-// 					onClick: () => events.emit("card:select", item),
-// 			});
-// 			return card.render(item);
-// 	});
-// });
-
 api.get(`/product`)
-	.then(catalogModel.setItems.bind(catalogModel))
-	.catch((err)=>{
-		console.log(err)
-	})
+	.then((res: ApiResponse)=>{
+		appState.setItems(res.items)
+	}
+)
+	.catch((err) => {
+		console.log(err);
+	});
+console.log()

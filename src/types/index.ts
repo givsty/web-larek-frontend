@@ -68,18 +68,12 @@ export interface IProduct {
 	title: string;
 }
 
-export interface CatalogModel {
-	items: ICardItem[];
+export interface IAppState {
+	items: ICardItem[]
 	setItems(items: ICardItem[]): void
-	getProduct(id: string): ICardItem
 }
 
-export class CatalogModel implements CatalogModel {
-	items: ICardItem[];
-	setItems(items: ICardItem[]): void {
-		this.items = items
-	}
-	getProduct(id: string): ICardItem {
-		return 
-	}
+export interface ApiResponse {
+	items: ICardItem[]
+	total: number
 }
