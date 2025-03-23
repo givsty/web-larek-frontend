@@ -8,7 +8,6 @@ export class Card {
 	protected image: HTMLImageElement;
 	protected container: HTMLElement;
 	protected description?: HTMLParagraphElement | null;
-
 	constructor(container: HTMLElement) {
 		this.container = container;
 		this.category = container.querySelector('.card__category');
@@ -23,8 +22,8 @@ export class Card {
 			this.title.textContent = data.title;
 			data.price !== null
 				? (this.price.textContent = data.price.toString())
-				: (this.price.textContent = '0');
-			this.image.textContent = data.image
+				: (this.price.textContent = 'Бесценно');
+			this.image.src = data.image
 		}
 		return this.container;
 	}

@@ -1,6 +1,8 @@
 //Карточка Товара
+export type categories = 'другое' | 'софт-скилс' | 'дополнительное' | 'кнопка' | 'хард-скил'
+
 export interface ICardItem {
-	category?: string;
+	category?: categories;
 	id: string;
 	price: number | null;
 	title: string;
