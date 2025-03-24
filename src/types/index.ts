@@ -45,6 +45,7 @@ export interface ICardList {
 
 export interface ICardApi<T> {
 	items: T[];
+	total: number;
 }
 
 export interface IBasketModel {

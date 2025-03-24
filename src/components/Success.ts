@@ -3,6 +3,6 @@ export class Success {
 
   set setOrderPrice(price: number) {
     this.orderSuccessDescription = document.querySelector('.order-success__title')
-    this.orderSuccessDescription.textContent = `Списано ${0} синапсов`
+    this.orderSuccessDescription.textContent = `Списано ${price} синапсов`
   }
 }

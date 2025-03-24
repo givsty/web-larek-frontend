@@ -1,5 +1,6 @@
 import { ICardItem } from '../types';
 import { EventEmitter } from './base/events';
+import { CDN_URL } from '../utils/constants';
 
 export class Card {
 	protected category: HTMLSpanElement;
@@ -8,6 +9,15 @@ export class Card {
 	protected image: HTMLImageElement;
 	protected container: HTMLElement;
 	protected description?: HTMLParagraphElement | null;
+
+	protected colors = {
+		'софт-скилс': '#83FA9D',
+		'другое': '#FAD883',
+		'дополнительное': '#B783FA',
+		'кнопка': '#83DDFA',
+		'хард-скил': '#FAA083',
+	};
+
 	constructor(container: HTMLElement) {
 		this.container = container;
 		this.category = container.querySelector('.card__category');
@@ -19,11 +29,18 @@ export class Card {
 	public render(data: ICardItem) {
 		if (data) {
 			this.category.textContent = data.category;
+			for(let key in this.colors) {
+				if(key === data.category) {
+					console.log(`${this.colors[key]}`)
+					this.category.style.backgroundColor = `${this.colors[key]}`
+				}
+			}
+
 			this.title.textContent = data.title;
 			data.price !== null
 				? (this.price.textContent = data.price.toString())
 				: (this.price.textContent = 'Бесценно');
-			this.image.src = data.image
+			this.image.src = CDN_URL + data.image
 		}
 		return this.container;
 	}

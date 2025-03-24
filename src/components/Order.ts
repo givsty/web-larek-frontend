@@ -5,6 +5,7 @@ export class Order{
   orderDataBuyer: Map<string, payment> = new Map()
   protected adress: string;
   protected payment: payment;
+  
   constructor(protected events: EventEmitter, adress: string, payment: payment) {
     this.adress = adress
     this.payment = payment
