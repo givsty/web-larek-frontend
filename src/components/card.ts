@@ -1,6 +1,7 @@
 import { ICardItem } from '../types';
 import { EventEmitter } from './base/events';
 import { CDN_URL } from '../utils/constants';
+import { Modal } from './Modal';
 
 export class Card {
 	protected category: HTMLSpanElement;
@@ -12,9 +13,9 @@ export class Card {
 
 	protected colors = {
 		'софт-скилс': '#83FA9D',
-		'другое': '#FAD883',
-		'дополнительное': '#B783FA',
-		'кнопка': '#83DDFA',
+		"другое": '#FAD883',
+		"дополнительное": '#B783FA',
+		"кнопка": '#83DDFA',
 		'хард-скил': '#FAA083',
 	};
 
@@ -24,23 +25,24 @@ export class Card {
 		this.title = container.querySelector('.card__title');
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
+		container.addEventListener('click', ()=>{
+			console.log('клик на карточку')
+		})
 	}
 
 	public render(data: ICardItem) {
 		if (data) {
 			this.category.textContent = data.category;
-			for(let key in this.colors) {
-				if(key === data.category) {
-					console.log(`${this.colors[key]}`)
-					this.category.style.backgroundColor = `${this.colors[key]}`
+			for (let key in this.colors) {
+				if (key === data.category) {
+					this.category.style.backgroundColor = `${this.colors[key]}`;
 				}
+				this.title.textContent = data.title;
+				data.price !== null
+					? (this.price.textContent = data.price.toString())
+					: (this.price.textContent = 'Бесценно');
+				this.image.src = CDN_URL + data.image;
 			}
-
-			this.title.textContent = data.title;
-			data.price !== null
-				? (this.price.textContent = data.price.toString())
-				: (this.price.textContent = 'Бесценно');
-			this.image.src = CDN_URL + data.image
 		}
 		return this.container;
 	}

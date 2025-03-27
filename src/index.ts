@@ -9,16 +9,15 @@ import { cloneTemplate } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
 
-const gallery = document.querySelector('.gallery')
-const modal = document.querySelector('.modal') as HTMLElement
-const basket = document.querySelector('.header__basket') as HTMLElement
+
+const mainPage = document.querySelector('.page') as HTMLElement
 const itemCard = document.getElementById('card-catalog').cloneNode(true) as HTMLTemplateElement
-const page = new Page(document.querySelector('.page__wrapper'))
+const itemCardPreview = document.getElementById('card-preview') as HTMLTemplateElement
 const basketTemplate = document.getElementById('basket').cloneNode(true) as HTMLTemplateElement
+const page = new Page(mainPage)
 const events = new EventEmitter
 const api = new Api(API_URL)
 const appState = new AppState(events)
-
 
 events.on('items:change', (items: ICardItem[]) => {
 	console.log(items)
@@ -28,16 +27,26 @@ events.on('items:change', (items: ICardItem[]) => {
 	})
 })
 
-basket.addEventListener('click', ()=>{
-	new Modal(basketTemplate).open
+events.on('basket:open', ()=>{
+	page.setModal(cloneTemplate(basketTemplate))	
 })
 
-api.get(`/product`)
-	.then((res: ApiResponse)=>{
-		appState.setItems(res.items)
-	}
-)
+
+events.on('basket:change', ()=>{
+
+})
+
+events.on('',()=>{
+
+})
+
+api
+	.get(`/product`)
+	.then((res: ApiResponse) => {
+		console.log(res)
+		appState.setItems(res.items);
+	})
 	.catch((err) => {
 		console.log(err);
 	});
-console.log()
+console.log();
