@@ -11,6 +11,8 @@ import { Modal } from './components/Modal';
 
 
 const mainPage = document.querySelector('.page') as HTMLElement
+const modalContainer = document.getElementById('modal-container') as HTMLElement
+const modalTemplate = document.querySelector('.modal__container') as HTMLElement
 const itemCard = document.getElementById('card-catalog').cloneNode(true) as HTMLTemplateElement
 const itemCardPreview = document.getElementById('card-preview') as HTMLTemplateElement
 const basketTemplate = document.getElementById('basket').cloneNode(true) as HTMLTemplateElement
@@ -18,6 +20,7 @@ const page = new Page(mainPage)
 const events = new EventEmitter
 const api = new Api(API_URL)
 const appState = new AppState(events)
+const modal = new Modal(modalContainer, events)
 
 events.on('items:change', (items: ICardItem[]) => {
 	console.log(items)
@@ -28,15 +31,16 @@ events.on('items:change', (items: ICardItem[]) => {
 })
 
 events.on('basket:open', ()=>{
-	page.setModal(cloneTemplate(basketTemplate))	
+	// modal.open()
 })
 
+console.log(cloneTemplate(basketTemplate))
 
 events.on('basket:change', ()=>{
 
 })
 
-events.on('',()=>{
+events.on('', ()=>{
 
 })
 

@@ -36,6 +36,7 @@ export class BasketView {
     this.index = container.querySelector('.basket__item-index')
     this.price = container.querySelector('.card__price')
   }
+	
   public render() {
     this.price.textContent = this.items.price.toString()
     this.title.textContent = this.items.title
