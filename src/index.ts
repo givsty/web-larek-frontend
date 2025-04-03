@@ -16,22 +16,22 @@ const modalTemplate = document.querySelector('.modal__container') as HTMLElement
 const itemCard = document.getElementById('card-catalog').cloneNode(true) as HTMLTemplateElement
 const itemCardPreview = document.getElementById('card-preview') as HTMLTemplateElement
 const basketTemplate = document.getElementById('basket').cloneNode(true) as HTMLTemplateElement
-const page = new Page(mainPage)
 const events = new EventEmitter
+const page = new Page(mainPage , events)
 const api = new Api(API_URL)
 const appState = new AppState(events)
 const modal = new Modal(modalContainer, events)
 
 events.on('items:change', (items: ICardItem[]) => {
-	console.log(items)
 	page.setCatalog = items.map((item)=>{
 		const card = new Card(cloneTemplate(itemCard))
 		return card.render(item)
 	})
 })
 
-events.on('basket:open', ()=>{
-	// modal.open()
+events.on("basket:open", ()=>{
+	modal.open()
+	modal.render
 })
 
 console.log(cloneTemplate(basketTemplate))

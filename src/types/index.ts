@@ -1,5 +1,10 @@
 //Карточка Товара
-export type categories = 'другое' | 'софт-скилс' | 'дополнительное' | 'кнопка' | 'хард-скил'
+export type categories =
+	| 'другое'
+	| 'софт-скилс'
+	| 'дополнительное'
+	| 'кнопка'
+	| 'хард-скил';
 
 export interface ICardItem {
 	category?: categories;
@@ -72,11 +77,11 @@ export interface IProduct {
 }
 
 export interface IAppState {
-	items: ICardItem[]
-	setItems(items: ICardItem[]): void
+	items: ICardItem[];
+	setItems(items: ICardItem[]): void;
 }
 
 export interface ApiResponse {
-	items: ICardItem[]
-	total: number
+	items: ICardItem[];
+	total: number;
 }

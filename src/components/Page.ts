@@ -13,14 +13,15 @@ export class Page implements IPage{
   protected modalTemplate: HTMLElement;
   protected container: HTMLElement
   protected events: IEvents;
-  constructor(container: HTMLElement) {
+
+  constructor(container: HTMLElement, events: IEvents) {
     this.container = container
-    this.headerBasket = container.querySelector('.header__basket')
+    this.events = events
+    this.headerBasket = container.querySelector('.header__basket') as HTMLButtonElement
     this.catalog = container.querySelector('.gallery')
     this.headerBasketCounter = container.querySelector('.header__basket')
     this.headerBasket.addEventListener('click', ()=>{
-      console.log('корзина открыта')
-      // this.events.emit('basket:open')
+      this.events.emit("basket:open")
     })
   }
 

@@ -26,7 +26,7 @@ export class Card {
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
 		container.addEventListener('click', ()=>{
-			console.log('клик на карточку')
+			
 		})
 	}
 
