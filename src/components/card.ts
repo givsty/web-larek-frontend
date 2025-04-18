@@ -1,7 +1,6 @@
 import { ICardItem } from '../types';
 import { EventEmitter } from './base/events';
 import { CDN_URL } from '../utils/constants';
-import { Modal } from './Modal';
 
 export class Card {
 	protected category: HTMLSpanElement;

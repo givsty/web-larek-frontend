@@ -12,9 +12,7 @@ import { Modal } from './components/Modal';
 
 const mainPage = document.querySelector('.page') as HTMLElement
 const modalContainer = document.getElementById('modal-container') as HTMLElement
-const modalTemplate = document.querySelector('.modal__container') as HTMLElement
 const itemCard = document.getElementById('card-catalog').cloneNode(true) as HTMLTemplateElement
-const itemCardPreview = document.getElementById('card-preview') as HTMLTemplateElement
 const basketTemplate = document.getElementById('basket').cloneNode(true) as HTMLTemplateElement
 const events = new EventEmitter
 const page = new Page(mainPage , events)
