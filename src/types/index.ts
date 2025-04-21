@@ -76,9 +76,28 @@ export interface IProduct {
 	title: string;
 }
 
+export interface Contacts {
+	email: string;
+	phone: string;
+	payment: payment;
+	address: string;
+}
+
+export interface IBasketItems {
+	items: ICardItem[]
+}
+
 export interface IAppState {
 	items: ICardItem[];
+	selectedItem: ICardItem;
+	basket: IBasketItems[];
+	order: IOrder;
+	openedItem: ICardItem[]
+	basketTotal: number;
+	
 	setItems(items: ICardItem[]): void;
+	setBasketItems(items: IBasketItems[]): void;
+	
 }
 
 export interface ApiResponse {

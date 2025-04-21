@@ -227,13 +227,13 @@ export class CardView extends Card{
   }
 }
 ```
-class Form форм устанавливает значение данных в форме, где пользователь указывает email, phone, adress
+class Form форм устанавливает значение данных в форме, где пользователь указывает email, phone, adres
 ```typescript
 export class Form {
   protected input: HTMLInputElement;
   protected email: string;
   protected phone: string;
-  protected adress: string;
+  protected adres: string;
 	//Конструктор принимает html разметку с формой
   constructor(container: HTMLInputElement){
     this.input = container
@@ -248,8 +248,8 @@ export class Form {
     this.phone = phone
   }
 	//Адрес клиента
-  set setAdress(adress: string) {
-    this.adress = adress
+  set setAdress(adres: string) {
+    this.adres = adres
   }
 }
 
