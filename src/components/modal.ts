@@ -1,4 +1,4 @@
-import { ICardItem, IModal } from "../types";
+import { ICardCatalog, IModal } from "../types";
 import { ensureElement } from "../utils/utils";
 import { EventEmitter, IEvents } from "./base/events";
 import { Component } from "./Compontent";
@@ -46,7 +46,7 @@ export class Modal implements IModal{
 	protected buttonClose: HTMLButtonElement;
 	protected container: HTMLElement;
 	protected events: IEvents;
-	protected items: ICardItem;
+	protected items: ICardCatalog;
 	
 	constructor(container: HTMLElement, events: IEvents) {
 		this.container = container
@@ -72,7 +72,7 @@ export class Modal implements IModal{
 		this.events.emit('modal:open')
   }
 
-	public render(items: ICardItem) {
+	public render(items: ICardCatalog) {
 		this.items = items
 	}	
 }

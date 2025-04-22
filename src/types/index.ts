@@ -6,13 +6,25 @@ export type categories =
 	| 'кнопка'
 	| 'хард-скил';
 
-export interface ICardItem {
-	category?: categories;
-	id: string;
-	price: number | null;
+export interface ICardCatalog {
+	category: string;
 	title: string;
-	image?: string;
-	description?: string;
+	image: string;
+	price: number | null;
+}
+
+export interface ICardPreview {
+	image: string;
+	category: string;
+	title: string;
+	descriptions: string;
+	price: string
+}
+
+export interface ICardBasket {
+	amount: number;
+	title: string;
+	price: number;
 }
 
 export interface IOrder {
@@ -24,15 +36,15 @@ export interface IOrder {
 
 //Компонент Карточка товара
 export interface Card {
-	items: ICardItem[];
-	render(card: ICardItem[]): void;
+	items: ICardCatalog[];
+	render(card: ICardCatalog[]): void;
 }
 
 //Компонент Форма
 export interface Form {
 	setEmail(): void;
 	setPhone(): void;
-	setAdress(): void;
+	setAddress(): void;
 }
 
 //Компонент модальное окно
@@ -45,7 +57,7 @@ export interface Modal {
 export type payment = 'Онлайн' | 'При получении';
 
 export interface ICardList {
-	items: ICardItem[];
+	items: ICardCatalog[];
 }
 
 export interface ICardApi<T> {
@@ -84,23 +96,23 @@ export interface Contacts {
 }
 
 export interface IBasketItems {
-	items: ICardItem[]
+	items: ICardCatalog[]
 }
 
 export interface IAppState {
-	items: ICardItem[];
-	selectedItem: ICardItem;
+	items: ICardCatalog[];
+	selectedItem: ICardCatalog;
 	basket: IBasketItems[];
 	order: IOrder;
-	openedItem: ICardItem[]
+	openedItem: ICardCatalog[]
 	basketTotal: number;
-	
-	setItems(items: ICardItem[]): void;
+	isOrderReady: boolean;
+
+	setItems(items: ICardCatalog[]): void;
 	setBasketItems(items: IBasketItems[]): void;
-	
 }
 
 export interface ApiResponse {
-	items: ICardItem[];
+	items: ICardCatalog[];
 	total: number;
 }

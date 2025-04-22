@@ -1,4 +1,4 @@
-import { ICardItem, IPage } from "../types";
+import { ICardCatalog, IPage } from "../types";
 import { IEvents } from "./base/events";
 import { Modal } from "./Modal";
 

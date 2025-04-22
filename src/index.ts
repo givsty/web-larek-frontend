@@ -4,7 +4,7 @@ import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
 import { Card } from './components/Card';
 import { Page } from './components/Page';
-import {ApiResponse, ICardItem, IProduct } from './types';
+import {ApiResponse, ICardCatalog, IProduct } from './types';
 import { cloneTemplate } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
@@ -20,7 +20,7 @@ const api = new Api(API_URL)
 const appState = new AppState(events)
 const modal = new Modal(modalContainer, events)
 
-events.on('items:change', (items: ICardItem[]) => {
+events.on('items:change', (items: ICardCatalog[]) => {
 	page.setCatalog = items.map((item)=>{
 		const card = new Card(cloneTemplate(itemCard))
 		return card.render(item)

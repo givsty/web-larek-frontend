@@ -1,4 +1,4 @@
-import { IBasketModel, ICardItem } from '../types';
+import { IBasketModel, ICardCatalog } from '../types';
 import { EventEmitter } from './base/events';
 
 export class BasketModel implements IBasketModel {
@@ -23,13 +23,13 @@ export class BasketModel implements IBasketModel {
 }
 
 export class BasketView {
-  protected items: ICardItem
+  protected items: ICardCatalog
   protected deleteButton: HTMLButtonElement;
   protected index: HTMLSpanElement;
   protected title: HTMLSpanElement;
   protected price: HTMLSpanElement;
 
-  constructor(protected events: EventEmitter, items: ICardItem, container: HTMLElement) {
+  constructor(protected events: EventEmitter, items: ICardCatalog, container: HTMLElement) {
     this.items = items
     this.deleteButton = container.querySelector('.basket__item-delete ')
     this.title = container.querySelector('.card__title')

@@ -1,4 +1,4 @@
-import { ICardItem } from '../types';
+import { ICardCatalog } from '../types';
 import { EventEmitter } from './base/events';
 import { CDN_URL } from '../utils/constants';
 
@@ -29,12 +29,12 @@ export class Card {
 		})
 	}
 
-	public render(data: ICardItem) {
+	public render(data: ICardCatalog) {
 		if (data) {
 			this.category.textContent = data.category;
 			for (let key in this.colors) {
 				if (key === data.category) {
-					this.category.style.backgroundColor = `${this.colors[key]}`;
+					this.category.style.backgroundColor = `${this.colors}`;
 				}
 				this.title.textContent = data.title;
 				data.price !== null
