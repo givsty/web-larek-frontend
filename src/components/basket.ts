@@ -29,7 +29,7 @@ export class BasketView {
   protected title: HTMLSpanElement;
   protected price: HTMLSpanElement;
 
-  constructor(protected events: EventEmitter, items: ICardCatalog, container: HTMLElement) {
+  constructor(protected events: EventEmitter, container: HTMLElement, items?: ICardCatalog) {
     this.items = items
     this.deleteButton = container.querySelector('.basket__item-delete ')
     this.title = container.querySelector('.card__title')

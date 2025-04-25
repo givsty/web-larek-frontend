@@ -2,7 +2,8 @@ export abstract class Form {
   protected input: HTMLInputElement;
   protected email: string;
   protected phone: string;
-  protected adress: string;
+  protected address: string;
+  
   constructor(container: HTMLInputElement){
     this.input = container
   }
@@ -15,7 +16,7 @@ export abstract class Form {
     this.phone = phone
   }
 
-  set setAdress(adress: string) {
-    this.adress = adress
+  set setAddress(address: string) {
+    this.address = address
   }
 }
