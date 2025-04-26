@@ -10,6 +10,7 @@ import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
 import { BasketView } from './components/Basket';
 
+const cardView = document.getElementById('card-preview').cloneNode(true) as HTMLTemplateElement
 const mainPage = document.querySelector('.page') as HTMLElement
 const modalContainer = document.getElementById('modal-container') as HTMLElement
 const itemCard = document.getElementById('card-catalog').cloneNode(true) as HTMLTemplateElement
@@ -23,13 +24,19 @@ const basket = new BasketView(events, basketTemplate)
 // const basket = new BasketView()
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item)=>{
-		const card = new Card(cloneTemplate(itemCard))
+		const card = new Card(cloneTemplate(itemCard), events)
 		return card.render(item)
 	})
 })
 
 events.on("basket:open", ()=>{
   modal.open();
+	modal.render(cloneTemplate(basketTemplate))
+})
+
+events.on("card:open", ()=>{
+	modal.open()
+	modal.render(cloneTemplate(cardView))
 })
 
 console.log(cloneTemplate(basketTemplate))

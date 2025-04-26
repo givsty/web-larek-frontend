@@ -1,5 +1,5 @@
-import { ICardCatalog } from '../types';
-import { EventEmitter } from './base/events';
+import { IProduct } from '../types';
+import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
 
 export class Card {
@@ -18,18 +18,18 @@ export class Card {
 		'хард-скил': '#FAA083',
 	};
 
-	constructor(container: HTMLElement) {
+	constructor(container: HTMLElement, protected events: IEvents) {
 		this.container = container;
 		this.category = container.querySelector('.card__category');
 		this.title = container.querySelector('.card__title');
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
 		container.addEventListener('click', ()=>{
-			
+			this.events.emit('card:open')
 		})
 	}
 
-	public render(data: ICardCatalog) {
+	public render(data: IProduct) {
 		if (data) {
 			this.category.textContent = data.category;
 			for (let key in this.colors) {
@@ -47,12 +47,12 @@ export class Card {
 	}
 }
 
-export class CardView extends Card {
-	protected buyButton: HTMLButtonElement;
-	constructor(container: HTMLElement, events: EventEmitter) {
-		super(container);
-		this.buyButton = container.querySelector('.card__button');
-		this.description = container.querySelector('.card__text');
-		super.render;
-	}
-}
+// export class CardView extends Card {
+// 	protected buyButton: HTMLButtonElement;
+// 	constructor(container: HTMLElement, events: EventEmitter) {
+// 		super(container);
+// 		this.buyButton = container.querySelector('.card__button');
+// 		this.description = container.querySelector('.card__text');
+// 		super.render;
+// 	}
+// }

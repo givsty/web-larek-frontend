@@ -6,7 +6,6 @@ export type categories =
 	| 'кнопка'
 	| 'хард-скил';
 
-
 export interface ApiResponse {
 	total: number;
 	items: IProduct[]
@@ -30,12 +29,18 @@ export interface IOrder {
 
 export interface IOrderResult {
 	items: IOrder
+	amount: number;
 }
 
 export interface IBasketItem {
 	id: number;
 	category: categories
 	price: number | null;
+}
+
+export interface IModal {
+	open(): void;
+	close(): void;
 }
 
 export interface IAppState {

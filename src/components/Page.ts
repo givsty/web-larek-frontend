@@ -1,8 +1,8 @@
-import { ICardCatalog, IPage } from "../types";
+import { IProduct } from "../types";
 import { IEvents } from "./base/events";
 import { Modal } from "./Modal";
 
-export class Page implements IPage{
+export class Page {
 
   protected headerBasket: HTMLButtonElement;
   protected headerBasketCounter: HTMLSpanElement;
