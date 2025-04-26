@@ -10,6 +10,7 @@ import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
 import { BasketView } from './components/Basket';
 
+const orderTemplate = document.getElementById('order').cloneNode(true) as HTMLTemplateElement
 const cardView = document.getElementById('card-preview').cloneNode(true) as HTMLTemplateElement
 const mainPage = document.querySelector('.page') as HTMLElement
 const modalContainer = document.getElementById('modal-container') as HTMLElement
@@ -20,7 +21,9 @@ const page = new Page(mainPage , events)
 const api = new Api(API_URL)
 const appState = new AppState(events)
 const modal = new Modal(modalContainer, events)
-const basket = new BasketView(events, basketTemplate)
+
+const basket = new BasketView(events, cloneTemplate(basketTemplate))
+
 // const basket = new BasketView()
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item)=>{
@@ -29,14 +32,24 @@ events.on('items:change', (items: IProduct[]) => {
 	})
 })
 
+events.on('card:open', (itemCard: IProduct)=>{
+
+})
+
 events.on("basket:open", ()=>{
   modal.open();
 	modal.render(cloneTemplate(basketTemplate))
 })
 
 events.on("card:open", ()=>{
+	const card = new Card(cloneTemplate(cardView), events)
 	modal.open()
 	modal.render(cloneTemplate(cardView))
+})
+
+events.on("order:open", ()=>{
+	modal.open()
+	modal.render(cloneTemplate(orderTemplate))
 })
 
 console.log(cloneTemplate(basketTemplate))

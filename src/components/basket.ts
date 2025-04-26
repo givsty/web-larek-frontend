@@ -28,13 +28,17 @@ export class BasketView {
   protected index: HTMLSpanElement;
   protected title: HTMLSpanElement;
   protected price: HTMLSpanElement;
-
+	protected basketButton: HTMLButtonElement;
   constructor(protected events: EventEmitter, container: HTMLElement, items?: IProduct) {
     this.items = items
     this.deleteButton = container.querySelector('.basket__item-delete ')
     this.title = container.querySelector('.card__title')
     this.index = container.querySelector('.basket__item-index')
     this.price = container.querySelector('.card__price')
+		this.basketButton = container.querySelector('.basket__button')
+		this.basketButton.addEventListener('click', ()=>{
+			console.log('sajfhaljkhfa')
+		})
   }
 	
   public render() {

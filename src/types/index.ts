@@ -10,6 +10,7 @@ export interface ApiResponse {
 	total: number;
 	items: IProduct[]
 }
+
 export interface IProduct {
 	id: string;
 	description: string;

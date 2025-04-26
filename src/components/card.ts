@@ -47,12 +47,12 @@ export class Card {
 	}
 }
 
-// export class CardView extends Card {
-// 	protected buyButton: HTMLButtonElement;
-// 	constructor(container: HTMLElement, events: EventEmitter) {
-// 		super(container);
-// 		this.buyButton = container.querySelector('.card__button');
-// 		this.description = container.querySelector('.card__text');
-// 		super.render;
-// 	}
-// }
+export class CardView extends Card {
+	protected buyButton: HTMLButtonElement;
+	constructor(container: HTMLElement, events: EventEmitter) {
+		super(container, events);
+		this.buyButton = container.querySelector('.card__button');
+		this.description = container.querySelector('.card__text');
+		super.render;
+	}
+}

@@ -64,6 +64,7 @@ export class Modal implements IModal{
 	public close() {
     this.container.classList.remove('modal_active')
 		this.events.emit('modal:close')
+		this.modalContent.removeChild(this.content)
 	}
 
 	public open() {
@@ -72,7 +73,8 @@ export class Modal implements IModal{
   }
 
 	public render(content: HTMLElement) {
-		console.log(content)
+		this.content = content
 		this.modalContent.append(content)
+		this.open()
 	}	
 }
