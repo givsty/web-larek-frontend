@@ -24,7 +24,7 @@ export class Card {
 		this.title = container.querySelector('.card__title');
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
-		container.addEventListener('click', ()=>{
+		this.container.addEventListener('click', ()=>{
 			this.events.emit('card:open')
 		})
 	}
@@ -54,5 +54,8 @@ export class CardView extends Card {
 		this.buyButton = container.querySelector('.card__button');
 		this.description = container.querySelector('.card__text');
 		super.render;
+		this.buyButton.addEventListener('click', ()=>{
+			console.log('нажали на кнопку')
+		})
 	}
 }

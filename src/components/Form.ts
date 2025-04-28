@@ -1,22 +1,20 @@
+import { EventEmitter, IEvents } from "./base/events"
+
 export abstract class Form {
-  protected input: HTMLInputElement;
-  protected email: string;
-  protected phone: string;
-  protected address: string;
-  
-  constructor(container: HTMLInputElement){
-    this.input = container
+  protected form: HTMLFormElement
+  constructor(container: HTMLFormElement, protected events: IEvents){
+    this.form = container
+    this.form.addEventListener("submit", ()=>{
+      this.events.emit('form:submit')
+    })
   }
 
   set setEmail(email: string) {
-    this.email = email
   }
 
   set setPhone(phone: string) {
-    this.phone = phone
   }
 
   set setAddress(address: string) {
-    this.address = address
   }
 }

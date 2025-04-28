@@ -28,6 +28,11 @@ export interface IOrder {
 	items: IProduct[]
 }
 
+export interface IBasket {
+	items: IBasketItem[];
+	amount: number
+}
+
 export interface IOrderResult {
 	items: IOrder
 	amount: number;
@@ -63,11 +68,6 @@ export interface IAppState {
 	addProduct(id: string): void
 	removeProduct(id: string): void
 }
-
-
-
-
-
 
 
 

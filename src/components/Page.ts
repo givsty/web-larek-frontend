@@ -8,7 +8,6 @@ export class Page {
   protected headerBasketCounter: HTMLSpanElement;
   protected gallery: HTMLMediaElement;
   protected catalog?: HTMLElement;
-  protected basketItems: HTMLElement
   protected modal: HTMLElement
   protected modalTemplate: HTMLElement;
   protected container: HTMLElement
@@ -27,10 +26,6 @@ export class Page {
 
   set setCatalog(items: HTMLElement[]) {
     this.catalog.replaceChildren(...items)
-  }
-
-  set setBasket(items: HTMLElement[]) {
-    this.basketItems.replaceChildren(...items)
   }
 
 }

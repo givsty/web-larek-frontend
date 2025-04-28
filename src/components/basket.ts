@@ -1,7 +1,7 @@
-import {  IProduct } from '../types';
-import { EventEmitter } from './base/events';
+import {  IBasketItem, IProduct } from '../types';
+import { EventEmitter, IEvents } from './base/events';
 
-export class BasketModel  {
+export class BasketModel {
 	items: Map<string, number> = new Map();
 	constructor(protected events: EventEmitter) {}
 	public add(id: string) {
@@ -23,26 +23,27 @@ export class BasketModel  {
 }
 
 export class BasketView {
-  protected items: IProduct
-  protected deleteButton: HTMLButtonElement;
-  protected index: HTMLSpanElement;
-  protected title: HTMLSpanElement;
-  protected price: HTMLSpanElement;
-	protected basketButton: HTMLButtonElement;
-  constructor(protected events: EventEmitter, container: HTMLElement, items?: IProduct) {
-    this.items = items
-    this.deleteButton = container.querySelector('.basket__item-delete ')
-    this.title = container.querySelector('.card__title')
-    this.index = container.querySelector('.basket__item-index')
-    this.price = container.querySelector('.card__price')
-		this.basketButton = container.querySelector('.basket__button')
-		this.basketButton.addEventListener('click', ()=>{
-			console.log('sajfhaljkhfa')
-		})
-  }
+	protected container: HTMLElement;
+	protected title: HTMLTimeElement;
+	protected containerBasket: HTMLElement;
+	protected basketList: HTMLUListElement;
+	protected button: HTMLButtonElement;
+	protected price: HTMLSpanElement
 	
-  public render() {
-    this.price.textContent = this.items.price.toString()
-    this.title.textContent = this.items.title
-  }
+	constructor(container: HTMLElement, protected events: IEvents) {
+		this.container = container
+		this.title = container.querySelector('.modal__title')
+		this.basketList = container.querySelector('.basket__list')
+		this.containerBasket = container.querySelector('.modal__actions')
+		this.button = this.containerBasket.querySelector('.basket__button')
+		this.price = this.containerBasket.querySelector('.basket__price')
+
+		this.button.addEventListener('click', ()=>{
+
+		})
+	}
+	
+	set setBasket(items: HTMLElement[]) {
+		this.basketList.replaceChildren(...items)
+	}
 }
