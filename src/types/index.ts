@@ -51,12 +51,12 @@ export interface IModal {
 
 export interface IAppState {
 	//api
-	getProduct: () => Promise<IProduct[]>
-	productOrder: (order: IOrder) => Promise<IOrderResult[]>
+	// getProduct: () => Promise<IProduct[]>
+	// productOrder: (order: IOrder) => Promise<IOrderResult[]>
 
 	//
 	items: IProduct[];
-	basket: IBasketItem[];
+	basketItems: IBasketItem[];
 	order: IOrder;
 	basketTotal: number;
 	isOrderReady: boolean;

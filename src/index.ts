@@ -2,9 +2,9 @@ import { Api } from './components/base/api';
 import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
-import { Card } from './components/Card';
+import { Card, CardView } from './components/Card';
 import { Page } from './components/Page';
-import {ApiResponse, IProduct } from './types';
+import {ApiResponse, IBasketItem, IProduct } from './types';
 import { cloneTemplate } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
@@ -22,8 +22,8 @@ const api = new Api(API_URL)
 const appState = new AppState(events)
 const modal = new Modal(modalContainer, events)
 
-// const basket = new BasketView(events, cloneTemplate(basketTemplate))
-
+const basket = new BasketView(cloneTemplate(basketTemplate), events)
+console.log(basket.render())
 // const basket = new BasketView()
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item)=>{
@@ -37,14 +37,15 @@ events.on('card:open', (itemCard: IProduct)=>{
 })
 
 events.on("basket:open", ()=>{
+	const basket = new BasketView(cloneTemplate(basketTemplate), events)
   modal.open();
-	modal.render(cloneTemplate(productView))
+	modal.render(basket.render())
 })
 
 events.on("card:open", ()=>{
 	const card = new Card(cloneTemplate(productView), events)
 	modal.open()
-	modal.render(cloneTemplate(productView))
+	modal.render(card.render())
 })
 
 events.on("order:open", ()=>{
@@ -54,8 +55,11 @@ events.on("order:open", ()=>{
 
 console.log(cloneTemplate(basketTemplate))
 
-events.on('basket:change', ()=>{
-
+events.on('basket:change', (items: IProduct[])=>{
+	basket.setBasket = items.map((item)=>{
+		const card = new CardView(cloneTemplate(itemCard), events)
+		return card.render(item)
+	})
 })
 
 events.on('', ()=>{
@@ -66,9 +70,8 @@ api
 	.get(`/product`)
 	.then((res: ApiResponse) => {
 		console.log(res)
-		appState.setItems(res.items);
+		appState.setProduct(res.items);
 	})
 	.catch((err) => {
 		console.log(err);
 	});
-console.log();

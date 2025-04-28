@@ -29,7 +29,7 @@ export class Card {
 		})
 	}
 
-	public render(data: IProduct) {
+	public render(data?: IProduct) {
 		if (data) {
 			this.category.textContent = data.category;
 			for (let key in this.colors) {

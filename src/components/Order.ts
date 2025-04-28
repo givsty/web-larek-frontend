@@ -1,7 +1,7 @@
 // import { IOrder, payment } from "../types"
 // import { EventEmitter } from "./base/events";
 // import { Form } from "./Form";
-
+import {  } from "../types";
 // export class Order extends Form{
 //   orderDataBuyer: Map<string, payment> = new Map()
 //   protected adress: string;
@@ -42,3 +42,20 @@
 //     this.descriptions.textContent = this.amount.toString()
 //   }
 // } 
+
+export class Order {
+  protected container: HTMLElement;
+  protected form: HTMLFormElement;
+
+  constructor(containet: HTMLElement) {
+    this.container = containet
+  }
+
+  set setPayment(items: HTMLElement) {
+    
+  }
+
+  set setAddress(items: HTMLElement) {
+
+  }
+}

@@ -39,11 +39,14 @@ export class BasketView {
 		this.price = this.containerBasket.querySelector('.basket__price')
 
 		this.button.addEventListener('click', ()=>{
-
+			this.events.emit('order:open')
 		})
 	}
 	
 	set setBasket(items: HTMLElement[]) {
 		this.basketList.replaceChildren(...items)
+	}
+	public render() {
+		return this.container
 	}
 }

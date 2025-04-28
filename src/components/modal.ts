@@ -74,7 +74,7 @@ export class Modal implements IModal{
 
 	public render(content: HTMLElement) {
 		this.content = content
-		this.modalContent.append(content)
+		this.modalContent.appendChild(content)
 		this.open()
 	}	
 }
