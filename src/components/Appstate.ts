@@ -1,36 +1,33 @@
-import { IAppState, IBasketItem, IProduct, IOrder } from "../types";
-import { EventEmitter, IEvents } from "./base/events";
+import { IAppState, IBasketItem, IProduct, IOrder } from '../types';
+import { EventEmitter, IEvents } from './base/events';
 
-export class AppState implements IAppState{
-  items: IProduct[];
-  basketItems: IBasketItem[];
-  order: IOrder;
-  basketTotal: number;
-  isOrderReady: boolean;
+export class AppState implements IAppState {
+	items: IProduct[];
+	basketItems: IBasketItem[];
+	order: IOrder;
+	basketTotal: number;
+	isOrderReady: boolean;
 
-  constructor(protected events: IEvents) {
-    this.events = events
-  }
+	constructor(protected events: IEvents) {
+		this.events = events;
+	}
 
-  setProduct(items: IProduct[]) {
-    this.items = items
-    this.events.emit("items:change", this.items);
-  }
-  
-  setBasketItems(items: IBasketItem[]){
-    this.basketItems = items
-    this.events.emit("basket:change", this.items)
-  }
+	setProduct(items: IProduct[]) {
+		this.items = items;
+		this.events.emit('items:change', this.items);
+	}
 
-  setOrder(order: IOrder) {
-    this.order = order
-  }
+	setBasketItems(items: IBasketItem[]) {
+		this.basketItems = items;
+		this.events.emit('basket:change', this.items);
+	}
 
-  addProduct(id: string) {
+	setOrder(order: IOrder) {
+		this.order = order;
+	}
 
-  }
-  
-  removeProduct(id: string) {
+	addProduct(id: string) {}
 
-  }
+	removeProduct(id: string) {}
+	setAmount(amount: number) {}
 }

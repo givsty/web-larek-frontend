@@ -1,12 +1,12 @@
 // import { IOrder, payment } from "../types"
 // import { EventEmitter } from "./base/events";
 // import { Form } from "./Form";
-import {  } from "../types";
+import {} from '../types';
 // export class Order extends Form{
 //   orderDataBuyer: Map<string, payment> = new Map()
 //   protected adress: string;
 //   protected payment: payment;
-  
+
 //   constructor(protected events: EventEmitter, adress: string, payment: payment) {
 //     this.adress = adress
 //     this.payment = payment
@@ -14,7 +14,7 @@ import {  } from "../types";
 //   public add() {
 //     this.orderDataBuyer.set(this.adress, this.payment)
 //     this._changed()
-//   } 
+//   }
 //   protected _changed() {
 // 		this.events.emit('order:change', { items: Array.from(this.orderDataBuyer.keys()) });
 //   }
@@ -41,21 +41,17 @@ import {  } from "../types";
 //   setSumm() {
 //     this.descriptions.textContent = this.amount.toString()
 //   }
-// } 
+// }
 
 export class Order {
-  protected container: HTMLElement;
-  protected form: HTMLFormElement;
+	protected container: HTMLElement;
+	protected form: HTMLFormElement;
 
-  constructor(containet: HTMLElement) {
-    this.container = containet
-  }
+	constructor(containet: HTMLElement) {
+		this.container = containet;
+	}
 
-  set setPayment(items: HTMLElement) {
-    
-  }
+	set setPayment(items: HTMLElement) {}
 
-  set setAddress(items: HTMLElement) {
-
-  }
+	set setAddress(items: HTMLElement) {}
 }

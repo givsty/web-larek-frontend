@@ -12,9 +12,9 @@ export class Card {
 
 	protected colors = {
 		'софт-скилс': '#83FA9D',
-		"другое": '#FAD883',
-		"дополнительное": '#B783FA',
-		"кнопка": '#83DDFA',
+		другое: '#FAD883',
+		дополнительное: '#B783FA',
+		кнопка: '#83DDFA',
 		'хард-скил': '#FAA083',
 	};
 
@@ -24,9 +24,10 @@ export class Card {
 		this.title = container.querySelector('.card__title');
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
-		this.container.addEventListener('click', ()=>{
-			this.events.emit('card:open')
-		})
+		this.container.addEventListener('click', (event) => {
+			this.events.emit('card:open');
+			console.log(event.target)
+		});
 	}
 
 	public render(data?: IProduct) {
@@ -54,8 +55,9 @@ export class CardView extends Card {
 		this.buyButton = container.querySelector('.card__button');
 		this.description = container.querySelector('.card__text');
 		super.render;
-		this.buyButton.addEventListener('click', ()=>{
-			console.log('нажали на кнопку')
-		})
+		this.buyButton.addEventListener('click', () => {
+			console.log(this.container)
+		});
 	}
+	
 }

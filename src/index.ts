@@ -43,7 +43,7 @@ events.on("basket:open", ()=>{
 })
 
 events.on("card:open", ()=>{
-	const card = new Card(cloneTemplate(productView), events)
+	const card = new CardView(cloneTemplate(productView), events)
 	modal.open()
 	modal.render(card.render())
 })

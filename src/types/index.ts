@@ -8,7 +8,7 @@ export type categories =
 
 export interface ApiResponse {
 	total: number;
-	items: IProduct[]
+	items: IProduct[];
 }
 
 export interface IProduct {
@@ -25,22 +25,22 @@ export interface IOrder {
 	email: string;
 	phone: number;
 	address: string;
-	items: IProduct[]
+	items: IProduct[];
 }
 
 export interface IBasket {
 	items: IBasketItem[];
-	amount: number
+	amount: number;
 }
 
 export interface IOrderResult {
-	items: IOrder
+	items: IOrder;
 	amount: number;
 }
 
 export interface IBasketItem {
 	id: number;
-	category: categories
+	category: categories;
 	price: number | null;
 }
 
@@ -50,28 +50,19 @@ export interface IModal {
 }
 
 export interface IAppState {
-	//api
-	// getProduct: () => Promise<IProduct[]>
-	// productOrder: (order: IOrder) => Promise<IOrderResult[]>
-
-	//
 	items: IProduct[];
 	basketItems: IBasketItem[];
 	order: IOrder;
 	basketTotal: number;
 	isOrderReady: boolean;
-	
+
 	setProduct(items: IProduct[]): void;
 	setBasketItems(basket: IBasketItem[]): void;
-	setOrder(order: IOrder): void
-
-	addProduct(id: string): void
-	removeProduct(id: string): void
+	setOrder(order: IOrder): void;
+	setAmount(amount: number): void;
+	addProduct(id: string): void;
+	removeProduct(id: string): void;
 }
-
-
-
-
 
 //Пока не актуально
 
@@ -160,7 +151,6 @@ export interface IAppState {
 // export interface IBasketItems {
 // 	items: ICardCatalog[]
 // }
-
 
 // export interface ApiResponse {
 // 	items: ICardCatalog[];
