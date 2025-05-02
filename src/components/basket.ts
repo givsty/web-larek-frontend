@@ -46,6 +46,7 @@ export class BasketView {
 	set setBasket(items: HTMLElement[]) {
 		this.basketList.replaceChildren(...items);
 	}
+	
 	public render() {
 		return this.container;
 	}
