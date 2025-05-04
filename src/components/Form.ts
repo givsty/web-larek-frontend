@@ -1,18 +1,19 @@
 import { EventEmitter, IEvents } from './base/events';
 
 export abstract class Form {
-	protected form: HTMLFormElement;
+	protected container: HTMLFormElement;
+	protected submit: HTMLButtonElement
 	constructor(container: HTMLFormElement, protected events: IEvents) {
-		this.form = container;
-		this.form.addEventListener('submit', () => {
+		this.submit = container.querySelector('button[type="submit"]')
+		this.container = container;
+		this.submit.addEventListener('click', () => {
 			this.events.emit('form:submit');
-			console.log('готово')
 		});
+		this.container.addEventListener('submit', ()=>{
+			this.events.emit('form:submit')
+		})
 	}
-
-	set setEmail(email: string) {}
-
-	set setPhone(phone: string) {}
-
-	set setAddress(address: string) {}
+	public render(){
+		return this.container
+	}
 }

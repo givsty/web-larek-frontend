@@ -7,7 +7,7 @@ export class AppState implements IAppState {
 	order: IOrder;
 	basketTotal: number;
 	isOrderReady: boolean;
-
+	previewItem: IProduct
 	constructor(protected events: IEvents) {
 		this.events = events;
 	}
@@ -15,6 +15,11 @@ export class AppState implements IAppState {
 	setProduct(items: IProduct[]) {
 		this.items = items;
 		this.events.emit('items:change', this.items);
+	}
+	
+	setPreview(item: IProduct) {
+		this.previewItem = item
+		this.events.emit('card:open')
 	}
 
 	setBasketItems(items: IBasketItem[]) {

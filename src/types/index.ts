@@ -6,6 +6,8 @@ export type categories =
 	| 'кнопка'
 	| 'хард-скил';
 
+export type orderType = 'онлайн' | 'оффлайн'
+
 export interface ApiResponse {
 	total: number;
 	items: IProduct[];
@@ -20,48 +22,35 @@ export interface IProduct {
 	price: number | null;
 }
 
-export interface IOrder {
+export interface IOrderForm {
 	name: string;
 	email: string;
 	phone: number;
 	address: string;
+	payment: orderType
+}
+
+export interface IOrder extends IOrderForm{
 	items: IProduct[];
+	amount: number
 }
 
 export interface IBasket {
 	items: IBasketItem[];
 	amount: number;
 }
-
-export interface IOrderResult {
-	items: IOrder;
-	amount: number;
-}
-
 export interface IBasketItem {
 	id: number;
 	category: categories;
 	price: number | null;
 }
 
-export interface IModal {
-	open(): void;
-	close(): void;
-}
-
 export interface IAppState {
 	items: IProduct[];
 	basketItems: IBasketItem[];
-	order: IOrder;
+	order: IOrder | null;
 	basketTotal: number;
 	isOrderReady: boolean;
-
-	setProduct(items: IProduct[]): void;
-	setBasketItems(basket: IBasketItem[]): void;
-	setOrder(order: IOrder): void;
-	setAmount(amount: number): void;
-	addProduct(id: string): void;
-	removeProduct(id: string): void;
 }
 
 //Пока не актуально

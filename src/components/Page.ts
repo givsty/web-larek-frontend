@@ -13,6 +13,7 @@ export class Page {
 	protected events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
+
 		this.container = container;
 		this.events = events;
 		this.headerBasket = container.querySelector(
@@ -27,5 +28,9 @@ export class Page {
 
 	set setCatalog(items: HTMLElement[]) {
 		this.catalog.replaceChildren(...items);
+	}
+
+	set setCount(items: HTMLElement[]) {
+		this.headerBasketCounter.textContent = items.length.toString()
 	}
 }

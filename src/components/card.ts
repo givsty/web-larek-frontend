@@ -2,6 +2,10 @@ import { IProduct } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
 
+interface ICardActions {
+	onClick: (event: MouseEvent) => void
+}
+
 export class Card {
 	protected category: HTMLSpanElement;
 	protected title: HTMLTitleElement;
@@ -9,7 +13,7 @@ export class Card {
 	protected image: HTMLImageElement;
 	protected container: HTMLElement;
 	protected description?: HTMLParagraphElement | null;
-
+	protected button?: HTMLButtonElement | null
 	protected colors = {
 		'софт-скилс': '#83FA9D',
 		другое: '#FAD883',
@@ -24,13 +28,20 @@ export class Card {
 		this.title = container.querySelector('.card__title');
 		this.price = container.querySelector('.card__price');
 		this.image = container.querySelector('.card__image');
+		this.description = container.querySelector('.card__text')
+		this.button = container.querySelector('.card__button')
+
 		this.container.addEventListener('click', (event) => {
 			this.events.emit('card:open');
-			console.log(event.target)
 		});
-	}
 
-	public render(data?: IProduct) {
+		if(container.className === 'card_ful') {
+			this.button.addEventListener('click', ()=>{
+				this.events.emit('basket:open')
+			})
+		}
+	}
+	setContent(data: IProduct) {
 		if (data) {
 			this.category.textContent = data.category;
 			for (let key in this.colors) {
@@ -44,20 +55,9 @@ export class Card {
 				this.image.src = CDN_URL + data.image;
 			}
 		}
+	}
+	public render() {
 		return this.container;
 	}
 }
 
-export class CardView extends Card {
-	protected buyButton: HTMLButtonElement;
-	constructor(container: HTMLElement, events: EventEmitter) {
-		super(container, events);
-		this.buyButton = container.querySelector('.card__button');
-		this.description = container.querySelector('.card__text');
-		super.render;
-		this.buyButton.addEventListener('click', () => {
-			console.log(this.container)
-		});
-	}
-	
-}
