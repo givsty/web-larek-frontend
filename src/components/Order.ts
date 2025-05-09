@@ -11,6 +11,7 @@ export class Order {
 	constructor(containet: HTMLFormElement) {
 		this.container = containet;
 	}
+	
 	set setEmail(email: string) {
 
 	}

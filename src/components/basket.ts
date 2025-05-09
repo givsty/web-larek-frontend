@@ -44,7 +44,14 @@ export class BasketView {
 	}
 
 	set setBasket(items: HTMLElement[]) {
+		if(!items) {
+			this.basketList.textContent = 'Корзина пуста'
+		}
 		this.basketList.replaceChildren(...items);
+	}
+
+	set setAmount(summ: number) {
+		this.price.textContent = summ.toString()
 	}
 	
 	public render() {

@@ -35,10 +35,10 @@ export class Modal{
 		this.events.emit('modal:open');
 	}
 
-	public render(content: HTMLElement) {
-		this.content = content;
+	public render(content?: HTMLElement) {
+		// this.content = content;
 
-		this.open();
+		// this.open();
 		return this.container
 	}
 }

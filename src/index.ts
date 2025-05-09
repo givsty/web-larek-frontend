@@ -34,11 +34,18 @@ events.on('items:change', (items: IProduct[]) => {
 	})
 })
 
+events.on('basket:change', (items: IProduct[])=>{
+	basket.setBasket = items.map((item)=>{
+		const card = new Card(cloneTemplate(itemCard), events)
+		card.setContent(item)
+		return card.render()
+	}) 
+})
 
 events.on("basket:open", ()=>{
 	const basket = new BasketView(cloneTemplate(basketTemplate), events)
-  modal.open();
-	modal.render(basket.render())
+	modal.open()
+	return modal.render()
 })
 
 events.on("card:open", (item: IProduct)=>{
