@@ -19,7 +19,7 @@ export class Success {
 		});
 	}
 	set setSum(order: IOrder) {
-		this.descriptions.textContent = `Ваш заказ готов списано ${order.items.amount} синапсов`;
+		this.descriptions.textContent = `Списано ${order.items.amount} синапсов`;
 	}
 	public render() {
 		return this.container
