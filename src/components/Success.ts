@@ -18,8 +18,8 @@ export class Success {
 			this.events.emit('modal:close');
 		});
 	}
-	setSum(item: IOrder) {
-		this.descriptions.textContent = `Ваш заказ готов списано ${item.amount} синапсов`;
+	set setSum(order: IOrder) {
+		this.descriptions.textContent = `Ваш заказ готов списано ${order.items.amount} синапсов`;
 	}
 	public render() {
 		return this.container

@@ -30,15 +30,16 @@ export interface IOrderForm {
 	payment: orderType
 }
 
-export interface IOrder extends IOrderForm{
-	items: IProduct[];
-	amount: number
+export interface IOrder{
+	data: IOrderForm;
+	items: IBasket
 }
 
 export interface IBasket {
 	items: IBasketItem[];
-	amount: number;
+	amount: number | null;
 }
+
 export interface IBasketItem {
 	id: number;
 	category: categories;
@@ -51,6 +52,7 @@ export interface IAppState {
 	order: IOrder | null;
 	basketTotal: number;
 	isOrderReady: boolean;
+	basket: IBasket;
 }
 
 //Пока не актуально

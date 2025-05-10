@@ -51,19 +51,19 @@ events.on("basket:open", ()=>{
 events.on("card:open", (item: IProduct)=>{
 	const card = new Card(cloneTemplate(productView), events)
 	modal.open()
-	modal.render(card.render())
+	modal.render()
 })
 
 events.on("order:open", ()=>{
 	const order = new Order(cloneTemplate(orderTemplate))
 	modal.open()
-	modal.render(order.render())
+	modal.render()
 })
 
 events.on("contacts:open", ()=>{
 	const contancsTemplate = document.getElementById('contacts') as HTMLTemplateElement
 	modal.open()
-	modal.render(cloneTemplate(contancsTemplate))
+	modal.render()
 })
 
 console.log(cloneTemplate(basketTemplate))

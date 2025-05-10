@@ -1,4 +1,4 @@
-import { IAppState, IBasketItem, IProduct, IOrder } from '../types';
+import { IAppState, IBasketItem, IProduct, IOrder, IBasket } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 
 export class AppState implements IAppState {
@@ -8,6 +8,8 @@ export class AppState implements IAppState {
 	basketTotal: number;
 	isOrderReady: boolean;
 	previewItem: IProduct
+	basket: IBasket;
+
 	constructor(protected events: IEvents) {
 		this.events = events;
 	}
@@ -28,11 +30,24 @@ export class AppState implements IAppState {
 	}
 
 	setOrder(order: IOrder) {
-		this.order = order;
+		this.order = order
+		this.events.emit('order:change', this.order)
 	}
 
-	addProduct(id: string) {}
+	addProduct(item: IBasketItem) {
+		this.basketItems.push(item)
+		this.basket.amount += item.price
+		this.events.emit('basket:change', item)
+	}
 
-	removeProduct(id: string) {}
-	setAmount(amount: number) {}
+	removeProduct(item: IBasketItem) {
+		this.basket.items = this.basket.items.filter((basketItem) => basketItem.id !== item.id)
+		this.basket.amount -= item.price
+		this.events.emit('basket:change', this.items)
+	}
+
+	setAmount(amount: number) {
+		this.basket.amount = amount
+		this.events.emit('amount:change', this.items)
+	}
 }

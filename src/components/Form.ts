@@ -6,9 +6,6 @@ export abstract class Form {
 	constructor(container: HTMLFormElement, protected events: IEvents) {
 		this.submit = container.querySelector('button[type="submit"]')
 		this.container = container;
-		this.submit.addEventListener('click', () => {
-			this.events.emit('form:submit');
-		});
 		this.container.addEventListener('submit', ()=>{
 			this.events.emit('form:submit')
 		})

@@ -1,10 +1,7 @@
-// import { IOrder, payment } from "../types"
-// import { EventEmitter } from "./base/events";
-// import { Form } from "./Form";
 import {} from '../types';
 
 export class Order {
-	protected container: HTMLElement;
+	protected container: HTMLFormElement;
 	protected buttonOnline: HTMLButtonElement;
 	protected buttonOffline: HTMLButtonElement;
 
@@ -12,16 +9,7 @@ export class Order {
 		this.container = containet;
 	}
 	
-	set setEmail(email: string) {
-
-	}
 	set address(address: string) {
-
-	}
-	set setPhone(phone: string) {
-
-	}
-	public render() {
-		return this.container
+		(this.container.elements.namedItem('address') as HTMLInputElement).value = address
 	}
 }

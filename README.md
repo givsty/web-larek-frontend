@@ -48,53 +48,60 @@ Model-View-Presenter (MVP) — шаблон проектирования, про
 
 Типы данных
 ```typescript
-export interface ICardItem {
-	category: string;
+export type categories =
+	| 'другое'
+	| 'софт-скилс'
+	| 'дополнительное'
+	| 'кнопка'
+	| 'хард-скил';
+
+export type orderType = 'онлайн' | 'оффлайн'
+
+export interface ApiResponse {
+	total: number;
+	items: IProduct[];
+}
+
+export interface IProduct {
 	id: string;
-	price: number | null;
+	description: string;
+	category: categories;
 	title: string;
 	image: string;
-	description: string;
+	price: number | null;
 }
 
-export interface CardItem {
-	items: ICardItem[];
-	render(card: ICardItem[]): void;
-}
-
-export type payment = 'Онлайн' | 'При получении';
-
-export interface ICardList {
-	items: ICardItem[];
-}
-
-export interface ICardApi<T> {
-	items: T[];
-}
-
-export interface IBasketModel {
-	items: Map<string, number>
-	add(id: string): void
-	remove(id: string): void
-}
-
-export interface IOrder {
-	payment: payment;
-	addres: string;
-}
-
-export interface ICustomer {
+export interface IOrderForm {
+	name: string;
 	email: string;
-	phone: string;
+	phone: number;
+	address: string;
+	payment: orderType
 }
 
-export interface IOrderStatus {
-	amount: number;
+export interface IOrder extends IOrderForm{
+	data: IOrderForm;
+	items: IBasket
 }
 
-export interface IModal {
-	open(): void;
-	close(): void;
+export interface IBasket {
+	items: IBasketItem[];
+	amount: number | null;
+}
+
+export interface IBasketItem {
+	id: number;
+	category: categories;
+	price: number | null;
+}
+
+export interface IAppState {
+	items: IProduct[];
+	basketItems: IBasketItem[];
+	order: IOrder | null;
+	basketTotal: number;
+	isOrderReady: boolean;
+	basket: IBasket;
 }
 ```
 
@@ -102,222 +109,266 @@ export interface IModal {
 
 class BasketModel реализует добавление и удаление данных в корзине
 ```typescript
-export class BasketModel implements IBasketModel {
-	items: Map<string, number> = new Map();
+import { IAppState, IBasketItem, IProduct, IOrder, IBasket } from '../types';
+import { EventEmitter, IEvents } from './base/events';
 
-	//Конструктор принимает события
-	constructor(protected events: EventEmitter) {}
+export class AppState implements IAppState {
+	items: IProduct[];
+	basketItems: IBasketItem[];
+	order: IOrder;
+	basketTotal: number;
+	isOrderReady: boolean;
+	previewItem: IProduct
+	basket: IBasket;
 
-	//Добавление товара в корзину
-	public add(id: string) {
-		if (this.items.has(id)) this.items.set(id, 0);
-		this.items.set(id, this.items.get(id) + 1);
-		this._changed();
+	constructor(protected events: IEvents) {
+		this.events = events;
 	}
 
-	//Удаление товара из корзины
-	public remove(id: string) {
-		if (this.items.has(id)) return;
-		if (this.items.get(id)! > 0) {
-			this.items.set(id, this.items.get(id)! - 1);
-			if (this.items.get(id) === 0) this.items.delete(id);
-		}
-		this._changed();
+	setProduct(items: IProduct[]) {
+		this.items = items;
+		this.events.emit('items:change', this.items);
+	}
+	
+	setPreview(item: IProduct) {
+		this.previewItem = item
+		this.events.emit('card:open')
 	}
 
-	//Изменение состояния 
-	protected _changed() {
-		this.events.emit('basket:change', { items: Array.from(this.items.keys()) });
+	setBasketItems(items: IBasketItem[]) {
+		this.basketItems = items;
+		this.events.emit('basket:change', this.items);
+	}
+
+	setOrder(order: IOrder) {
+		this.order = order
+		this.events.emit('order:change', this.order)
+	}
+
+	addProduct(item: IBasketItem) {
+		this.basketItems.push(item)
+		this.basket.amount += item.price
+		this.events.emit('basket:change', item)
+	}
+
+	removeProduct(item: IBasketItem) {
+		this.basket.items = this.basket.items.filter((basketItem) => basketItem.id !== item.id)
+		this.basket.amount -= item.price
+		this.events.emit('basket:change', this.items)
+	}
+
+	setAmount(amount: number) {
+		this.basket.amount = amount
+		this.events.emit('amount:change', this.items)
 	}
 }
 ```
 
 Модель отображения View<br/>
-class Component 
+
+class Card отображает карточку товара
 ```typescript
-export abstract class Component<T> {
-	protected constructor(protected readonly container: HTMLElement) {
-	}
+import { IProduct } from '../types';
+import { EventEmitter, IEvents } from './base/events';
+import { CDN_URL } from '../utils/constants';
 
-	toggleClass(element: HTMLElement, className: string, force?: boolean) {
-		element.classList.toggle(className, force);
-	}
 
-	protected setText(element: HTMLElement, value: unknown) {
-		if (element) {
-			element.textContent = String(value);
+export class Card {
+	protected category: HTMLSpanElement;
+	protected title: HTMLTitleElement;
+	protected price: HTMLSpanElement;
+	protected image: HTMLImageElement;
+	protected container: HTMLElement;
+	protected description?: HTMLParagraphElement | null;
+	protected button?: HTMLButtonElement | null
+	protected colors = {
+		'софт-скилс': '#83FA9D',
+		другое: '#FAD883',
+		дополнительное: '#B783FA',
+		кнопка: '#83DDFA',
+		'хард-скил': '#FAA083',
+	};
+
+	constructor(container: HTMLElement, protected events: IEvents) {
+		this.container = container;
+		this.category = container.querySelector('.card__category');
+		this.title = container.querySelector('.card__title');
+		this.price = container.querySelector('.card__price');
+		this.image = container.querySelector('.card__image');
+		this.description = container.querySelector('.card__text')
+		this.button = container.querySelector('.card__button')
+
+		this.container.addEventListener('click', (event) => {
+			this.events.emit('card:open');
+		});
+
+		if(container.className === 'card_ful') {
+			this.button.addEventListener('click', ()=>{
+				this.events.emit('basket:open')
+			})
 		}
 	}
-
-	setDisabled(element: HTMLElement, state: boolean) {
-		if (element) {
-			if (state) element.setAttribute('disabled', 'disabled');
-			else element.removeAttribute('disabled');
-		}
-	}
-
-	protected setHidden(element: HTMLElement) {
-		element.style.display = 'none';
-	}
-
-
-	protected setVisible(element: HTMLElement) {
-		element.style.removeProperty('display');
-	}
-
-	protected setImage(element: HTMLImageElement, src: string, alt?: string) {
-		if (element) {
-			element.src = src;
-			if (alt) {
-				element.alt = alt;
+	
+	setContent(data: IProduct) {
+		if (data) {
+			this.category.textContent = data.category;
+			for (let key in this.colors) {
+				if (key === data.category) {
+					this.category.style.backgroundColor = `${this.colors}`;
+				}
+				this.title.textContent = data.title;
+				data.price !== null
+					? (this.price.textContent = data.price.toString())
+					: (this.price.textContent = 'Бесценно');
+				this.image.src = CDN_URL + data.image;
 			}
 		}
 	}
-
-	render(data?: Partial<T>): HTMLElement {
-		Object.assign(this as object, data ?? {});
+	public render() {
 		return this.container;
 	}
 }
 
 ```
-class Card отображает карточку товара
-```typescript
-export class Card{
-  protected category: HTMLSpanElement;
-  protected title: HTMLTitleElement;
-  protected price: HTMLSpanElement;
-  protected image: HTMLImageElement
-  protected container: HTMLElement;
-  protected events:EventEmitter
-  protected description?: HTMLParagraphElement | null
-
-	//Конструктор принимает разметку карточки и события
-  constructor(container: HTMLElement, events: EventEmitter) {
-    this.container = container
-    this.events = events
-    this.category = container.querySelector('.card__category')
-    this.title = container.querySelector('.card__title')
-    this.price = container.querySelector('.card__price')
-    this.image = container.querySelector('.card__image')
-  }
-
-	//Присваивание значения для карточки
-  public render(data: ICardItem) {
-    this.category.textContent = data.category
-    this.title.textContent = data.title
-    this.price.textContent = data.price.toString()
-    this.image.textContent = data.image
-    this.description.textContent = data.description
-
-    return this.container
-  }
-}
-```
-class CardView отображает данные карточки при нажатии на нее
-```typescript
-export class CardView extends Card{
-  protected buyButton: HTMLButtonElement;
-	//Конструктор принимает разметку карточки и событие
-  constructor(container: HTMLElement, events: EventEmitter){
-    super(container, events)
-    this.buyButton = container.querySelector('.card__button')
-    this.description = container.querySelector('.card__text')
-    super.render
-  }
-}
-```
 class Form форм устанавливает значение данных в форме, где пользователь указывает email, phone, adres
 ```typescript
-export class Form {
-  protected input: HTMLInputElement;
-  protected email: string;
-  protected phone: string;
-  protected adres: string;
-	//Конструктор принимает html разметку с формой
-  constructor(container: HTMLInputElement){
-    this.input = container
-  }
+import { EventEmitter, IEvents } from './base/events';
 
-	//Почта клиента
-  set setEmail(email: string) {
-    this.email = email
-  }
-	//Телефон клиента
-  set setPhone(phone: string) {
-    this.phone = phone
-  }
-	//Адрес клиента
-  set setAdress(adres: string) {
-    this.adres = adres
-  }
+export abstract class Form {
+	protected container: HTMLFormElement;
+	protected submit: HTMLButtonElement
+	constructor(container: HTMLFormElement, protected events: IEvents) {
+		this.submit = container.querySelector('button[type="submit"]')
+		this.container = container;
+		this.container.addEventListener('submit', ()=>{
+			this.events.emit('form:submit')
+		})
+	}
+	public render(){
+		return this.container
+	}
 }
 
 ```
 class Modal осуществляет открытие и закрытие модального окна
 ```typescript
-export class Modal implements IModal{
-	protected modal:HTMLElement;
+import { IProduct } from '../types';
+import { ensureElement } from '../utils/utils';
+import { EventEmitter, IEvents } from './base/events';
+
+export class Modal{
+	protected modal: HTMLElement;
+	protected modalContent: HTMLElement;
 	protected buttonClose: HTMLButtonElement;
-
-	//Конструктор принимает разметку модального окна
-	constructor(modal:HTMLElement) {
-		this.modal = modal;
-		this.buttonClose = modal.querySelector('.modal__close') as HTMLButtonElement;
+	protected container: HTMLElement;
+	protected events: IEvents;
+	protected items: IProduct;
+	protected content: HTMLElement;
+	constructor(container: HTMLElement, events: IEvents) {
+		this.container = container;
+		this.events = events;
+		this.buttonClose = container.querySelector('.modal__close');
+		this.modalContent = container.querySelector('.modal__content');
+		this.container.addEventListener('click', this.close.bind(this));
+		this.buttonClose.addEventListener('click', this.close.bind(this));
+		this.modalContent.addEventListener('click', (event) => event.stopPropagation())
 	}
-	container: HTMLElement;
 
-	//Открытие модального окна
+	set setContent(value: HTMLElement) {
+		this.content.replaceChildren(value)
+	}
+
 	public close() {
-    this.modal.classList.remove("modal_active")
+		this.container.classList.remove('modal_active');
+		this.events.emit('modal:close');
+		this.modalContent = null
 	}
 
-	//Закрытие модального окна
 	public open() {
-    this.modal.classList.add('modal_active')
-  }
+		this.container.classList.add('modal_active');
+		this.events.emit('modal:open');
+	}
+
+	public render() {
+		return this.container
+	}
 }
 ```
 
 class BasketView отображает товары в корзине
 ```typescript
+import { IBasketItem, IProduct } from '../types';
+import { EventEmitter, IEvents } from './base/events';
+
 export class BasketView {
-  protected items: ICardItem
-  protected deleteButton: HTMLButtonElement;
-  protected index: HTMLSpanElement;
-  protected title: HTMLSpanElement;
-  protected price: HTMLSpanElement;
+	protected container: HTMLElement;
+	protected title: HTMLTimeElement;
+	protected containerBasket: HTMLElement;
+	protected basketList: HTMLUListElement;
+	protected button: HTMLButtonElement;
+	protected price: HTMLSpanElement;
 
-	//Данный конструктор принимает событие данные карточки и саму карточку
-  constructor(protected events: EventEmitter, items: ICardItem, container: HTMLElement) {
-    this.items = items
-    this.deleteButton = container.querySelector('.basket__item-delete ')
-    this.title = container.querySelector('.card__title')
-    this.index = container.querySelector('.basket__item-index')
-    this.price = container.querySelector('.card__price')
-  }
+	constructor(container: HTMLElement, protected events: IEvents) {
+		this.container = container;
+		this.title = container.querySelector('.modal__title');
+		this.basketList = container.querySelector('.basket__list');
+		this.containerBasket = container.querySelector('.modal__actions');
+		this.button = this.containerBasket.querySelector('.basket__button');
+		this.price = this.containerBasket.querySelector('.basket__price');
 
-	//Установка значений
-  public render() {
-    this.price.textContent = this.items.price.toString()
-    this.title.textContent = this.items.title
-  }
+		this.button.addEventListener('click', () => {
+			this.events.emit('order:open');
+		});
+	}
+
+	set setBasket(items: HTMLElement[]) {
+		if(!items) {
+			this.basketList.textContent = 'Корзина пуста'
+		}
+		this.basketList.replaceChildren(...items);
+	}
+
+	set setAmount(summ: number) {
+		this.price.textContent = summ.toString()
+	}
+	
+	public render() {
+		return this.container;
+	}
 }
 ```
-class OrderSuccess отбражает итоговый заказ 
+
+class Sucess отбражает итоговый заказ 
 ```typescript
-export class OrderSuccess {
-  protected amount: number;
-  protected backButton: HTMLButtonElement;
-  protected descriptions: HTMLParagraphElement
-  constructor(protected events: EventEmitter, amount: number) {
-    this.amount = amount
-  }
-	//Отображение итоговой суммы заказа
-  setSumm() {
-    this.descriptions.textContent = this.amount.toString()
-  }
+import { IOrder } from '../types';
+import { IEvents } from './base/events';
+
+export class Success {
+	protected container: HTMLElement;
+	protected title: HTMLTitleElement;
+	protected descriptions: HTMLParagraphElement;
+	protected button: HTMLButtonElement;
+	constructor(container: HTMLElement, protected events: IEvents) {
+		this.container = container;
+		this.title = container.querySelector('.order-success__title');
+		this.descriptions = container.querySelector('.order-success__description');
+		this.button = container.querySelector('.button');
+		this.button.addEventListener('click', () => {
+			this.events.emit('modal:close');
+		});
+		this.container.addEventListener('click', () => {
+			this.events.emit('modal:close');
+		});
+	}
+	set setSum(order: IOrder) {
+		this.descriptions.textContent = `Ваш заказ готов списано ${order.items.amount} синапсов`;
+	}
+	public render() {
+		return this.container
+	}
 }
+
+
 ```
 
 Основной класс для обработки событий
@@ -408,6 +459,10 @@ export class EventEmitter implements IEvents {
 
 События 
 
-- Событие basket:change: изменение состояния корзины
-- Событие modal:open: открытие модального окна
-- Событие modal:close: закрытие модального окна
+- Событие basket:change изменение состояния корзины
+- Событие basket:open открытие корзины
+- Событие modal:open открытие модального окна
+- Событие modal:close закрытие модального окна
+- Событие amount:change изменения состояния суммы
+- Событие order:change изменения состояния заказа
+- Событие order:open открытие формы оформления заказа

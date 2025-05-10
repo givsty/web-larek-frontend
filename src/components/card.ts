@@ -2,9 +2,6 @@ import { IProduct } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
 
-interface ICardActions {
-	onClick: (event: MouseEvent) => void
-}
 
 export class Card {
 	protected category: HTMLSpanElement;
@@ -41,6 +38,7 @@ export class Card {
 			})
 		}
 	}
+	
 	setContent(data: IProduct) {
 		if (data) {
 			this.category.textContent = data.category;
