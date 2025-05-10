@@ -107,7 +107,7 @@ export interface IAppState {
 
 Модель данных Model
 
-class BasketModel реализует добавление и удаление данных в корзине
+class AppState общий класс состояния приложения
 ```typescript
 import { IAppState, IBasketItem, IProduct, IOrder, IBasket } from '../types';
 import { EventEmitter, IEvents } from './base/events';
@@ -324,10 +324,12 @@ export class BasketView {
 		this.containerBasket = container.querySelector('.modal__actions');
 		this.button = this.containerBasket.querySelector('.basket__button');
 		this.price = this.containerBasket.querySelector('.basket__price');
-
-		this.button.addEventListener('click', () => {
-			this.events.emit('order:open');
-		});
+		if(this.button) {
+			this.button.addEventListener('click', () => {
+				events.emit('order:open');
+			});	
+		}
+		
 	}
 
 	set setBasket(items: HTMLElement[]) {
@@ -347,6 +349,66 @@ export class BasketView {
 }
 ```
 
+class Order форма заполнения заказа
+```typescript
+import { orderType } from '../types';
+import { EventEmitter } from './base/events';
+import { Form } from './Form';
+
+export class Order extends Form{
+	protected container: HTMLFormElement;
+	protected buttonOnline: HTMLButtonElement;
+	protected buttonOffline: HTMLButtonElement;
+	protected buttonNext: HTMLButtonElement
+	constructor(container: HTMLFormElement, protected events: EventEmitter) {
+		super(container, events)
+		this.container = container;
+		this.buttonOffline = container.querySelector('button[name="cash"]')
+		this.buttonOnline = container.querySelector('button[name="card"]')
+		this.buttonNext = container.querySelector('button[name=""]')
+		this.buttonOffline.addEventListener("click", ()=>{
+			this.setPayment = 'cash'
+		})
+		this.buttonOnline.addEventListener('click', ()=>{
+			this.setPayment = 'card'
+		})
+	}
+
+	set setPayment(payment: orderType) {
+		this.buttonOffline.classList.toggle("button_alt-active", payment === "cash");
+		this.buttonOnline.classList.toggle("button_alt-active", payment === "card");
+	}
+	
+	set address(address: string) {
+		(this.container.elements.namedItem('address') as HTMLInputElement).value = address
+	}
+}
+
+```
+
+class Contacts форма заполнения телефона и почты
+```typescript
+import { EventEmitter, IEvents } from './base/events';
+import { Form } from './Form';
+
+export class Contacts extends Form{
+	protected container: HTMLFormElement;
+	constructor(container: HTMLFormElement, protected events: EventEmitter) {
+		super(container, events)
+		this.container = container
+	}
+	
+	set setEmail(email: string) {
+		(this.container.elements.namedItem('email') as HTMLInputElement).value = email
+	}
+
+	set setPhone(phone: string) {
+		(this.container.elements.namedItem('phone') as HTMLInputElement).value = phone
+	}
+
+}
+
+```
 class Sucess отбражает итоговый заказ 
 ```typescript
 import { IOrder } from '../types';
@@ -467,12 +529,10 @@ export class EventEmitter implements IEvents {
 
 События 
 
-- Событие basket:change изменение состояния корзины
-- Событие basket:open открытие корзины
-- Событие modal:open открытие модального окна
-- Событие modal:close закрытие модального окна
-- Событие order:change изменения состояния заказа
-- Событие order:open открытие формы оформления заказа
-- Событие card:open открытие формы оформления заказа
-- Событие contacts:open открытие формы оформления заказа
-- Событие sucess:open открытие окна с готовым заказом
+- Событие items:состояние карточек на странице
+- Событие basket:состояние корзины
+- Событие basket:open открытие окна с корзиной
+- Событие card:open открытие карточки на главной странице
+- Событие order:open открытие окна с формой заполнения заказа
+- Событие order:submit отправка данных с формы заказа
+- Событие contacts:submit отправка данных формы с контактными данными

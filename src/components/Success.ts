@@ -1,7 +1,7 @@
 import { IOrder } from '../types';
 import { IEvents } from './base/events';
 
-export class Success {
+export class Success{
 	protected container: HTMLElement;
 	protected title: HTMLTitleElement;
 	protected descriptions: HTMLParagraphElement;

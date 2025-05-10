@@ -10,7 +10,11 @@ import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
 import { BasketView } from './components/Basket';
 import { Order } from './components/Order';
+import { Contacts } from './components/Contacts';
+import { Success } from './components/Success';
 
+const successTemplate = document.getElementById('success').cloneNode(true) as HTMLTemplateElement
+const contactsTemplate = document.getElementById('contacts').cloneNode(true) as HTMLTemplateElement
 const orderTemplate = document.getElementById('order').cloneNode(true) as HTMLTemplateElement
 const productView = document.getElementById('card-preview').cloneNode(true) as HTMLTemplateElement
 const mainPage = document.querySelector('.page') as HTMLElement
@@ -44,37 +48,36 @@ events.on('basket:change', (items: IProduct[])=>{
 
 events.on("basket:open", ()=>{
 	const basket = new BasketView(cloneTemplate(basketTemplate), events)
+	modal.render(basket.render())
 	modal.open()
-	return modal.render()
 })
 
 events.on("card:open", (item: IProduct)=>{
 	const card = new Card(cloneTemplate(productView), events)
+	modal.render(card.render())
 	modal.open()
-	modal.render()
 })
 
 events.on("order:open", ()=>{
-	const order = new Order(cloneTemplate(orderTemplate))
+	const order = new Order(cloneTemplate(orderTemplate), events)
+	modal.render(order.render())
 	modal.open()
-	modal.render()
 })
 
-events.on("contacts:open", ()=>{
-	const contancsTemplate = document.getElementById('contacts') as HTMLTemplateElement
+events.on("order:submit", ()=>{
+	const contacts = new Contacts(cloneTemplate(contactsTemplate), events)
+	modal.render(contacts.render())
 	modal.open()
-	modal.render()
 })
+
+events.on("contacts:submit", ()=>{
+	const success = new Success(cloneTemplate(successTemplate), events)
+	modal.render(success.render())
+	modal.open()
+})
+
 
 console.log(cloneTemplate(basketTemplate))
-
-// events.on('basket:change', (items: IProduct[])=>{
-// 	basket.setBasket = items.map((item)=>{
-
-// 		return card.render(item)
-// 	})
-// })
-
 events.on('', ()=>{
 
 })
@@ -89,3 +92,5 @@ api
 		console.log(err);
 	});
 
+
+console.log(basket.render())

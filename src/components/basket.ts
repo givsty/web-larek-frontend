@@ -16,10 +16,12 @@ export class BasketView {
 		this.containerBasket = container.querySelector('.modal__actions');
 		this.button = this.containerBasket.querySelector('.basket__button');
 		this.price = this.containerBasket.querySelector('.basket__price');
-
-		this.button.addEventListener('click', () => {
-			this.events.emit('order:open');
-		});
+		if(this.button) {
+			this.button.addEventListener('click', () => {
+				events.emit('order:open');
+			});	
+		}
+		
 	}
 
 	set setBasket(items: HTMLElement[]) {

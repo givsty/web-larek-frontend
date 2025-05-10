@@ -9,7 +9,6 @@ export class Modal{
 	protected container: HTMLElement;
 	protected events: IEvents;
 	protected items: IProduct;
-	protected content: HTMLElement;
 	constructor(container: HTMLElement, events: IEvents) {
 		this.container = container;
 		this.events = events;
@@ -20,8 +19,8 @@ export class Modal{
 		this.modalContent.addEventListener('click', (event) => event.stopPropagation())
 	}
 
-	set setContent(value: HTMLElement) {
-		this.content.replaceChildren(value)
+	setContent(value: HTMLElement) {
+		this.modalContent.replaceChildren(value)
 	}
 
 	public close() {
@@ -35,7 +34,8 @@ export class Modal{
 		this.events.emit('modal:open');
 	}
 
-	public render() {
+	public render(value: HTMLElement) {
+		this.setContent(value)
 		return this.container
 	}
 }

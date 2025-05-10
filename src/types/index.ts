@@ -6,7 +6,7 @@ export type categories =
 	| 'кнопка'
 	| 'хард-скил';
 
-export type orderType = 'онлайн' | 'оффлайн'
+export type orderType = 'cash' | 'card'
 
 export interface ApiResponse {
 	total: number;
