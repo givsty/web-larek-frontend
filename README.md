@@ -159,7 +159,7 @@ export class AppState implements IAppState {
 
 	setAmount(amount: number) {
 		this.basket.amount = amount
-		this.events.emit('amount:change', this.items)
+		this.events.emit('basket:change')
 	}
 }
 ```
