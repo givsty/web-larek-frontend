@@ -235,15 +235,24 @@ class Form форм устанавливает значение данных в 
 import { EventEmitter, IEvents } from './base/events';
 
 export abstract class Form {
+	import { EventEmitter, IEvents } from './base/events';
+
+export abstract class Form {
 	protected container: HTMLFormElement;
 	protected submit: HTMLButtonElement
 	constructor(container: HTMLFormElement, protected events: IEvents) {
 		this.submit = container.querySelector('button[type="submit"]')
 		this.container = container;
-		this.container.addEventListener('submit', ()=>{
-			this.events.emit('form:submit')
+		this.container.addEventListener('submit', (e)=>{
+			e.preventDefault()
+			this.events.emit(`${this.container.name}:submit`)
 		})
 	}
+
+	public clear() {
+		this.container.reset()
+	}
+
 	public render(){
 		return this.container
 	}
@@ -462,6 +471,8 @@ export class EventEmitter implements IEvents {
 - Событие basket:open открытие корзины
 - Событие modal:open открытие модального окна
 - Событие modal:close закрытие модального окна
-- Событие amount:change изменения состояния суммы
 - Событие order:change изменения состояния заказа
 - Событие order:open открытие формы оформления заказа
+- Событие card:open открытие формы оформления заказа
+- Событие contacts:open открытие формы оформления заказа
+- Событие sucess:open открытие окна с готовым заказом
