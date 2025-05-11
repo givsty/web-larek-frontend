@@ -115,9 +115,9 @@ constructor(container: HTMLElement, protected events: IEvents)
 	- protected price: HTMLSpanElement;
 
 **Поля и методы:**
-set setBasket(items: HTMLElement[]) 
-set setAmount(summ: number) 
-public render()
+- set setBasket(items: HTMLElement[]) 
+- set setAmount(summ: number) 
+- public render()
 
 #### Класс `Card`
 Отображает интерфейс и передаёт действия пользователя.
@@ -142,8 +142,8 @@ constructor(container: HTMLElement, protected events: IEvents)
 	};
 
 **Поля и методы:**
-setContent(data: IProduct)
-public render()
+- setContent(data: IProduct)
+- public render()
 
 #### Класс `Contacts`
 Отображает интерфейс и передаёт действия пользователя.
@@ -155,8 +155,8 @@ constructor(container: HTMLFormElement, protected events: EventEmitter)
   - protected container: HTMLFormElement;
 
 **Поля и методы:**
-set setEmail(email: string) 
-set setPhone(phone: string) 
+- set setEmail(email: string) 
+- set setPhone(phone: string) 
 
 #### Класс `Form`
 Отображает интерфейс и передаёт действия пользователя.
@@ -169,8 +169,8 @@ constructor(container: HTMLFormElement, protected events: IEvents)
 	- protected submit: HTMLButtonElement
 
 **Поля и методы:**
-public clear() 
-public render()
+- public clear() 
+- public render()
 
 #### Класс `Modal`
 Отображает интерфейс и передаёт действия пользователя.
@@ -187,10 +187,10 @@ constructor()
 	- protected items: IProduct;
 
 **Поля и методы:**
-setContent(value: HTMLElement) 
-public close() 
-public open() 
-public render(value: HTMLElement) 
+- setContent(value: HTMLElement) 
+- public close() 
+- public open() 
+- public render(value: HTMLElement) 
 
 #### Класс `Order`
 Отображает интерфейс и передаёт действия пользователя.
@@ -205,8 +205,8 @@ constructor(container: HTMLFormElement, protected events: EventEmitter)
 	- protected buttonNext: HTMLButtonElement
 
 **Поля и методы:**
-set setPayment(payment: orderType) 
-set address(address: string)
+- set setPayment(payment: orderType) 
+- set address(address: string)
 
 #### Класс `Page`
 Отображает интерфейс и передаёт действия пользователя.
@@ -242,8 +242,8 @@ constructor(container: HTMLElement, protected events: IEvents)
 	- protected button: HTMLButtonElement;
 
 **Поля и методы:**
-	set setSum(order: IOrder)
-	public render()
+- set setSum(order: IOrder)
+- public render()
 
 ## 🔄 Взаимодействие компонентов
 1. **Пользователь** → `View` → `"userInput"`.
