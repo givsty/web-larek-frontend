@@ -68,7 +68,7 @@ Model-View-Presenter (MVP) — шаблон проектирования, про
 ## 🧩 Структура классов
 
 ### 🔷 Model (Слой данных)
-#### `Appstate`
+#### Класс `Appstate`
 Даный класс отвечает за общее состояние приложения
 
 ```typescript
@@ -80,6 +80,14 @@ constructor(protected events: IEvents) {
 - `protected events` — в качестве параметра принимает брокер событий events.
 
 **Поля и методы:**
+items: IProduct[];
+basketItems: IBasketItem[];
+order: IOrder;
+basketTotal: number;
+isOrderReady: boolean;
+previewItem: IProduct
+basket: IBasket;
+
 - setProduct(items: IProduct[]) 
 - setPreview(item: IProduct)
 - setBasketItems(items: IBasketItem[])
@@ -91,20 +99,151 @@ constructor(protected events: IEvents) {
 ---
 
 ### 🔷 View (Слой отображения)
-#### `AppView`
+
+#### Класс `Basket`
+Отображает интерфейс и передаёт действия пользователя.
+
+```typescript
+constructor(container: HTMLElement, protected events: IEvents)
+```
+- **Параметры:**
+  - protected container: HTMLElement;
+	- protected title: HTMLTimeElement;
+	- protected containerBasket: HTMLElement;
+	- protected basketList: HTMLUListElement;
+	- protected button: HTMLButtonElement;
+	- protected price: HTMLSpanElement;
+
+**Поля и методы:**
+set setBasket(items: HTMLElement[]) 
+set setAmount(summ: number) 
+public render()
+
+#### Класс `Card`
+Отображает интерфейс и передаёт действия пользователя.
+
+```typescript
+constructor(container: HTMLElement, protected events: IEvents)
+```
+- **Параметры:**
+  - protected category: HTMLSpanElement;
+	- protected title: HTMLTitleElement;
+	- protected price: HTMLSpanElement;
+	- protected image: HTMLImageElement;
+	- protected container: HTMLElement;
+	- protected description?: HTMLParagraphElement | null;
+	- protected button?: HTMLButtonElement | null
+	- protected colors = {
+		'софт-скилс': '#83FA9D',
+		другое: '#FAD883',
+		дополнительное: '#B783FA',
+		кнопка: '#83DDFA',
+		'хард-скил': '#FAA083',
+	};
+
+**Поля и методы:**
+setContent(data: IProduct)
+public render()
+
+#### Класс `Contacts`
+Отображает интерфейс и передаёт действия пользователя.
+
+```typescript
+constructor(container: HTMLFormElement, protected events: EventEmitter)
+```
+- **Параметры:**
+  - protected container: HTMLFormElement;
+
+**Поля и методы:**
+set setEmail(email: string) 
+set setPhone(phone: string) 
+
+#### Класс `Form`
+Отображает интерфейс и передаёт действия пользователя.
+
+```typescript
+constructor(container: HTMLFormElement, protected events: IEvents)
+```
+- **Параметры:**
+  - protected container: HTMLFormElement;
+	- protected submit: HTMLButtonElement
+
+**Поля и методы:**
+public clear() 
+public render()
+
+#### Класс `Modal`
 Отображает интерфейс и передаёт действия пользователя.
 
 ```typescript
 constructor()
 ```
 - **Параметры:**
-  - 
+  - protected modal: HTMLElement;
+	- protected modalContent: HTMLElement;
+	- protected buttonClose: HTMLButtonElement;
+	- protected container: HTMLElement;
+	- protected events: IEvents;
+	- protected items: IProduct;
 
 **Поля и методы:**
+setContent(value: HTMLElement) 
+public close() 
+public open() 
+public render(value: HTMLElement) 
 
----
+#### Класс `Order`
+Отображает интерфейс и передаёт действия пользователя.
 
----
+```typescript
+constructor(container: HTMLFormElement, protected events: EventEmitter)
+```
+- **Параметры:**
+  - protected container: HTMLFormElement;
+	- protected buttonOnline: HTMLButtonElement;
+	- protected buttonOffline: HTMLButtonElement;
+	- protected buttonNext: HTMLButtonElement
+
+**Поля и методы:**
+set setPayment(payment: orderType) 
+set address(address: string)
+
+#### Класс `Page`
+Отображает интерфейс и передаёт действия пользователя.
+
+```typescript
+constructor(container: HTMLElement, events: IEvents)
+```
+- **Параметры:**
+  - protected headerBasket: HTMLButtonElement;
+	- protected headerBasketCounter: HTMLSpanElement;
+	- protected gallery: HTMLMediaElement;
+	- protected catalog?: HTMLElement;
+	- protected modal: HTMLElement;
+	- protected modalTemplate: HTMLElement;
+	- protected container: HTMLElement;
+	- protected events: IEvents;
+
+**Поля и методы:**
+set setCatalog(items: HTMLElement[]) 
+set setCount(items: HTMLElement[])
+
+#### Класс `Success`
+Отображает интерфейс и передаёт действия пользователя.
+
+
+```typescript
+constructor(container: HTMLElement, protected events: IEvents)
+```
+- **Параметры:**
+  - protected container: HTMLElement;
+	- protected title: HTMLTitleElement;
+	- protected descriptions: HTMLParagraphElement;
+	- protected button: HTMLButtonElement;
+
+**Поля и методы:**
+	set setSum(order: IOrder)
+	public render()
 
 ## 🔄 Взаимодействие компонентов
 1. **Пользователь** → `View` → `"userInput"`.
