@@ -296,7 +296,7 @@ export class Card {
 }
 
 ```
-class Form форм устанавливает значение данных в форме, где пользователь указывает email, phone, adres
+class Form родительский абстрактный класс формы
 ```typescript
 import { EventEmitter, IEvents } from './base/events';
 
@@ -475,7 +475,7 @@ export class Contacts extends Form{
 }
 
 ```
-class Sucess отбражает итоговый заказ 
+class Success отбражает итоговый заказ 
 ```typescript
 import { IOrder } from '../types';
 import { IEvents } from './base/events';
