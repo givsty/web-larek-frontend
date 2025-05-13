@@ -77,89 +77,63 @@ constructor(protected events: IEvents) {
 }
 ```
 - **Параметры:**
-- `protected events` — в качестве параметра принимает брокер событий events.
+- в качестве параметра принимает брокер событий events.
 
-**Поля и методы:**
-items: IProduct[];
-basketItems: IBasketItem[];
-order: IOrder;
-basketTotal: number;
-isOrderReady: boolean;
-previewItem: IProduct
-basket: IBasket;
-
-- setProduct(items: IProduct[]) 
-- setPreview(item: IProduct)
-- setBasketItems(items: IBasketItem[])
-- setOrder(order: IOrder) 
-- addProduct(item: IBasketItem) 
-- removeProduct(item: IBasketItem) 
-- setAmount(amount: number) 
+**Методы:**
+- setProduct(items: IProduct[]) данный метод устанавливает список товаров и осуществляет изменение состояния
+- setPreview(item: IProduct) данный устанавливает данные товара для просмотра полного описания
+- setBasketItems(items: IBasketItem[]) данный метод устанавливает список товаров в корзине
+- setOrder(order: IOrder) данный метод устанавливает значение итогового заказа 
+- addProduct(item: IBasketItem) данный метод реализует добавление товара
+- removeProduct(item: IBasketItem) данный метод реализует удаление товара
+- setAmount(amount: number) данный метод устанавливает итоговую стоимость всех товаров
 
 ---
 
 ### 🔷 View (Слой отображения)
 
 #### Класс `Basket`
-Отображает интерфейс и передаёт действия пользователя.
+Данный класс отображает корзину приложения с товарами, их количеством и их итоговой суммой.
 
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
 - **Параметры:**
-  - protected container: HTMLElement;
-	- protected title: HTMLTimeElement;
-	- protected containerBasket: HTMLElement;
-	- protected basketList: HTMLUListElement;
-	- protected button: HTMLButtonElement;
-	- protected price: HTMLSpanElement;
+в качестве параметров конструктор принимает темплейт корзины и брокер событий events
 
-**Поля и методы:**
-- set setBasket(items: HTMLElement[]) 
-- set setAmount(summ: number) 
-- public render()
+**Методы:**
+- set setBasket(items: HTMLElement[]) данный метод устанавливает товары в корзине
+- set setAmount(summ: number) данный метод устанавливает итоговую сумму товаров в корзине
+- public render() данный метод возвращает итоговую верстку корзины
 
 #### Класс `Card`
-Отображает интерфейс и передаёт действия пользователя.
+Отображает карточку товара на главной странице и ее открытое состояние
 
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
 - **Параметры:**
-  - protected category: HTMLSpanElement;
-	- protected title: HTMLTitleElement;
-	- protected price: HTMLSpanElement;
-	- protected image: HTMLImageElement;
-	- protected container: HTMLElement;
-	- protected description?: HTMLParagraphElement | null;
-	- protected button?: HTMLButtonElement | null
-	- protected colors = {
-		'софт-скилс': '#83FA9D',
-		другое: '#FAD883',
-		дополнительное: '#B783FA',
-		кнопка: '#83DDFA',
-		'хард-скил': '#FAA083',
-	};
+в качестве параметров конструктор принимает темплейт корзины и брокер событий events
 
 **Поля и методы:**
-- setContent(data: IProduct)
-- public render()
+- setContent(data: IProduct)данный метод устанавливает данные карточки товара в верстку
+- public render()данный метод возвращает итоговую верстку карточки 
 
 #### Класс `Contacts`
-Отображает интерфейс и передаёт действия пользователя.
+Данный класс отображает форму с заполнением имени пользователя и номер телефона
 
 ```typescript
 constructor(container: HTMLFormElement, protected events: EventEmitter)
 ```
 - **Параметры:**
-  - protected container: HTMLFormElement;
+в качестве параметров конструктор принимает форму и брокер событий
 
 **Поля и методы:**
-- set setEmail(email: string) 
-- set setPhone(phone: string) 
+- set setEmail(email: string) данный метод устанавливает почту пользователя, введенную в поле с почтой
+- set setPhone(phone: string) данный метод устанавливает номер телефона пользователя, введенный в поле с номером телефона
 
 #### Класс `Form`
-Отображает интерфейс и передаёт действия пользователя.
+Данный класс является абстрактным и родительским для класса Contacts и Order
 
 ```typescript
 constructor(container: HTMLFormElement, protected events: IEvents)
@@ -169,81 +143,62 @@ constructor(container: HTMLFormElement, protected events: IEvents)
 	- protected submit: HTMLButtonElement
 
 **Поля и методы:**
-- public clear() 
-- public render()
+- public clear() данны метод реализует очистку данных в форме
+- public render() данный метод возвращает итоговую верстку формы
 
 #### Класс `Modal`
-Отображает интерфейс и передаёт действия пользователя.
-
-```typescript
-constructor()
-```
-- **Параметры:**
-  - protected modal: HTMLElement;
-	- protected modalContent: HTMLElement;
-	- protected buttonClose: HTMLButtonElement;
-	- protected container: HTMLElement;
-	- protected events: IEvents;
-	- protected items: IProduct;
-
-**Поля и методы:**
-- setContent(value: HTMLElement) 
-- public close() 
-- public open() 
-- public render(value: HTMLElement) 
-
-#### Класс `Order`
-Отображает интерфейс и передаёт действия пользователя.
-
-```typescript
-constructor(container: HTMLFormElement, protected events: EventEmitter)
-```
-- **Параметры:**
-  - protected container: HTMLFormElement;
-	- protected buttonOnline: HTMLButtonElement;
-	- protected buttonOffline: HTMLButtonElement;
-	- protected buttonNext: HTMLButtonElement
-
-**Поля и методы:**
-- set setPayment(payment: orderType) 
-- set address(address: string)
-
-#### Класс `Page`
-Отображает интерфейс и передаёт действия пользователя.
+Данный класс отображает модальное окно приложения
 
 ```typescript
 constructor(container: HTMLElement, events: IEvents)
 ```
 - **Параметры:**
-  - protected headerBasket: HTMLButtonElement;
-	- protected headerBasketCounter: HTMLSpanElement;
-	- protected gallery: HTMLMediaElement;
-	- protected catalog?: HTMLElement;
-	- protected modal: HTMLElement;
-	- protected modalTemplate: HTMLElement;
-	- protected container: HTMLElement;
-	- protected events: IEvents;
+В качестве параметра конструктор принимает темплейт с версткой модального окна
 
 **Поля и методы:**
-set setCatalog(items: HTMLElement[]) 
-set setCount(items: HTMLElement[])
+- setContent(value: HTMLElement) данный метод устанавливает контент в модальном окне
+- public close() данный реализует закрытие модального окна 
+- public open() данный метод реализует открытие модального окна
+- public render(value: HTMLElement) данный метод возвращает итоговую верстку для отображение нужного модального окна
+
+#### Класс `Order`
+Данный класс отображает форму с выбором оплаты и полем ввода имени пользователя и наследует абстрактный класс `Form`
+
+```typescript
+constructor(container: HTMLFormElement, protected events: EventEmitter)
+```
+- **Параметры:**
+В качестве параметра конструктор принимает форму и брокер событий
+
+**Поля и методы:**
+- set setPayment(payment: orderType) данный метод устанавливает тип оплаты, который выбрал пользователь 
+- set address(address: string) даный метод устанавливает адрес, введенный в поле ввода с адресом
+
+#### Класс `Page`
+Данный класс отображает всю страницу приложения
+
+```typescript
+constructor(container: HTMLElement, events: IEvents)
+```
+- **Параметры:**
+В качестве параметров принмает верстку страницы и брокер событий
+
+**Поля и методы:**
+set setCatalog(items: HTMLElement[]) данный метод устанавливает товары на главной странице
+set setCount(items: HTMLElement[]) данный метод устанавливает количество товаров в корзине
 
 #### Класс `Success`
-Отображает интерфейс и передаёт действия пользователя.
-
+Данный класс отображает итоговую стоимость заказа
 
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
 - **Параметры:**
-  - protected container: HTMLElement;
-	- protected title: HTMLTitleElement;
-	- protected descriptions: HTMLParagraphElement;
-	- protected button: HTMLButtonElement;
+В качестве параметров конструктор принимает верстку итогового заказа и брокер событий
 
 **Поля и методы:**
-- set setSum(order: IOrder)
-- public render()
+- set setSum(order: IOrder) данный метод устанавливает сумму итогового заказа 
+- public render() данный метод возвращает итоговую верстку с успешным заказом
 
 ## 🔄 Взаимодействие компонентов
 1. **Пользователь** → `View` → `"userInput"`.
@@ -310,341 +265,6 @@ export interface IAppState {
 }
 ```
 
-Модель данных Model
-
-class AppState общий класс состояния приложения
-```typescript
-import { IAppState, IBasketItem, IProduct, IOrder, IBasket } from '../types';
-import { EventEmitter, IEvents } from './base/events';
-
-export class AppState implements IAppState {
-	items: IProduct[];
-	basketItems: IBasketItem[];
-	order: IOrder;
-	basketTotal: number;
-	isOrderReady: boolean;
-	previewItem: IProduct
-	basket: IBasket;
-
-	constructor(protected events: IEvents) {
-		this.events = events;
-	}
-
-	setProduct(items: IProduct[]) {
-		this.items = items;
-		this.events.emit('items:change', this.items);
-	}
-	
-	setPreview(item: IProduct) {
-		this.previewItem = item
-		this.events.emit('card:open')
-	}
-
-	setBasketItems(items: IBasketItem[]) {
-		this.basketItems = items;
-		this.events.emit('basket:change', this.items);
-	}
-
-	setOrder(order: IOrder) {
-		this.order = order
-		this.events.emit('order:change', this.order)
-	}
-
-	addProduct(item: IBasketItem) {
-		this.basketItems.push(item)
-		this.basket.amount += item.price
-		this.events.emit('basket:change', item)
-	}
-
-	removeProduct(item: IBasketItem) {
-		this.basket.items = this.basket.items.filter((basketItem) => basketItem.id !== item.id)
-		this.basket.amount -= item.price
-		this.events.emit('basket:change', this.items)
-	}
-
-	setAmount(amount: number) {
-		this.basket.amount = amount
-		this.events.emit('basket:change')
-	}
-}
-```
-
-Модель отображения View<br/>
-
-class Card отображает карточку товара
-```typescript
-import { IProduct } from '../types';
-import { EventEmitter, IEvents } from './base/events';
-import { CDN_URL } from '../utils/constants';
-
-
-export class Card {
-	protected category: HTMLSpanElement;
-	protected title: HTMLTitleElement;
-	protected price: HTMLSpanElement;
-	protected image: HTMLImageElement;
-	protected container: HTMLElement;
-	protected description?: HTMLParagraphElement | null;
-	protected button?: HTMLButtonElement | null
-	protected colors = {
-		'софт-скилс': '#83FA9D',
-		другое: '#FAD883',
-		дополнительное: '#B783FA',
-		кнопка: '#83DDFA',
-		'хард-скил': '#FAA083',
-	};
-
-	constructor(container: HTMLElement, protected events: IEvents) {
-		this.container = container;
-		this.category = container.querySelector('.card__category');
-		this.title = container.querySelector('.card__title');
-		this.price = container.querySelector('.card__price');
-		this.image = container.querySelector('.card__image');
-		this.description = container.querySelector('.card__text')
-		this.button = container.querySelector('.card__button')
-
-		this.container.addEventListener('click', (event) => {
-			this.events.emit('card:open');
-		});
-
-		if(container.className === 'card_ful') {
-			this.button.addEventListener('click', ()=>{
-				this.events.emit('basket:open')
-			})
-		}
-	}
-	
-	setContent(data: IProduct) {
-		if (data) {
-			this.category.textContent = data.category;
-			for (let key in this.colors) {
-				if (key === data.category) {
-					this.category.style.backgroundColor = `${this.colors}`;
-				}
-				this.title.textContent = data.title;
-				data.price !== null
-					? (this.price.textContent = data.price.toString())
-					: (this.price.textContent = 'Бесценно');
-				this.image.src = CDN_URL + data.image;
-			}
-		}
-	}
-	public render() {
-		return this.container;
-	}
-}
-
-```
-class Form родительский абстрактный класс формы
-```typescript
-import { EventEmitter, IEvents } from './base/events';
-
-export abstract class Form {
-	import { EventEmitter, IEvents } from './base/events';
-
-export abstract class Form {
-	protected container: HTMLFormElement;
-	protected submit: HTMLButtonElement
-	constructor(container: HTMLFormElement, protected events: IEvents) {
-		this.submit = container.querySelector('button[type="submit"]')
-		this.container = container;
-		this.container.addEventListener('submit', (e)=>{
-			e.preventDefault()
-			this.events.emit(`${this.container.name}:submit`)
-		})
-	}
-
-	public clear() {
-		this.container.reset()
-	}
-
-	public render(){
-		return this.container
-	}
-}
-
-```
-class Modal осуществляет открытие и закрытие модального окна
-```typescript
-import { IProduct } from '../types';
-import { ensureElement } from '../utils/utils';
-import { EventEmitter, IEvents } from './base/events';
-
-export class Modal{
-	protected modal: HTMLElement;
-	protected modalContent: HTMLElement;
-	protected buttonClose: HTMLButtonElement;
-	protected container: HTMLElement;
-	protected events: IEvents;
-	protected items: IProduct;
-	protected content: HTMLElement;
-	constructor(container: HTMLElement, events: IEvents) {
-		this.container = container;
-		this.events = events;
-		this.buttonClose = container.querySelector('.modal__close');
-		this.modalContent = container.querySelector('.modal__content');
-		this.container.addEventListener('click', this.close.bind(this));
-		this.buttonClose.addEventListener('click', this.close.bind(this));
-		this.modalContent.addEventListener('click', (event) => event.stopPropagation())
-	}
-
-	set setContent(value: HTMLElement) {
-		this.content.replaceChildren(value)
-	}
-
-	public close() {
-		this.container.classList.remove('modal_active');
-		this.events.emit('modal:close');
-		this.modalContent = null
-	}
-
-	public open() {
-		this.container.classList.add('modal_active');
-		this.events.emit('modal:open');
-	}
-
-	public render() {
-		return this.container
-	}
-}
-```
-
-class BasketView отображает товары в корзине
-```typescript
-import { IBasketItem, IProduct } from '../types';
-import { EventEmitter, IEvents } from './base/events';
-
-export class BasketView {
-	protected container: HTMLElement;
-	protected title: HTMLTimeElement;
-	protected containerBasket: HTMLElement;
-	protected basketList: HTMLUListElement;
-	protected button: HTMLButtonElement;
-	protected price: HTMLSpanElement;
-
-	constructor(container: HTMLElement, protected events: IEvents) {
-		this.container = container;
-		this.title = container.querySelector('.modal__title');
-		this.basketList = container.querySelector('.basket__list');
-		this.containerBasket = container.querySelector('.modal__actions');
-		this.button = this.containerBasket.querySelector('.basket__button');
-		this.price = this.containerBasket.querySelector('.basket__price');
-		if(this.button) {
-			this.button.addEventListener('click', () => {
-				events.emit('order:open');
-			});	
-		}
-		
-	}
-
-	set setBasket(items: HTMLElement[]) {
-		if(!items) {
-			this.basketList.textContent = 'Корзина пуста'
-		}
-		this.basketList.replaceChildren(...items);
-	}
-
-	set setAmount(summ: number) {
-		this.price.textContent = summ.toString()
-	}
-	
-	public render() {
-		return this.container;
-	}
-}
-```
-
-class Order форма заполнения заказа
-```typescript
-import { orderType } from '../types';
-import { EventEmitter } from './base/events';
-import { Form } from './Form';
-
-export class Order extends Form{
-	protected container: HTMLFormElement;
-	protected buttonOnline: HTMLButtonElement;
-	protected buttonOffline: HTMLButtonElement;
-	protected buttonNext: HTMLButtonElement
-	constructor(container: HTMLFormElement, protected events: EventEmitter) {
-		super(container, events)
-		this.container = container;
-		this.buttonOffline = container.querySelector('button[name="cash"]')
-		this.buttonOnline = container.querySelector('button[name="card"]')
-		this.buttonNext = container.querySelector('button[name=""]')
-		this.buttonOffline.addEventListener("click", ()=>{
-			this.setPayment = 'cash'
-		})
-		this.buttonOnline.addEventListener('click', ()=>{
-			this.setPayment = 'card'
-		})
-	}
-
-	set setPayment(payment: orderType) {
-		this.buttonOffline.classList.toggle("button_alt-active", payment === "cash");
-		this.buttonOnline.classList.toggle("button_alt-active", payment === "card");
-	}
-	
-	set address(address: string) {
-		(this.container.elements.namedItem('address') as HTMLInputElement).value = address
-	}
-}
-
-```
-
-class Contacts форма заполнения телефона и почты
-```typescript
-import { EventEmitter, IEvents } from './base/events';
-import { Form } from './Form';
-
-export class Contacts extends Form{
-	protected container: HTMLFormElement;
-	constructor(container: HTMLFormElement, protected events: EventEmitter) {
-		super(container, events)
-		this.container = container
-	}
-	
-	set setEmail(email: string) {
-		(this.container.elements.namedItem('email') as HTMLInputElement).value = email
-	}
-
-	set setPhone(phone: string) {
-		(this.container.elements.namedItem('phone') as HTMLInputElement).value = phone
-	}
-
-}
-
-```
-class Success отбражает итоговый заказ 
-```typescript
-import { IOrder } from '../types';
-import { IEvents } from './base/events';
-
-export class Success {
-	protected container: HTMLElement;
-	protected title: HTMLTitleElement;
-	protected descriptions: HTMLParagraphElement;
-	protected button: HTMLButtonElement;
-	constructor(container: HTMLElement, protected events: IEvents) {
-		this.container = container;
-		this.title = container.querySelector('.order-success__title');
-		this.descriptions = container.querySelector('.order-success__description');
-		this.button = container.querySelector('.button');
-		this.button.addEventListener('click', () => {
-			this.events.emit('modal:close');
-		});
-		this.container.addEventListener('click', () => {
-			this.events.emit('modal:close');
-		});
-	}
-	set setSum(order: IOrder) {
-		this.descriptions.textContent = `Списано ${order.items.amount} синапсов`;
-	}
-	public render() {
-		return this.container
-	}
-}
-
-```
 
 Основной класс для обработки событий
 ```typescript
