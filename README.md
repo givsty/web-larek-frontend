@@ -86,7 +86,7 @@ constructor(protected events: IEvents) {
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 в качестве параметров конструктор принимает темплейт корзины и брокер событий events
 
 **Методы:**
@@ -100,7 +100,7 @@ constructor(container: HTMLElement, protected events: IEvents)
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 в качестве параметров конструктор принимает темплейт корзины и брокер событий events
 
 **Поля и методы:**
@@ -113,7 +113,7 @@ constructor(container: HTMLElement, protected events: IEvents)
 ```typescript
 constructor(container: HTMLFormElement, protected events: EventEmitter)
 ```
-- **Параметры:**
+**Параметры:**
 в качестве параметров конструктор принимает форму и брокер событий
 
 **Поля и методы:**
@@ -126,7 +126,7 @@ constructor(container: HTMLFormElement, protected events: EventEmitter)
 ```typescript
 constructor(container: HTMLFormElement, protected events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 - protected container: HTMLFormElement;
 - protected submit: HTMLButtonElement
 
@@ -140,7 +140,7 @@ constructor(container: HTMLFormElement, protected events: IEvents)
 ```typescript
 constructor(container: HTMLElement, events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 В качестве параметра конструктор принимает темплейт с версткой модального окна
 
 **Поля и методы:**
@@ -155,7 +155,7 @@ constructor(container: HTMLElement, events: IEvents)
 ```typescript
 constructor(container: HTMLFormElement, protected events: EventEmitter)
 ```
-- **Параметры:**
+**Параметры:**
 В качестве параметра конструктор принимает форму и брокер событий
 
 **Поля и методы:**
@@ -168,7 +168,7 @@ constructor(container: HTMLFormElement, protected events: EventEmitter)
 ```typescript
 constructor(container: HTMLElement, events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 В качестве параметров принмает верстку страницы и брокер событий
 
 **Поля и методы:**
@@ -181,7 +181,7 @@ set setCount(items: HTMLElement[]) данный метод устанавлив�
 ```typescript
 constructor(container: HTMLElement, protected events: IEvents)
 ```
-- **Параметры:**
+**Параметры:**
 В качестве параметров конструктор принимает верстку итогового заказа и брокер событий
 
 **Поля и методы:**
@@ -253,88 +253,6 @@ export interface IAppState {
 }
 ```
 
-
-Основной класс для обработки событий
-```typescript
-//Класс для обработки событий
-export class EventEmitter implements IEvents {
-	_events: Map<EventName, Set<Subscriber>>;
-
-	constructor() {
-		this._events = new Map<EventName, Set<Subscriber>>();
-	}
-
-	/**
-	 * Установить обработчик на событие
-	 */
-	on<T extends object>(eventName: EventName, callback: (event: T) => void) {
-		if (!this._events.has(eventName)) {
-			this._events.set(eventName, new Set<Subscriber>());
-		}
-		this._events.get(eventName)?.add(callback);
-	}
-
-	/**
-	 * Снять обработчик с события
-	 */
-	off(eventName: EventName, callback: Subscriber) {
-		if (this._events.has(eventName)) {
-			this._events.get(eventName)!.delete(callback);
-			if (this._events.get(eventName)?.size === 0) {
-				this._events.delete(eventName);
-			}
-		}
-	}
-
-	/**
-	 * Инициировать событие с данными
-	 */
-	emit<T extends object>(eventName: string, data?: T) {
-		this._events.forEach((subscribers, name) => {
-			if (name === '*')
-				subscribers.forEach((callback) =>
-					callback({
-						eventName,
-						data,
-					})
-				);
-			if (
-				(name instanceof RegExp && name.test(eventName)) ||
-				name === eventName
-			) {
-				subscribers.forEach((callback) => callback(data));
-			}
-		});
-	}
-
-	/**
-	 * Слушать все события
-	 */
-	onAll(callback: (event: EmitterEvent) => void) {
-		this.on('*', callback);
-	}
-
-	/**
-	 * Сбросить все обработчики
-	 */
-	offAll() {
-		this._events = new Map<string, Set<Subscriber>>();
-	}
-
-	/**
-	 * Сделать коллбек триггер, генерирующий событие при вызове
-	 */
-	trigger<T extends object>(eventName: string, context?: Partial<T>) {
-		return (event: object = {}) => {
-			this.emit(eventName, {
-				...(event || {}),
-				...(context || {}),
-			});
-		};
-	}
-}
-
-
 ```
 - on: Установить обработчик на событие
 - off: Снять обработчик с события
@@ -342,11 +260,9 @@ export class EventEmitter implements IEvents {
 - onAll: Слушать все события
 - offAll: Сбросить все обработчики
 
-События 
+События для работы приложение
 
-- Событие items:состояние карточек на странице
-- Событие basket:состояние корзины
-- Событие basket:open открытие окна с корзиной
+- Событие basket:open для открытия корзины 
 - Событие card:open открытие карточки на главной странице
 - Событие order:open открытие окна с формой заполнения заказа
 - Событие order:submit отправка данных с формы заказа
