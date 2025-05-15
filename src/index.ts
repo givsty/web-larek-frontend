@@ -85,7 +85,7 @@ events.on('', ()=>{
 api
 	.get(`/product`)
 	.then((res: ApiResponse) => {
-		console.log(res)
+		console.log(res);
 		appState.setProduct(res.items);
 	})
 	.catch((err) => {
