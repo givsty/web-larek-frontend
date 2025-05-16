@@ -1,8 +1,13 @@
 import { IProduct } from '../types';
 import { IEvents } from './base/events';
+import { Component } from './Component';
 import { Modal } from './Modal';
 
-export class Page {
+interface IPage {
+	content: HTMLElement
+}
+
+export class Page extends Component<IPage>{
 	protected headerBasket: HTMLButtonElement;
 	protected headerBasketCounter: HTMLSpanElement;
 	protected gallery: HTMLMediaElement;
@@ -13,7 +18,7 @@ export class Page {
 	protected events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
-
+		super(container)
 		this.container = container;
 		this.events = events;
 		this.headerBasket = container.querySelector(
@@ -25,7 +30,7 @@ export class Page {
 			this.events.emit('basket:open');
 		});
 	}
-
+	
 	set setCatalog(items: HTMLElement[]) {
 		this.catalog.replaceChildren(...items);
 	}

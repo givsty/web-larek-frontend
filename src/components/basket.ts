@@ -1,7 +1,13 @@
 import { IBasketItem, IProduct } from '../types';
+import { cloneTemplate } from '../utils/utils';
 import { EventEmitter, IEvents } from './base/events';
+import { Component } from './Component';
 
-export class BasketView {
+interface IBasketView {
+	content: HTMLElement
+}
+
+export class BasketView extends Component<IBasketView>{
 	protected container: HTMLElement;
 	protected title: HTMLTimeElement;
 	protected containerBasket: HTMLElement;
@@ -10,18 +16,12 @@ export class BasketView {
 	protected price: HTMLSpanElement;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
-		this.container = container;
-		this.title = container.querySelector('.modal__title');
-		this.basketList = container.querySelector('.basket__list');
-		this.containerBasket = container.querySelector('.modal__actions');
-		this.button = this.containerBasket.querySelector('.basket__button');
-		this.price = this.containerBasket.querySelector('.basket__price');
+		super(container)
 		if(this.button) {
 			this.button.addEventListener('click', () => {
 				events.emit('order:open');
 			});	
 		}
-		
 	}
 
 	set setBasket(items: HTMLElement[]) {

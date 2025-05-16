@@ -1,7 +1,11 @@
 import { EventEmitter, IEvents } from './base/events';
 import { Form } from './Form';
 
-export class Contacts extends Form{
+interface IContacts {
+	content: HTMLElement
+}
+
+export class Contacts extends Form<IContacts>{
 	protected container: HTMLFormElement;
 	constructor(container: HTMLFormElement, protected events: EventEmitter) {
 		super(container, events)
@@ -15,5 +19,4 @@ export class Contacts extends Form{
 	set setPhone(phone: string) {
 		(this.container.elements.namedItem('phone') as HTMLInputElement).value = phone
 	}
-
 }

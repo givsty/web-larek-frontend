@@ -28,7 +28,11 @@ const appState = new AppState(events)
 const modal = new Modal(modalContainer, events)
 
 const basket = new BasketView(cloneTemplate(basketTemplate), events)
-console.log(basket.render())
+
+events.onAll(({ eventName, data }) => {
+	console.log(eventName, data);
+})
+
 // const basket = new BasketView()
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item)=>{
@@ -38,48 +42,18 @@ events.on('items:change', (items: IProduct[]) => {
 	})
 })
 
-events.on('basket:change', (items: IProduct[])=>{
-	basket.setBasket = items.map((item)=>{
-		const card = new Card(cloneTemplate(itemCard), events)
-		card.setContent(item)
-		return card.render()
-	}) 
-})
-
-events.on("basket:open", ()=>{
+events.on('basket:open', ()=>{
 	const basket = new BasketView(cloneTemplate(basketTemplate), events)
-	modal.render(basket.render())
-	modal.open()
+	modal.render({content: basket.render()})
 })
 
-events.on("card:open", (item: IProduct)=>{
-	const card = new Card(cloneTemplate(productView), events)
-	modal.render(card.render())
-	modal.open()
-})
-
-events.on("order:open", ()=>{
+events.on('order:open', ()=>{
 	const order = new Order(cloneTemplate(orderTemplate), events)
-	modal.render(order.render())
-	modal.open()
 })
 
-events.on("order:submit", ()=>{
-	const contacts = new Contacts(cloneTemplate(contactsTemplate), events)
-	modal.render(contacts.render())
-	modal.open()
-})
-
-events.on("contacts:submit", ()=>{
-	const success = new Success(cloneTemplate(successTemplate), events)
-	modal.render(success.render())
-	modal.open()
-})
-
-
-console.log(cloneTemplate(basketTemplate))
-events.on('', ()=>{
-
+events.on('card:open', ()=>{
+	const card = new Card(cloneTemplate(productView), events)
+	modal.render({content: card.render()})
 })
 
 api
@@ -92,5 +66,3 @@ api
 		console.log(err);
 	});
 
-
-console.log(basket.render())

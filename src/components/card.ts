@@ -1,9 +1,13 @@
 import { IProduct } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
+import { Component } from './Component';
 
+interface ICard {
+	content: HTMLElement
+}
 
-export class Card {
+export class Card extends Component<ICard>{
 	protected category: HTMLSpanElement;
 	protected title: HTMLTitleElement;
 	protected price: HTMLSpanElement;
@@ -20,6 +24,7 @@ export class Card {
 	};
 
 	constructor(container: HTMLElement, protected events: IEvents) {
+		super(container)
 		this.container = container;
 		this.category = container.querySelector('.card__category');
 		this.title = container.querySelector('.card__title');

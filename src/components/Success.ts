@@ -1,13 +1,18 @@
 import { IOrder } from '../types';
 import { IEvents } from './base/events';
+import { Component } from './Component';
 
-export class Success{
+interface ISucess {
+	content: HTMLElement
+}
+
+export class Success extends Component<ISucess>{
 	protected container: HTMLElement;
 	protected title: HTMLTitleElement;
 	protected descriptions: HTMLParagraphElement;
 	protected button: HTMLButtonElement;
 	constructor(container: HTMLElement, protected events: IEvents) {
-		this.container = container;
+		super(container)
 		this.title = container.querySelector('.order-success__title');
 		this.descriptions = container.querySelector('.order-success__description');
 		this.button = container.querySelector('.button');
@@ -20,8 +25,5 @@ export class Success{
 	}
 	set setSum(order: IOrder) {
 		this.descriptions.textContent = `Списано ${order.items.amount} синапсов`;
-	}
-	public render() {
-		return this.container
 	}
 }

@@ -2,7 +2,11 @@ import { orderType } from '../types';
 import { EventEmitter } from './base/events';
 import { Form } from './Form';
 
-export class Order extends Form{
+interface IOrderC {
+	content: HTMLElement
+}
+
+export class Order extends Form<IOrderC>{
 	protected container: HTMLFormElement;
 	protected buttonOnline: HTMLButtonElement;
 	protected buttonOffline: HTMLButtonElement;
