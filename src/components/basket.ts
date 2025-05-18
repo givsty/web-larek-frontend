@@ -17,6 +17,7 @@ export class BasketView extends Component<IBasketView>{
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container)
+		this.button = container.querySelector('.button')
 		if(this.button) {
 			this.button.addEventListener('click', () => {
 				events.emit('order:open');
@@ -34,7 +35,6 @@ export class BasketView extends Component<IBasketView>{
 	set setAmount(summ: number) {
 		this.price.textContent = summ.toString()
 	}
-	
 	public render() {
 		return this.container;
 	}

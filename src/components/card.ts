@@ -1,4 +1,4 @@
-import { IProduct } from '../types';
+import { IBasketItem, IProduct } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
 import { Component } from './Component';
@@ -15,11 +15,16 @@ export class Card extends Component<ICard>{
 	protected container: HTMLElement;
 	protected description?: HTMLParagraphElement | null;
 	protected button?: HTMLButtonElement | null
+	protected indexItem: HTMLSpanElement;
+	protected basketCardTitle: HTMLSpanElement;
+	protected basketCardPrice: HTMLSpanElement;
+	protected basketItemDelete: HTMLButtonElement;
+
 	protected colors = {
 		'софт-скилс': '#83FA9D',
-		другое: '#FAD883',
-		дополнительное: '#B783FA',
-		кнопка: '#83DDFA',
+		"другое": '#FAD883',
+		"дополнительное": '#B783FA',
+		"кнопка": '#83DDFA',
 		'хард-скил': '#FAA083',
 	};
 
@@ -36,10 +41,9 @@ export class Card extends Component<ICard>{
 		this.container.addEventListener('click', (event) => {
 			this.events.emit('card:open');
 		});
-
-		if(container.className === 'card_ful') {
+		if(container.className === 'card card_full') {
 			this.button.addEventListener('click', ()=>{
-				this.events.emit('basket:open')
+				this.events.emit('basket:change', this)
 			})
 		}
 	}
@@ -49,7 +53,7 @@ export class Card extends Component<ICard>{
 			this.category.textContent = data.category;
 			for (let key in this.colors) {
 				if (key === data.category) {
-					this.category.style.backgroundColor = `${this.colors}`;
+					this.category.style.backgroundColor = `${this.colors[data.category]}`;
 				}
 				this.title.textContent = data.title;
 				data.price !== null
@@ -59,6 +63,13 @@ export class Card extends Component<ICard>{
 			}
 		}
 	}
+
+	setBasketItem(data: IBasketItem) {
+		this.indexItem.textContent = data.id.toString();
+		this.basketCardTitle.textContent = data.category
+		this.basketCardPrice.textContent = data.price.toString()
+	}
+
 	public render() {
 		return this.container;
 	}

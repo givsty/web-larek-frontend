@@ -159,7 +159,7 @@ constructor(container: HTMLElement, protected events: IEvents)
 constructor(container: HTMLElement, protected events: IEvents)
 ```
 **Параметры:**
-в качестве параметров конструктор принимает темплейт корзины и брокер событий events
+в качестве параметров конструктор принимает темплейт карточки и брокер событий events
 
 **Поля и методы:**
 - setContent(data: IProduct)данный метод устанавливает данные карточки товара в верстку

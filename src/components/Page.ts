@@ -7,7 +7,7 @@ interface IPage {
 	content: HTMLElement
 }
 
-export class Page extends Component<IPage>{
+export class Page extends Component<IPage> {
 	protected headerBasket: HTMLButtonElement;
 	protected headerBasketCounter: HTMLSpanElement;
 	protected gallery: HTMLMediaElement;
@@ -18,7 +18,7 @@ export class Page extends Component<IPage>{
 	protected events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
-		super(container)
+		super(container);
 		this.container = container;
 		this.events = events;
 		this.headerBasket = container.querySelector(
@@ -30,12 +30,17 @@ export class Page extends Component<IPage>{
 			this.events.emit('basket:open');
 		});
 	}
-	
+
 	set setCatalog(items: HTMLElement[]) {
 		this.catalog.replaceChildren(...items);
 	}
 
 	set setCount(items: HTMLElement[]) {
-		this.headerBasketCounter.textContent = items.length.toString()
+		this.headerBasketCounter.textContent = items.length.toString();
+	}	
+	set locked(value: boolean){
+		if(value) {
+			
+		}
 	}
 }
