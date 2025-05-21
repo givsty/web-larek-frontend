@@ -39,11 +39,11 @@ const basketTemplate = document
 	.getElementById('basket')
 	.cloneNode(true) as HTMLTemplateElement;
 const events = new EventEmitter();
-const page = new Page(mainPage, events);
 const api = new Api(API_URL);
 const appState = new AppState(events);
 const modal = new Modal(modalContainer, events);
 const basket = new BasketView(cloneTemplate(basketTemplate), events);
+const page = new Page(document.body, events);
 
 events.onAll(({ eventName, data }) => {
 	console.log(eventName, data);
@@ -52,19 +52,45 @@ events.onAll(({ eventName, data }) => {
 // const basket = new BasketView()
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item) => {
-		const card = new Card(cloneTemplate(itemCard), events);
-		card.setContent(item);
-		return card.render();
+		const card = new Card(cloneTemplate(itemCard), events, {
+			onClick: () => events.emit('card:select', item),
+		});
+		return card.render({
+			price: item.price,
+			category: item.category,
+			title: item.title,
+			image: item.image,
+		});
+	});
+});
+
+events.on('preview:changed', (item: IProduct) => {
+	const cardPreview = new Card(cloneTemplate(productView), events);
+	modal.render({
+		content: cardPreview.render({
+			price: item.price,
+			category: item.category,
+			title: item.title,
+			image: item.image,
+			description: item.description,
+		}),
 	});
 });
 
 events.on('basket:change', (items: IBasketItem[]) => {
 	basket.setBasket = items.map((item) => {
 		const card = new Card(cloneTemplate(cardBasket), events);
-		card.setBasketItem(item)
-		return card.render();
+		return card.render({
+			id: item.id,
+			category: item.category,
+			price: item.price
+		});
 	});
 });
+
+events.on('basket:change', (item: IBasketItem) => {
+	appState.addProduct(item)
+})
 
 events.on('basket:open', () => {
 	const basket = new BasketView(cloneTemplate(basketTemplate), events);
@@ -96,10 +122,17 @@ events.on('contacts:open', () => {
 	});
 });
 
-events.on('card:open', () => {
-	const card = new Card(cloneTemplate(productView), events);
-	modal.render({ content: card.render() });
+events.on('card:select', (item: IProduct) => {
+	appState.setPreview(item)
 });
+
+events.on('modal:open', ()=>{
+	page.locked = true
+})
+
+events.on('modal:close', ()=>{
+	page.locked = false
+})
 
 api
 	.get(`/product`)

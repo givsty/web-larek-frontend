@@ -21,7 +21,7 @@ export class AppState implements IAppState {
 	
 	setPreview(item: IProduct) {
 		this.previewItem = item
-		this.events.emit('card:open')
+		this.events.emit('preview:changed', item)
 	}
 
 	setBasketItems(items: IBasketItem[]) {

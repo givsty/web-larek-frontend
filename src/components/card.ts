@@ -3,24 +3,36 @@ import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
 import { Component } from './Component';
 
-interface ICard {
-	content: HTMLElement
+interface ICardActions {
+	onClick: (event: MouseEvent) => void;
 }
 
-export class Card extends Component<ICard>{
-	protected category: HTMLSpanElement;
-	protected title: HTMLTitleElement;
-	protected price: HTMLSpanElement;
-	protected image: HTMLImageElement;
-	protected container: HTMLElement;
-	protected description?: HTMLParagraphElement | null;
-	protected button?: HTMLButtonElement | null
-	protected indexItem: HTMLSpanElement;
-	protected basketCardTitle: HTMLSpanElement;
-	protected basketCardPrice: HTMLSpanElement;
-	protected basketItemDelete: HTMLButtonElement;
+interface ICard {
+	price: number | null;
+	title: string;
+	description?: string;
+	category?: string;
+	image?: string;
+	id?: number;
+}
 
-	protected colors = {
+interface IColors {
+	[key: string]: string
+}
+
+export class Card extends Component<ICard> {
+	protected _category?: HTMLSpanElement;
+	protected _title: HTMLTitleElement;
+	protected _price: HTMLSpanElement;
+	protected _image: HTMLImageElement;
+	protected _description: HTMLParagraphElement | null;
+	protected _button: HTMLButtonElement | null;
+	protected _indexItem: HTMLSpanElement;
+	protected _basketCardTitle: HTMLSpanElement;
+	protected _basketCardPrice: HTMLSpanElement;
+	protected _basketItemDelete: HTMLButtonElement;
+
+	protected colors: IColors = {
 		'софт-скилс': '#83FA9D',
 		"другое": '#FAD883',
 		"дополнительное": '#B783FA',
@@ -28,50 +40,45 @@ export class Card extends Component<ICard>{
 		'хард-скил': '#FAA083',
 	};
 
-	constructor(container: HTMLElement, protected events: IEvents) {
-		super(container)
-		this.container = container;
-		this.category = container.querySelector('.card__category');
-		this.title = container.querySelector('.card__title');
-		this.price = container.querySelector('.card__price');
-		this.image = container.querySelector('.card__image');
-		this.description = container.querySelector('.card__text')
-		this.button = container.querySelector('.card__button')
+	constructor(
+		container: HTMLElement,
+		protected events: IEvents,
+		actions?: ICardActions
+	) {
+		super(container);
+		this._category = container.querySelector('.card__category');
+		this._title = container.querySelector('.card__title');
+		this._price = container.querySelector('.card__price');
+		this._image = container.querySelector('.card__image');
+		this._description = container.querySelector('.card__text');
+		this._button = container.querySelector('.card__button');
 
-		this.container.addEventListener('click', (event) => {
-			this.events.emit('card:open');
-		});
-		if(container.className === 'card card_full') {
-			this.button.addEventListener('click', ()=>{
-				this.events.emit('basket:change', this)
-			})
-		}
-	}
-	
-	setContent(data: IProduct) {
-		if (data) {
-			this.category.textContent = data.category;
-			for (let key in this.colors) {
-				if (key === data.category) {
-					this.category.style.backgroundColor = `${this.colors[data.category]}`;
-				}
-				this.title.textContent = data.title;
-				data.price !== null
-					? (this.price.textContent = data.price.toString())
-					: (this.price.textContent = 'Бесценно');
-				this.image.src = CDN_URL + data.image;
+		if (actions?.onClick) {
+			if (this._button) {
+				this._button.addEventListener('click', actions.onClick);
 			}
+			container.addEventListener('click', actions.onClick);
 		}
 	}
 
-	setBasketItem(data: IBasketItem) {
-		this.indexItem.textContent = data.id.toString();
-		this.basketCardTitle.textContent = data.category
-		this.basketCardPrice.textContent = data.price.toString()
+	set category(value: string) {
+		this.setText(this._category, value);
+		this._category.style.background = this.colors[value]
 	}
 
-	public render() {
-		return this.container;
+	set description(value: string) {
+		this.setText(this._description, value);
+	}
+
+	set title(value: string) {
+		this.setText(this._title, value);
+	}
+
+	set image(value: string) {
+		this.setImage(this._image, CDN_URL + value);
+	}
+
+	set price(value: string) {
+		this.setText(this._price, value !== null ? value : "бесценно");
 	}
 }
-
