@@ -3,11 +3,11 @@ import { EventEmitter, IEvents } from './base/events';
 
 export class AppState implements IAppState {
 	items: IProduct[];
-	basketItems: IBasketItem[];
+	basketItems: IBasketItem[] = [];
 	order: IOrder;
 	basketTotal: number;
 	isOrderReady: boolean;
-	previewItem: IProduct
+	previewItem: IProduct;
 	basket: IBasket;
 
 	constructor(protected events: IEvents) {
@@ -18,10 +18,10 @@ export class AppState implements IAppState {
 		this.items = items;
 		this.events.emit('items:change', this.items);
 	}
-	
+
 	setPreview(item: IProduct) {
-		this.previewItem = item
-		this.events.emit('preview:changed', item)
+		this.previewItem = item;
+		this.events.emit('preview:changed', item);
 	}
 
 	setBasketItems(items: IBasketItem[]) {
@@ -30,24 +30,28 @@ export class AppState implements IAppState {
 	}
 
 	setOrder(order: IOrder) {
-		this.order = order
-		this.events.emit('order:change', this.order)
+		this.order = order;
+		this.events.emit('order:change', this.order);
 	}
 
 	addProduct(item: IBasketItem) {
-		this.basketItems.push(item)
-		this.basket.amount += item.price
-		this.events.emit('basket:change', item)
+		this.basketItems.push(item);
+		this.events.emit('basket:change', item);
 	}
 
 	removeProduct(item: IBasketItem) {
-		this.basket.items = this.basket.items.filter((basketItem) => basketItem.id !== item.id)
-		this.basket.amount -= item.price
-		this.events.emit('basket:change', this.items)
+		this.basket.items = this.basket.items.filter(
+			(basketItem) => basketItem.id !== item.id
+		);
+		this.basket.amount -= item.price;
+		this.events.emit('basket:change', this.items);
 	}
 
 	setAmount(amount: number) {
-		this.basket.amount = amount
-		this.events.emit('basket:change')
+		this.basket.amount = amount;
+		this.events.emit('basket:change');
+	}
+	getBasketItems(): IBasketItem[] {
+		return [{ id: 2, category: 'софт-скилс', price: 15 }];
 	}
 }

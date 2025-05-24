@@ -1,23 +1,27 @@
 import { IBasketItem, IProduct } from '../types';
-import { cloneTemplate } from '../utils/utils';
+import { cloneTemplate, ensureElement } from '../utils/utils';
 import { EventEmitter, IEvents } from './base/events';
 import { Component } from './Component';
 
 interface IBasketView {
-	content: HTMLElement
+	items: HTMLElement,
+	total: number
+	onClick: (event: MouseEvent)=> void 
 }
 
 export class BasketView extends Component<IBasketView>{
 	protected container: HTMLElement;
 	protected title: HTMLTimeElement;
 	protected containerBasket: HTMLElement;
-	protected basketList: HTMLUListElement;
+	protected basketList: HTMLElement;
 	protected button: HTMLButtonElement;
 	protected price: HTMLSpanElement;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container)
+		this.basketList = ensureElement<HTMLElement>('.basket__list', this.container);
 		this.button = container.querySelector('.button')
+
 		if(this.button) {
 			this.button.addEventListener('click', () => {
 				events.emit('order:open');
@@ -26,10 +30,11 @@ export class BasketView extends Component<IBasketView>{
 	}
 
 	set setBasket(items: HTMLElement[]) {
-		if(!items) {
-			this.basketList.textContent = 'Корзина пуста'
+		if(items.length) {
+			this.basketList.replaceChildren(...items);
+		} else {
+			this.basketList.textContent = 'asfafafafaf'
 		}
-		this.basketList.replaceChildren(...items);
 	}
 
 	set setAmount(summ: number) {

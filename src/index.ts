@@ -28,7 +28,6 @@ const orderTemplate = document
 const productView = document
 	.getElementById('card-preview')
 	.cloneNode(true) as HTMLTemplateElement;
-const mainPage = document.querySelector('.page') as HTMLElement;
 const modalContainer = document.getElementById(
 	'modal-container'
 ) as HTMLElement;
@@ -50,6 +49,8 @@ events.onAll(({ eventName, data }) => {
 });
 
 // const basket = new BasketView()
+
+//рендер карточек на главном экране
 events.on('items:change', (items: IProduct[]) => {
 	page.setCatalog = items.map((item) => {
 		const card = new Card(cloneTemplate(itemCard), events, {
@@ -64,8 +65,17 @@ events.on('items:change', (items: IProduct[]) => {
 	});
 });
 
+// рендер выбранной карточки в модальном окне
 events.on('preview:changed', (item: IProduct) => {
-	const cardPreview = new Card(cloneTemplate(productView), events);
+	const cardPreview = new Card(cloneTemplate(productView), events, {
+		onClick: ()=> {
+			appState.addProduct({
+				id: Number(item.id),
+				category: item.category,
+				price: item.price,
+			});
+		}
+	});
 	modal.render({
 		content: cardPreview.render({
 			price: item.price,
@@ -77,24 +87,22 @@ events.on('preview:changed', (item: IProduct) => {
 	});
 });
 
-events.on('basket:change', (items: IBasketItem[]) => {
-	basket.setBasket = items.map((item) => {
-		const card = new Card(cloneTemplate(cardBasket), events);
+events.on('basket:change', () => {
+	basket.setBasket = appState.getBasketItems().map((item) => {
+		const card = new Card(cloneTemplate(cardBasket), events, {
+			onClick: ()=> events.emit('basket:change', item)
+		});
 		return card.render({
-			id: item.id,
+			id: Number(item.id),
 			category: item.category,
-			price: item.price
+			price: item.price,
 		});
 	});
 });
 
-events.on('basket:change', (item: IBasketItem) => {
-	appState.addProduct(item)
-})
 
 events.on('basket:open', () => {
-	const basket = new BasketView(cloneTemplate(basketTemplate), events);
-	modal.render({ content: basket.render() });
+	modal.render({ content: basket.render()});
 });
 
 events.on('order:open', () => {
@@ -107,10 +115,10 @@ events.on('order:open', () => {
 	});
 });
 
-events.on('order:submit', ()=>{
-	const success = new Success(cloneTemplate(successTemplate), events)
-	modal.render({content: success.render()})
-})
+events.on('order:submit', () => {
+	const success = new Success(cloneTemplate(successTemplate), events);
+	modal.render({ content: success.render() });
+});
 
 events.on('contacts:open', () => {
 	const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
@@ -123,16 +131,16 @@ events.on('contacts:open', () => {
 });
 
 events.on('card:select', (item: IProduct) => {
-	appState.setPreview(item)
+	appState.setPreview(item);
 });
 
-events.on('modal:open', ()=>{
-	page.locked = true
-})
+events.on('modal:open', () => {
+	page.locked = true;
+});
 
-events.on('modal:close', ()=>{
-	page.locked = false
-})
+events.on('modal:close', () => {
+	page.locked = false;
+});
 
 api
 	.get(`/product`)
