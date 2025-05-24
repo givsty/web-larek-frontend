@@ -41,8 +41,8 @@ export interface IBasket {
 }
 
 export interface IBasketItem {
-	id: number;
-	category: categories;
+	id: string;
+	title: string;
 	price: number | null;
 }
 
@@ -54,5 +54,3 @@ export interface IAppState {
 	isOrderReady: boolean;
 	basket: IBasket;
 }
-
-

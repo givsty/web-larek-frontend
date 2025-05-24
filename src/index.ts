@@ -68,13 +68,13 @@ events.on('items:change', (items: IProduct[]) => {
 // рендер выбранной карточки в модальном окне
 events.on('preview:changed', (item: IProduct) => {
 	const cardPreview = new Card(cloneTemplate(productView), events, {
-		onClick: ()=> {
+		onClick: () => {
 			appState.addProduct({
-				id: Number(item.id),
-				category: item.category,
+				id: item.id,
+				title: item.title,
 				price: item.price,
 			});
-		}
+		},
 	});
 	modal.render({
 		content: cardPreview.render({
@@ -90,19 +90,18 @@ events.on('preview:changed', (item: IProduct) => {
 events.on('basket:change', () => {
 	basket.setBasket = appState.getBasketItems().map((item) => {
 		const card = new Card(cloneTemplate(cardBasket), events, {
-			onClick: ()=> events.emit('basket:change', item)
+			onClick: () => events.emit('basket:delete', item),
 		});
 		return card.render({
-			id: Number(item.id),
-			category: item.category,
+			id: item.id,
+			title: item.title,
 			price: item.price,
 		});
 	});
 });
 
-
 events.on('basket:open', () => {
-	modal.render({ content: basket.render()});
+	modal.render({ content: basket.render() });
 });
 
 events.on('order:open', () => {

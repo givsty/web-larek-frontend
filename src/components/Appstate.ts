@@ -51,7 +51,8 @@ export class AppState implements IAppState {
 		this.basket.amount = amount;
 		this.events.emit('basket:change');
 	}
+	
 	getBasketItems(): IBasketItem[] {
-		return [{ id: 2, category: 'софт-скилс', price: 15 }];
+		return this.basketItems;
 	}
 }

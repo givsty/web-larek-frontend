@@ -4,12 +4,12 @@ import { EventEmitter, IEvents } from './base/events';
 import { Component } from './Component';
 
 interface IBasketView {
-	items: HTMLElement,
-	total: number
-	onClick: (event: MouseEvent)=> void 
+	items: HTMLElement;
+	total: number;
+	onClick: (event: MouseEvent) => void;
 }
 
-export class BasketView extends Component<IBasketView>{
+export class BasketView extends Component<IBasketView> {
 	protected container: HTMLElement;
 	protected title: HTMLTimeElement;
 	protected containerBasket: HTMLElement;
@@ -18,27 +18,30 @@ export class BasketView extends Component<IBasketView>{
 	protected price: HTMLSpanElement;
 
 	constructor(container: HTMLElement, protected events: IEvents) {
-		super(container)
-		this.basketList = ensureElement<HTMLElement>('.basket__list', this.container);
-		this.button = container.querySelector('.button')
+		super(container);
+		this.basketList = ensureElement<HTMLElement>(
+			'.basket__list',
+			this.container
+		);
+		this.button = container.querySelector('.button');
 
-		if(this.button) {
+		if (this.button) {
 			this.button.addEventListener('click', () => {
 				events.emit('order:open');
-			});	
+			});
 		}
 	}
 
 	set setBasket(items: HTMLElement[]) {
-		if(items.length) {
+		if (items.length) {
 			this.basketList.replaceChildren(...items);
 		} else {
-			this.basketList.textContent = 'asfafafafaf'
+			this.basketList.textContent = 'asfafafafaf';
 		}
 	}
 
 	set setAmount(summ: number) {
-		this.price.textContent = summ.toString()
+		this.price.textContent = summ.toString();
 	}
 	public render() {
 		return this.container;
