@@ -56,14 +56,12 @@ export class Card extends Component<ICard> {
 		this._description = container.querySelector('.card__text');
 		this._button = container.querySelector('.card__button');
 		this._selectorPreview = container.querySelector('.card_full');
-		// this._selectorBasket = container.querySelector('.basket__item')
+		this._indexItem = container.querySelector('.basket__item-index')
 
-		if (actions?.onClick) {
-			if (this._button) {
-				this._button.addEventListener('click', actions.onClick);
-			} else {
-				container.addEventListener('click', actions.onClick);
-			}
+		if (this._button) {
+			this._button.addEventListener('click', actions.onClick);
+		} else {
+			container.addEventListener('click', actions.onClick);
 		}
 	}
 

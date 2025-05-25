@@ -1,12 +1,11 @@
 import { IBasketItem, IProduct } from '../types';
-import { cloneTemplate, ensureElement } from '../utils/utils';
+import { cloneTemplate, createElement, ensureElement } from '../utils/utils';
 import { EventEmitter, IEvents } from './base/events';
 import { Component } from './Component';
 
 interface IBasketView {
 	items: HTMLElement;
 	total: number;
-	onClick: (event: MouseEvent) => void;
 }
 
 export class BasketView extends Component<IBasketView> {
@@ -24,6 +23,7 @@ export class BasketView extends Component<IBasketView> {
 			this.container
 		);
 		this.button = container.querySelector('.button');
+		this.price = container.querySelector('.basket__price')
 
 		if (this.button) {
 			this.button.addEventListener('click', () => {
@@ -36,13 +36,18 @@ export class BasketView extends Component<IBasketView> {
 		if (items.length) {
 			this.basketList.replaceChildren(...items);
 		} else {
-			this.basketList.textContent = 'asfafafafaf';
+
+			this.basketList.replaceChildren(createElement<HTMLParagraphElement>('p', {
+				textContent: 'Корзина пуста'
+			}))
 		}
 	}
-
+	
 	set setAmount(summ: number) {
-		this.price.textContent = summ.toString();
+		console.log(summ)
+		this.setText(this.price, `${summ} синапсов`)
 	}
+	
 	public render() {
 		return this.container;
 	}

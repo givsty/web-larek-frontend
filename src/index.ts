@@ -5,7 +5,7 @@ import { EventEmitter } from './components/base/events';
 import { Card } from './components/Card';
 import { Page } from './components/Page';
 import { ApiResponse, IBasketItem, IProduct } from './types';
-import { cloneTemplate } from './utils/utils';
+import { cloneTemplate, createElement } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
 import { BasketView } from './components/Basket';
@@ -88,12 +88,16 @@ events.on('preview:changed', (item: IProduct) => {
 });
 
 events.on('basket:change', () => {
-	basket.setBasket = appState.getBasketItems().map((item) => {
+	basket.setBasket = appState.getBasketItems().map((item: IBasketItem, index) => {
+		basket.setAmount = appState.getAmount()
 		const card = new Card(cloneTemplate(cardBasket), events, {
-			onClick: () => events.emit('basket:delete', item),
+			onClick: () => {
+				basket.setAmount = appState.getAmount()
+				appState.removeProduct(item)
+			},
 		});
 		return card.render({
-			id: item.id,
+			id: `${index + 1}`,
 			title: item.title,
 			price: item.price,
 		});
@@ -101,7 +105,9 @@ events.on('basket:change', () => {
 });
 
 events.on('basket:open', () => {
-	modal.render({ content: basket.render() });
+	modal.render({
+		content: createElement<HTMLElement>('div', {}, [basket.render()]),
+	});
 });
 
 events.on('order:open', () => {

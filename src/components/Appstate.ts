@@ -9,6 +9,7 @@ export class AppState implements IAppState {
 	isOrderReady: boolean;
 	previewItem: IProduct;
 	basket: IBasket;
+	amount: number= 0
 
 	constructor(protected events: IEvents) {
 		this.events = events;
@@ -36,14 +37,15 @@ export class AppState implements IAppState {
 
 	addProduct(item: IBasketItem) {
 		this.basketItems.push(item);
+		// this.basket.amount += item.price
 		this.events.emit('basket:change', item);
 	}
 
 	removeProduct(item: IBasketItem) {
-		this.basket.items = this.basket.items.filter(
+		this.basketItems = this.getBasketItems().filter(
 			(basketItem) => basketItem.id !== item.id
 		);
-		this.basket.amount -= item.price;
+		// this.basket.amount -= item.price;
 		this.events.emit('basket:change', this.items);
 	}
 
@@ -54,5 +56,9 @@ export class AppState implements IAppState {
 	
 	getBasketItems(): IBasketItem[] {
 		return this.basketItems;
+	}
+
+	getAmount() {
+		return this.basketItems.map((item)=> item.price).reduce((acc, number) => acc + number, 0)
 	}
 }
