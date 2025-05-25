@@ -27,8 +27,7 @@ export class Page extends Component<IPage> {
 		this.wrapper = ensureElement<HTMLElement>('.page__wrapper')
 		this.headerBasket = ensureElement<HTMLElement>('.header__basket'); 
 		this.catalog = ensureElement<HTMLElement>('.gallery');
-		this.headerBasketCounter = ensureElement<HTMLElement>('.header__basket');
-
+		this.headerBasketCounter = ensureElement<HTMLElement>('.header__basket-counter');
 		this.headerBasket.addEventListener('click', () => {
 			this.events.emit('basket:open');
 		});
@@ -38,8 +37,9 @@ export class Page extends Component<IPage> {
 		this.catalog.replaceChildren(...items);
 	}
 
-	set setCount(items: HTMLElement[]) {
-		this.headerBasketCounter.textContent = items.length.toString();
+	set setCount(count: number) {
+		console.log(count)
+		this.setText(this.headerBasketCounter, String(count))
 	}	
 
 	set locked(value: boolean){

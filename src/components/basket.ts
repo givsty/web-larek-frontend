@@ -30,6 +30,7 @@ export class BasketView extends Component<IBasketView> {
 				events.emit('order:open');
 			});
 		}
+
 	}
 
 	set setBasket(items: HTMLElement[]) {
@@ -44,10 +45,9 @@ export class BasketView extends Component<IBasketView> {
 	}
 	
 	set setAmount(summ: number) {
-		console.log(summ)
 		this.setText(this.price, `${summ} синапсов`)
 	}
-	
+
 	public render() {
 		return this.container;
 	}

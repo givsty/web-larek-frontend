@@ -48,10 +48,10 @@ events.onAll(({ eventName, data }) => {
 	console.log(eventName, data);
 });
 
-// const basket = new BasketView()
 
 //рендер карточек на главном экране
 events.on('items:change', (items: IProduct[]) => {
+	page.setCount = appState.getBasketItems().length
 	page.setCatalog = items.map((item) => {
 		const card = new Card(cloneTemplate(itemCard), events, {
 			onClick: () => events.emit('card:select', item),
@@ -88,6 +88,7 @@ events.on('preview:changed', (item: IProduct) => {
 });
 
 events.on('basket:change', () => {
+	page.setCount = appState.getBasketItems().length
 	basket.setBasket = appState.getBasketItems().map((item: IBasketItem, index) => {
 		basket.setAmount = appState.getAmount()
 		const card = new Card(cloneTemplate(cardBasket), events, {

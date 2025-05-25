@@ -9,7 +9,7 @@ export class AppState implements IAppState {
 	isOrderReady: boolean;
 	previewItem: IProduct;
 	basket: IBasket;
-	amount: number= 0
+	amount: number = 0
 
 	constructor(protected events: IEvents) {
 		this.events = events;
