@@ -23,29 +23,30 @@ export class BasketView extends Component<IBasketView> {
 			this.container
 		);
 		this.button = container.querySelector('.button');
-		this.price = container.querySelector('.basket__price')
+		this.price = container.querySelector('.basket__price');
 
 		if (this.button) {
 			this.button.addEventListener('click', () => {
 				events.emit('order:open');
 			});
 		}
-
+		this.setBasket = []
 	}
 
 	set setBasket(items: HTMLElement[]) {
 		if (items.length) {
 			this.basketList.replaceChildren(...items);
 		} else {
-
-			this.basketList.replaceChildren(createElement<HTMLParagraphElement>('p', {
-				textContent: 'Корзина пуста'
-			}))
+			this.basketList.replaceChildren(
+				createElement<HTMLParagraphElement>('p', {
+					textContent: 'Корзина пуста',
+				})
+			);
 		}
 	}
-	
+
 	set setAmount(summ: number) {
-		this.setText(this.price, `${summ} синапсов`)
+		this.setText(this.price, `${summ} синапсов`);
 	}
 
 	public render() {

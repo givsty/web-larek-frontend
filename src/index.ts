@@ -109,6 +109,7 @@ events.on('basket:open', () => {
 	modal.render({
 		content: createElement<HTMLElement>('div', {}, [basket.render()]),
 	});
+	modal.open()
 });
 
 events.on('order:open', () => {
