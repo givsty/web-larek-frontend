@@ -38,7 +38,6 @@ export class Page extends Component<IPage> {
 	}
 
 	set setCount(count: number) {
-		console.log(count)
 		this.setText(this.headerBasketCounter, String(count))
 	}	
 

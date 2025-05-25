@@ -90,7 +90,6 @@ events.on('preview:changed', (item: IProduct) => {
 events.on('basket:change', () => {
 	page.setCount = appState.getBasketItems().length
 	basket.setBasket = appState.getBasketItems().map((item: IBasketItem, index) => {
-		basket.setAmount = appState.getAmount()
 		const card = new Card(cloneTemplate(cardBasket), events, {
 			onClick: () => {
 				basket.setAmount = appState.getAmount()
@@ -103,6 +102,7 @@ events.on('basket:change', () => {
 			price: item.price,
 		});
 	});
+	basket.setAmount = appState.getAmount()
 });
 
 events.on('basket:open', () => {
