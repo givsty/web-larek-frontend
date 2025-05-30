@@ -22,17 +22,16 @@ export interface IProduct {
 	price: number | null;
 }
 
-export interface IOrderForm {
-	name: string;
-	email: string;
-	phone: number;
-	address: string;
-	payment: orderType
-}
+// export interface IContacts {
+// 	email: string,
+// 	phone: string
+// }
 
-export interface IOrder{
-	data: IOrderForm;
-	items: IBasket
+export interface IOrderForm{
+	address: string,
+	// payment: string,	
+	email: string,
+	phone: string
 }
 
 export interface IBasket {
@@ -40,11 +39,16 @@ export interface IBasket {
 	amount: number | null;
 }
 
+export interface IOrder extends IOrderForm {
+	items: []
+}
+
 export interface IBasketItem {
 	id: string;
 	title: string;
 	price: number | null;
 }
+export type FormErrors = Partial<Record<keyof IOrder, string>>
 
 export interface IAppState {
 	items: IProduct[];

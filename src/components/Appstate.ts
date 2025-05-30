@@ -1,15 +1,32 @@
-import { IAppState, IBasketItem, IProduct, IOrder, IBasket } from '../types';
+import {
+	IAppState,
+	IBasketItem,
+	IProduct,
+	IOrder,
+	IBasket,
+	FormErrors,
+	IOrderForm,
+	orderType,
+} from '../types';
 import { EventEmitter, IEvents } from './base/events';
 
 export class AppState implements IAppState {
 	items: IProduct[];
 	basketItems: IBasketItem[] = [];
-	order: IOrder;
+	order: IOrder = {
+		email: '',
+		phone: '',
+		address: '',
+		items: [],
+		// payment: 'card'
+	};
+
 	basketTotal: number;
 	isOrderReady: boolean;
 	previewItem: IProduct;
 	basket: IBasket;
-	amount: number = 0
+	amount: number = 0;
+	formsError: FormErrors = {};
 
 	constructor(protected events: IEvents) {
 		this.events = events;
@@ -37,7 +54,6 @@ export class AppState implements IAppState {
 
 	addProduct(item: IBasketItem) {
 		this.basketItems.push(item);
-		// this.basket.amount += item.price
 		this.events.emit('basket:change', item);
 	}
 
@@ -45,7 +61,6 @@ export class AppState implements IAppState {
 		this.basketItems = this.getBasketItems().filter(
 			(basketItem) => basketItem.id !== item.id
 		);
-		// this.basket.amount -= item.price;
 		this.events.emit('basket:change', this.items);
 	}
 
@@ -53,12 +68,40 @@ export class AppState implements IAppState {
 		this.basket.amount = amount;
 		this.events.emit('basket:change');
 	}
-	
+
 	getBasketItems(): IBasketItem[] {
 		return this.basketItems;
 	}
 
 	getAmount() {
-		return this.basketItems.map((item)=> item.price).reduce((acc, number) => acc + number, 0)
+		return this.basketItems
+			.map((item) => item.price)
+			.reduce((acc, number) => acc + number, 0);
+	}
+	
+	setValidateOrder(field: keyof IOrderForm, value: string) {
+		this.order[field] = value;
+		if (this.validateOrder()) {
+			this.events.emit('order:ready', this.order);
+		}
+	}
+
+	validateOrder() {
+		const errors: typeof this.formsError = {};
+		// if (!this.order.payment) {
+		// 	errors.payment = 'Необходимо указать тип оплаты';
+		// }
+		if (!this.order.address) {
+			errors.address = 'Необходимо указать адрес';
+		}
+		if (!this.order.phone) {
+			errors.phone = 'Необходимо указать телефон';
+		}
+		if (!this.order.email) {
+			errors.email = 'Необходимо указать почту';
+		}
+		this.formsError = errors;
+		this.events.emit('formErrors:change', this.formsError);
+		return Object.keys(errors).length === 0;
 	}
 }

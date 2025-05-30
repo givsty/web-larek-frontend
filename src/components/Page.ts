@@ -28,7 +28,7 @@ export class Page extends Component<IPage> {
 		this.headerBasket = ensureElement<HTMLElement>('.header__basket'); 
 		this.catalog = ensureElement<HTMLElement>('.gallery');
 		this.headerBasketCounter = ensureElement<HTMLElement>('.header__basket-counter');
-		
+
 		this.headerBasket.addEventListener('click', () => {
 			this.events.emit('basket:open');
 		});

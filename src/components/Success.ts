@@ -24,6 +24,6 @@ export class Success extends Component<ISucess>{
 		});
 	}
 	set setSum(order: IOrder) {
-		this.descriptions.textContent = `Списано ${order.items.amount} синапсов`;
+		// this.descriptions.textContent = `Списано ${order.items.amount} синапсов`;
 	}
 }

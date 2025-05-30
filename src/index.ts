@@ -4,7 +4,7 @@ import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
 import { Card } from './components/Card';
 import { Page } from './components/Page';
-import { ApiResponse, IBasketItem, IProduct } from './types';
+import { ApiResponse, IBasketItem, IOrder, IOrderForm, IProduct } from './types';
 import { cloneTemplate, createElement } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
@@ -43,7 +43,8 @@ const appState = new AppState(events);
 const modal = new Modal(modalContainer, events);
 const basket = new BasketView(cloneTemplate(basketTemplate), events);
 const page = new Page(document.body, events);
-
+const order = new Order(cloneTemplate(orderTemplate), events);
+const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
 events.onAll(({ eventName, data }) => {
 	console.log(eventName, data);
 });
@@ -113,13 +114,28 @@ events.on('basket:open', () => {
 });
 
 events.on('order:open', () => {
-	const order = new Order(cloneTemplate(orderTemplate), events);
 	modal.render({
 		content: order.render({
 			valid: false,
 			errors: '',
+			address: '',
 		}),
 	});
+});
+
+events.on('formErrors:change', (errors: Partial<IOrderForm>) => {
+	const { address, email, phone} = errors;
+	order.valid = !address
+	contacts.valid = !email && !phone
+	order.errors = Object.values({address}).filter(i => !!i).join('; ');
+});
+
+events.on(/^order\..*:change/, (data: { field: keyof IOrderForm, value: string }) => {
+	appState.setValidateOrder(data.field, data.value);
+});
+
+events.on(/^contacts\..*:change/, (data: { field: keyof IOrderForm, value: string }) => {
+	appState.setValidateOrder(data.field, data.value);
 });
 
 events.on('order:submit', () => {
@@ -128,11 +144,12 @@ events.on('order:submit', () => {
 });
 
 events.on('contacts:open', () => {
-	const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
 	modal.render({
 		content: contacts.render({
 			valid: false,
 			errors: '',
+			email: '',
+			phone: '',
 		}),
 	});
 });
