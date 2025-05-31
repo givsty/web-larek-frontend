@@ -30,15 +30,15 @@ export class BasketView extends Component<IBasketView> {
 				events.emit('order:open');
 			});
 		}
-		this.setBasket = []
+		this.setBasket = [];
 	}
 
 	set setBasket(items: HTMLElement[]) {
 		if (items.length) {
-			this.setDisabled(this.button, false)
+			this.setDisabled(this.button, false);
 			this.basketList.replaceChildren(...items);
 		} else {
-			this.setDisabled(this.button, true)
+			this.setDisabled(this.button, true);
 			this.basketList.replaceChildren(
 				createElement<HTMLParagraphElement>('p', {
 					textContent: 'Корзина пуста',

@@ -5,11 +5,11 @@ import { Component } from './Component';
 import { Modal } from './Modal';
 
 interface IPage {
-	content: HTMLElement
+	content: HTMLElement;
 }
 
 interface IPage {
-	onClick: (event: MouseEvent) =>void
+	onClick: (event: MouseEvent) => void;
 }
 
 export class Page extends Component<IPage> {
@@ -20,14 +20,16 @@ export class Page extends Component<IPage> {
 	protected modal: HTMLElement;
 	protected modalTemplate: HTMLElement;
 	protected container: HTMLElement;
-	protected wrapper: HTMLElement
+	protected wrapper: HTMLElement;
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container);
 
-		this.wrapper = ensureElement<HTMLElement>('.page__wrapper')
-		this.headerBasket = ensureElement<HTMLElement>('.header__basket'); 
+		this.wrapper = ensureElement<HTMLElement>('.page__wrapper');
+		this.headerBasket = ensureElement<HTMLElement>('.header__basket');
 		this.catalog = ensureElement<HTMLElement>('.gallery');
-		this.headerBasketCounter = ensureElement<HTMLElement>('.header__basket-counter');
+		this.headerBasketCounter = ensureElement<HTMLElement>(
+			'.header__basket-counter'
+		);
 
 		this.headerBasket.addEventListener('click', () => {
 			this.events.emit('basket:open');
@@ -39,14 +41,14 @@ export class Page extends Component<IPage> {
 	}
 
 	set setCount(count: number) {
-		this.setText(this.headerBasketCounter, String(count))
-	}	
+		this.setText(this.headerBasketCounter, String(count));
+	}
 
-	set locked(value: boolean){
-		if(value) {
-			this.wrapper.classList.add('page__wrapper_locked')
+	set locked(value: boolean) {
+		if (value) {
+			this.wrapper.classList.add('page__wrapper_locked');
 		} else {
-			this.wrapper.classList.remove('page__wrapper_locked')
+			this.wrapper.classList.remove('page__wrapper_locked');
 		}
 	}
 }

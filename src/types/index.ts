@@ -22,11 +22,6 @@ export interface IProduct {
 	price: number | null;
 }
 
-// export interface IContacts {
-// 	email: string,
-// 	phone: string
-// }
-
 export interface IOrderForm{
 	address: string,
 	payment: string,	
