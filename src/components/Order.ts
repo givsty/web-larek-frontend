@@ -1,8 +1,8 @@
-import { IOrder, orderType } from '../types';
+import { IOrder, IOrderForm, orderType } from '../types';
 import { EventEmitter } from './base/events';
 import { Form } from './Form';
 
-export class Order extends Form<IOrder>{
+export class Order extends Form<IOrderForm>{
 	protected container: HTMLFormElement;
 	protected buttonOnline: HTMLButtonElement;
 	protected buttonOffline: HTMLButtonElement;
@@ -15,17 +15,17 @@ export class Order extends Form<IOrder>{
 		this.buttonOnline = container.querySelector('button[name="card"]')
 		this.buttonNext = container.querySelector('.order__button')
 		this.buttonOffline.addEventListener("click", ()=>{
-			this.setPayment = 'cash'
+			this.payment = 'cash'
 		})
 		this.buttonOnline.addEventListener('click', ()=>{
-			this.setPayment = 'card'
+			this.payment = 'card'
 		})
 		this.buttonNext.addEventListener('click', ()=>{
 			events.emit('contacts:open')
 		})
 	}
 
-	set setPayment(payment: orderType) {
+	set payment(payment: orderType) {
 		this.buttonOffline.classList.toggle("button_alt-active", payment === "cash");
 		this.buttonOnline.classList.toggle("button_alt-active", payment === "card");
 	}

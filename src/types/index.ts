@@ -29,7 +29,7 @@ export interface IProduct {
 
 export interface IOrderForm{
 	address: string,
-	// payment: string,	
+	payment: string,	
 	email: string,
 	phone: string
 }

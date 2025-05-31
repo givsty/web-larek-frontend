@@ -4,7 +4,13 @@ import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
 import { Card } from './components/Card';
 import { Page } from './components/Page';
-import { ApiResponse, IBasketItem, IOrder, IOrderForm, IProduct } from './types';
+import {
+	ApiResponse,
+	IBasketItem,
+	IOrder,
+	IOrderForm,
+	IProduct,
+} from './types';
 import { cloneTemplate, createElement } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/Modal';
@@ -49,10 +55,9 @@ events.onAll(({ eventName, data }) => {
 	console.log(eventName, data);
 });
 
-
 //рендер карточек на главном экране
 events.on('items:change', (items: IProduct[]) => {
-	page.setCount = appState.getBasketItems().length
+	page.setCount = appState.getBasketItems().length;
 	page.setCatalog = items.map((item) => {
 		const card = new Card(cloneTemplate(itemCard), events, {
 			onClick: () => events.emit('card:select', item),
@@ -88,59 +93,106 @@ events.on('preview:changed', (item: IProduct) => {
 	});
 });
 
+//Добавление товаров в корзину
 events.on('basket:change', () => {
-	page.setCount = appState.getBasketItems().length
-	basket.setBasket = appState.getBasketItems().map((item: IBasketItem, index) => {
-		const card = new Card(cloneTemplate(cardBasket), events, {
-			onClick: () => {
-				basket.setAmount = appState.getAmount()
-				appState.removeProduct(item)
-			},
+	page.setCount = appState.getBasketItems().length;
+	basket.setBasket = appState
+		.getBasketItems()
+		.map((item: IBasketItem, index) => {
+			const card = new Card(cloneTemplate(cardBasket), events, {
+				onClick: () => {
+					basket.setAmount = appState.getAmount();
+					appState.removeProduct(item);
+				},
+			});
+			return card.render({
+				id: `${index + 1}`,
+				title: item.title,
+				price: item.price,
+			});
 		});
-		return card.render({
-			id: `${index + 1}`,
-			title: item.title,
-			price: item.price,
-		});
-	});
-	basket.setAmount = appState.getAmount()
+	basket.setAmount = appState.getAmount();
 });
 
+//Открытие корзины
 events.on('basket:open', () => {
 	modal.render({
 		content: createElement<HTMLElement>('div', {}, [basket.render()]),
 	});
-	modal.open()
+	modal.open();
 });
 
+//Открытие формы с заказом
 events.on('order:open', () => {
 	modal.render({
 		content: order.render({
 			valid: false,
 			errors: '',
 			address: '',
+			payment: 'online',
 		}),
 	});
 });
 
 events.on('formErrors:change', (errors: Partial<IOrderForm>) => {
-	const { address, email, phone} = errors;
-	order.valid = !address
-	contacts.valid = !email && !phone
-	order.errors = Object.values({address}).filter(i => !!i).join('; ');
+	const { address, email, phone } = errors;
+	order.valid = !address;
+	contacts.valid = !email && !phone;
+	order.errors = Object.values({ address })
+		.filter((i) => !!i)
+		.join('; ');
+	contacts.errors = Object.values({ email, phone })
+		.filter((i) => !!i)
+		.join('; ');
 });
 
-events.on(/^order\..*:change/, (data: { field: keyof IOrderForm, value: string }) => {
-	appState.setValidateOrder(data.field, data.value);
-});
+events.on(
+	/^order\..*:change/,
+	(data: { field: keyof IOrderForm; value: string }) => {
+		appState.setValidateOrder(data.field, data.value);
+	}
+);
 
-events.on(/^contacts\..*:change/, (data: { field: keyof IOrderForm, value: string }) => {
-	appState.setValidateOrder(data.field, data.value);
-});
+events.on(
+	/^contacts\..*:change/,
+	(data: { field: keyof IOrderForm; value: string }) => {
+		appState.setValidateOrder(data.field, data.value);
+	}
+);
 
-events.on('order:submit', () => {
-	const success = new Success(cloneTemplate(successTemplate), events);
-	modal.render({ content: success.render() });
+events.on('contacts:submit', () => {
+	api
+		.post(
+			'/order',
+			{
+				payment: 'online',
+				email: 'test@test.ru',
+				phone: '+71234567890',
+				address: 'Spb Vosstania 1',
+				total: 2200,
+				items: [
+					'854cef69-976d-4c2a-a18c-2aa45046c390',
+					'c101ab44-ed99-4a54-990d-47aa2bb4e7d9',
+				],
+			},
+			'POST'
+		)
+		.then(() => {
+			const success = new Success(cloneTemplate(successTemplate), events, {
+				onClick: () => {
+					modal.close()
+				},
+			});
+			modal.render({
+				content: success.render({
+					total: appState.getAmount().toString()
+				}),
+			});
+			modal.open()
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 });
 
 events.on('contacts:open', () => {
@@ -174,3 +226,4 @@ api
 	.catch((err) => {
 		console.log(err);
 	});
+

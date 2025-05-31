@@ -18,7 +18,7 @@ export class AppState implements IAppState {
 		phone: '',
 		address: '',
 		items: [],
-		// payment: 'card'
+		payment: 'online'
 	};
 
 	basketTotal: number;
@@ -69,6 +69,10 @@ export class AppState implements IAppState {
 		this.events.emit('basket:change');
 	}
 
+	setPayment(method: orderType) {
+		this.order.payment = method
+	}
+
 	getBasketItems(): IBasketItem[] {
 		return this.basketItems;
 	}
@@ -81,16 +85,18 @@ export class AppState implements IAppState {
 	
 	setValidateOrder(field: keyof IOrderForm, value: string) {
 		this.order[field] = value;
+		console.log(field)
+		console.log(this.order[field])
 		if (this.validateOrder()) {
 			this.events.emit('order:ready', this.order);
-		}
+		} 
 	}
 
 	validateOrder() {
 		const errors: typeof this.formsError = {};
-		// if (!this.order.payment) {
-		// 	errors.payment = 'Необходимо указать тип оплаты';
-		// }
+		if (!this.order.payment) {
+			errors.payment = 'Необходимо указать тип оплаты';
+		}
 		if (!this.order.address) {
 			errors.address = 'Необходимо указать адрес';
 		}
