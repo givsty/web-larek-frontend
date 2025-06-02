@@ -19,6 +19,7 @@ export class AppState implements IAppState {
 		address: '',
 		items: [],
 		payment: 'online',
+		total: 0,
 	};
 
 	basketTotal: number;
@@ -54,6 +55,8 @@ export class AppState implements IAppState {
 
 	addProduct(item: IBasketItem) {
 		this.basketItems.push(item);
+		this.order.items.push(item.id)
+		this.order.total += Number(item.id)
 		this.events.emit('basket:change', item);
 	}
 
@@ -78,9 +81,10 @@ export class AppState implements IAppState {
 	}
 
 	getAmount() {
-		return this.basketItems
+		this.order.total = this.basketItems
 			.map((item) => item.price)
 			.reduce((acc, number) => acc + number, 0);
+		return this.order.total;
 	}
 
 	setValidateOrder(field: keyof IOrderForm, value: string) {

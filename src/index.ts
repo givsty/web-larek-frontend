@@ -111,7 +111,7 @@ events.on('basket:change', () => {
 				price: item.price,
 			});
 		});
-	basket.setAmount = appState.getAmount();
+	basket.setAmount = appState.getAmount()
 });
 
 //Открытие корзины
@@ -164,23 +164,13 @@ events.on('contacts:submit', () => {
 	api
 		.post(
 			'/order',
-			{
-				payment: 'online',
-				email: 'test@test.ru',
-				phone: '+71234567890',
-				address: 'Spb Vosstania 1',
-				total: 2200,
-				items: [
-					'854cef69-976d-4c2a-a18c-2aa45046c390',
-					'c101ab44-ed99-4a54-990d-47aa2bb4e7d9',
-				],
-			},
-			'POST'
+			appState.order
 		)
 		.then(() => {
 			const success = new Success(cloneTemplate(successTemplate), events, {
 				onClick: () => {
 					modal.close()
+					
 				},
 			});
 			modal.render({
@@ -191,6 +181,7 @@ events.on('contacts:submit', () => {
 			modal.open()
 		})
 		.catch((error) => {
+			console.log(appState.order)
 			console.log(error);
 		});
 });
@@ -226,4 +217,3 @@ api
 	.catch((err) => {
 		console.log(err);
 	});
-

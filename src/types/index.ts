@@ -34,15 +34,23 @@ export interface IBasket {
 	amount: number | null;
 }
 
-export interface IOrder extends IOrderForm {
-	items: []
+export interface IOrderItem {
+	id: string
 }
+
+export interface IOrder extends IOrderForm {
+	items: string[],
+	total: number,
+}
+
+export type IAdd = IOrderItem & IBasketItem
 
 export interface IBasketItem {
 	id: string;
 	title: string;
 	price: number | null;
 }
+
 export type FormErrors = Partial<Record<keyof IOrder, string>>
 
 export interface IAppState {
