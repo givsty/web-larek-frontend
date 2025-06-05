@@ -89,11 +89,14 @@ export class AppState implements IAppState {
 
 	setValidateOrder(field: keyof IOrderForm, value: string) {
 		this.order[field] = value;
-		console.log(field);
-		console.log(this.order[field]);
 		if (this.validateOrder()) {
 			this.events.emit('order:ready', this.order);
 		}
+	}
+
+	clearBasket() {
+		this.basketItems.splice(0, this.basketItems.length)
+		this.events.emit('basket:change', this.basketItems)
 	}
 
 	validateOrder() {

@@ -111,7 +111,7 @@ events.on('basket:change', () => {
 				price: item.price,
 			});
 		});
-	basket.setAmount = appState.getAmount()
+	basket.setAmount = appState.getAmount();
 });
 
 //Открытие корзины
@@ -162,26 +162,23 @@ events.on(
 
 events.on('contacts:submit', () => {
 	api
-		.post(
-			'/order',
-			appState.order
-		)
+		.post('/order', appState.order)
 		.then(() => {
 			const success = new Success(cloneTemplate(successTemplate), events, {
 				onClick: () => {
-					modal.close()
-					
+					appState.clearBasket()
+					modal.close();
 				},
 			});
 			modal.render({
 				content: success.render({
-					total: appState.getAmount().toString()
+					total: appState.getAmount().toString(),
 				}),
 			});
-			modal.open()
+			modal.open();
 		})
 		.catch((error) => {
-			console.log(appState.order)
+			console.log(appState.order);
 			console.log(error);
 		});
 });
