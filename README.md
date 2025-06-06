@@ -165,19 +165,6 @@ constructor(container: HTMLElement, protected events: IEvents)
 - setContent(data: IProduct)данный метод устанавливает данные карточки товара в верстку
 - public render()данный метод возвращает итоговую верстку карточки 
 
-#### Класс `Contacts`
-Данный класс отображает форму с заполнением имени пользователя и номер телефона и наследует абстрактный класс `Form`
-
-```typescript
-constructor(container: HTMLFormElement, protected events: EventEmitter)
-```
-**Параметры:**
-в качестве параметров конструктор принимает форму и брокер событий
-
-**Поля и методы:**
-- set setEmail(email: string) данный метод устанавливает почту пользователя, введенную в поле с почтой
-- set setPhone(phone: string) данный метод устанавливает номер телефона пользователя, введенный в поле с номером телефона
-
 #### Класс `Form`
 Данный класс является абстрактным и родительским для класса Contacts и Order
 
@@ -199,7 +186,7 @@ constructor(container: HTMLFormElement, protected events: IEvents)
 constructor(container: HTMLElement, events: IEvents)
 ```
 **Параметры:**
-В качестве параметра конструктор принимает темплейт с версткой модального окна
+В качестве параметра конструктор принимает темплейт модального окна
 
 **Поля и методы:**
 - setContent(value: HTMLElement) данный метод устанавливает контент в модальном окне
@@ -219,6 +206,19 @@ constructor(container: HTMLFormElement, protected events: EventEmitter)
 **Поля и методы:**
 - set setPayment(payment: orderType) данный метод устанавливает тип оплаты, который выбрал пользователь 
 - set address(address: string) даный метод устанавливает адрес, введенный в поле ввода с адресом
+
+#### Класс `Contacts`
+Данный класс отображает форму с заполнением имени пользователя и номер телефона и наследует абстрактный класс `Form`
+
+```typescript
+constructor(container: HTMLFormElement, protected events: EventEmitter)
+```
+**Параметры:**
+в качестве параметров конструктор принимает форму и брокер событий
+
+**Поля и методы:**
+- set setEmail(email: string) данный метод устанавливает почту пользователя, введенную в поле с почтой
+- set setPhone(phone: string) данный метод устанавливает номер телефона пользователя, введенный в поле с номером телефона
 
 #### Класс `Page`
 Данный класс отображает всю страницу приложения
