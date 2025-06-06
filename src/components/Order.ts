@@ -1,6 +1,6 @@
 import { IOrder, IOrderForm, orderType } from '../types';
 import { EventEmitter } from './base/events';
-import { Form } from './Form';
+import { Form } from './common/Form';
 
 export class Order extends Form<IOrderForm> {
 	protected container: HTMLFormElement;

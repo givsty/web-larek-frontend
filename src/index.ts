@@ -13,11 +13,11 @@ import {
 } from './types';
 import { cloneTemplate, createElement } from './utils/utils';
 import { AppState } from './components/Appstate';
-import { Modal } from './components/Modal';
-import { BasketView } from './components/Basket';
+import { Modal } from './components/common/Modal';
+import { BasketView } from './components/common/Basket';
 import { Order } from './components/Order';
 import { Contacts } from './components/Contacts';
-import { Success } from './components/Success';
+import { Success } from './components/common/Success';
 
 const cardBasket = document
 	.getElementById('card-basket')

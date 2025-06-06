@@ -1,7 +1,7 @@
 import { IBasketItem, IProduct } from '../types';
 import { EventEmitter, IEvents } from './base/events';
 import { CDN_URL } from '../utils/constants';
-import { Component } from './Component';
+import { Component } from './base/Component';
 import { ensureElement } from '../utils/utils';
 
 interface ICardActions {

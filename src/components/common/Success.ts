@@ -1,15 +1,15 @@
-import { IOrder } from '../types';
-import { IEvents } from './base/events';
-import { Component } from './Component';
+import { IOrder } from '../../types'
+import { IEvents } from '../base/events';
+import { Component } from '../base/Component';
 interface ISucessActions {
 	onClick: (event: MouseEvent) => void;
 }
 
-interface ISucess {
+interface ISucсess {
 	total: string;
 }
 
-export class Success extends Component<ISucess> {
+export class Success extends Component<ISucсess> {
 	protected container: HTMLElement;
 	protected title: HTMLTitleElement;
 	protected descriptions: HTMLParagraphElement;

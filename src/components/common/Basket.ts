@@ -1,7 +1,7 @@
-import { IBasketItem, IProduct } from '../types';
-import { cloneTemplate, createElement, ensureElement } from '../utils/utils';
-import { EventEmitter, IEvents } from './base/events';
-import { Component } from './Component';
+import { IBasketItem, IProduct } from '../../types';
+import { cloneTemplate, createElement, ensureElement } from '../../utils/utils';
+import { EventEmitter, IEvents } from '../base/events';
+import { Component } from '../base/Component';
 
 interface IBasketView {
 	items: HTMLElement;

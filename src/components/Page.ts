@@ -1,8 +1,8 @@
 import { IProduct } from '../types';
 import { ensureElement } from '../utils/utils';
 import { IEvents } from './base/events';
-import { Component } from './Component';
-import { Modal } from './Modal';
+import { Component } from './base/Component';
+import { Modal } from './common/Modal';
 
 interface IPage {
 	content: HTMLElement;
