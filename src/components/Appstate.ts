@@ -55,8 +55,8 @@ export class AppState implements IAppState {
 
 	addProduct(item: IBasketItem) {
 		this.basketItems.push(item);
-		this.order.items.push(item.id)
-		this.order.total += Number(item.id)
+		this.order.items.push(item.id);
+		this.order.total += Number(item.id);
 		this.events.emit('basket:change', item);
 	}
 
@@ -89,30 +89,42 @@ export class AppState implements IAppState {
 
 	setValidateOrder(field: keyof IOrderForm, value: string) {
 		this.order[field] = value;
+		console.log(this.order[field]);
 		if (this.validateOrder()) {
 			this.events.emit('order:ready', this.order);
 		}
 	}
 
 	clearBasket() {
-		this.basketItems.splice(0, this.basketItems.length)
-		this.events.emit('basket:change', this.basketItems)
+		this.basketItems.splice(0, this.basketItems.length);
+		this.events.emit('basket:change', this.basketItems);
 	}
 
 	validateOrder() {
+		const regexpEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		const regexpPhone = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$/;
 		const errors: typeof this.formsError = {};
+
 		if (!this.order.payment) {
 			errors.payment = 'Необходимо указать тип оплаты';
 		}
+
 		if (!this.order.address) {
 			errors.address = 'Необходимо указать адрес';
 		}
+
 		if (!this.order.phone) {
 			errors.phone = 'Необходимо указать телефон';
+		} else if (!regexpPhone.test(this.order.phone)) {
+			errors.phone = 'Такого номера не существует';
 		}
+
 		if (!this.order.email) {
 			errors.email = 'Необходимо указать почту';
+		} else if (!regexpEmail.test(this.order.email)) {
+			errors.email = 'Не верный формат почты';
 		}
+
 		this.formsError = errors;
 		this.events.emit('formErrors:change', this.formsError);
 		return Object.keys(errors).length === 0;

@@ -183,7 +183,7 @@ events.on('contacts:submit', () => {
 		});
 });
 
-events.on('contacts:open', () => {
+events.on('order:submit', () => {
 	modal.render({
 		content: contacts.render({
 			valid: false,

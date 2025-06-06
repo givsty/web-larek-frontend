@@ -14,15 +14,20 @@ export class Order extends Form<IOrderForm> {
 		this.buttonOffline = container.querySelector('button[name="cash"]');
 		this.buttonOnline = container.querySelector('button[name="card"]');
 		this.buttonNext = container.querySelector('.order__button');
+
 		this.buttonOffline.addEventListener('click', () => {
+			this.onInputChange('payment', 'cash')
 			this.payment = 'cash';
 		});
+
 		this.buttonOnline.addEventListener('click', () => {
-			this.payment = 'card';
+			this.onInputChange('payment', 'online')
+			this.payment = 'online';
 		});
-		this.buttonNext.addEventListener('click', () => {
-			events.emit('contacts:open');
-		});
+
+		// this.buttonNext.addEventListener('click', () => {
+		// 	events.emit('contacts:open');
+		// });
 	}
 
 	set payment(payment: orderType) {
@@ -30,9 +35,9 @@ export class Order extends Form<IOrderForm> {
 			'button_alt-active',
 			payment === 'cash'
 		);
-		this.buttonOnline.classList.toggle('button_alt-active', payment === 'card');
+		this.buttonOnline.classList.toggle('button_alt-active', payment === 'online');
 	}
-
+	
 	set address(address: string) {
 		(this.container.elements.namedItem('address') as HTMLInputElement).value =
 			address;
