@@ -50,8 +50,4 @@ export class BasketView extends Component<IBasketView> {
 	set setAmount(summ: number) {
 		this.setText(this.price, `${summ} синапсов`);
 	}
-
-	public render() {
-		return this.container;
-	}
 }

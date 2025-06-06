@@ -11,38 +11,23 @@ import {
 	IOrderForm,
 	IProduct,
 } from './types';
-import { cloneTemplate, createElement } from './utils/utils';
+import { cloneTemplate, createElement, ensureElement } from './utils/utils';
 import { AppState } from './components/Appstate';
 import { Modal } from './components/common/Modal';
 import { BasketView } from './components/common/Basket';
 import { Order } from './components/Order';
 import { Contacts } from './components/Contacts';
 import { Success } from './components/common/Success';
+// ensureElement<HTMLTemplateElement>
+const cardBasket = ensureElement<HTMLTemplateElement>('#card-basket')
+const successTemplate = ensureElement<HTMLTemplateElement>('#success')
+const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts')
+const orderTemplate = ensureElement<HTMLTemplateElement>('#order')
+const productView = ensureElement<HTMLTemplateElement>('#card-preview')
+const modalContainer = ensureElement<HTMLTemplateElement>('#modal-container');
+const itemCard = ensureElement<HTMLTemplateElement>('#card-catalog')
+const basketTemplate = ensureElement<HTMLTemplateElement>('#basket')
 
-const cardBasket = document
-	.getElementById('card-basket')
-	.cloneNode(true) as HTMLTemplateElement;
-const successTemplate = document
-	.getElementById('success')
-	.cloneNode(true) as HTMLTemplateElement;
-const contactsTemplate = document
-	.getElementById('contacts')
-	.cloneNode(true) as HTMLTemplateElement;
-const orderTemplate = document
-	.getElementById('order')
-	.cloneNode(true) as HTMLTemplateElement;
-const productView = document
-	.getElementById('card-preview')
-	.cloneNode(true) as HTMLTemplateElement;
-const modalContainer = document.getElementById(
-	'modal-container'
-) as HTMLElement;
-const itemCard = document
-	.getElementById('card-catalog')
-	.cloneNode(true) as HTMLTemplateElement;
-const basketTemplate = document
-	.getElementById('basket')
-	.cloneNode(true) as HTMLTemplateElement;
 const events = new EventEmitter();
 const api = new Api(API_URL);
 const appState = new AppState(events);
@@ -51,6 +36,7 @@ const basket = new BasketView(cloneTemplate(basketTemplate), events);
 const page = new Page(document.body, events);
 const order = new Order(cloneTemplate(orderTemplate), events);
 const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
+
 events.onAll(({ eventName, data }) => {
 	console.log(eventName, data);
 });
@@ -160,6 +146,7 @@ events.on(
 	}
 );
 
+//Отправка данных заказа на сервер
 events.on('contacts:submit', () => {
 	api
 		.post('/order', appState.order)

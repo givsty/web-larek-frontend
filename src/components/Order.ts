@@ -11,6 +11,7 @@ export class Order extends Form<IOrderForm> {
 	constructor(container: HTMLFormElement, protected events: EventEmitter) {
 		super(container, events);
 		this.container = container;
+
 		this.buttonOffline = container.querySelector('button[name="cash"]');
 		this.buttonOnline = container.querySelector('button[name="card"]');
 		this.buttonNext = container.querySelector('.order__button');
@@ -24,10 +25,6 @@ export class Order extends Form<IOrderForm> {
 			this.onInputChange('payment', 'online')
 			this.payment = 'online';
 		});
-
-		// this.buttonNext.addEventListener('click', () => {
-		// 	events.emit('contacts:open');
-		// });
 	}
 
 	set payment(payment: orderType) {

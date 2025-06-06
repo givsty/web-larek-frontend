@@ -48,11 +48,6 @@ export class AppState implements IAppState {
 		this.events.emit('basket:change', this.items);
 	}
 
-	setOrder(order: IOrder) {
-		this.order = order;
-		this.events.emit('order:change', this.order);
-	}
-
 	addProduct(item: IBasketItem) {
 		this.basketItems.push(item);
 		this.order.items.push(item.id);
@@ -71,11 +66,7 @@ export class AppState implements IAppState {
 		this.basket.amount = amount;
 		this.events.emit('basket:change');
 	}
-
-	setPayment(method: orderType) {
-		this.order.payment = method;
-	}
-
+	
 	getBasketItems(): IBasketItem[] {
 		return this.basketItems;
 	}
@@ -89,7 +80,6 @@ export class AppState implements IAppState {
 
 	setValidateOrder(field: keyof IOrderForm, value: string) {
 		this.order[field] = value;
-		console.log(this.order[field]);
 		if (this.validateOrder()) {
 			this.events.emit('order:ready', this.order);
 		}

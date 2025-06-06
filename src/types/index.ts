@@ -34,16 +34,10 @@ export interface IBasket {
 	amount: number | null;
 }
 
-export interface IOrderItem {
-	id: string
-}
-
 export interface IOrder extends IOrderForm {
 	items: string[],
 	total: number,
 }
-
-export type IAdd = IOrderItem & IBasketItem
 
 export interface IBasketItem {
 	id: string;
