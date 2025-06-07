@@ -37,9 +37,9 @@ export class Card extends Component<ICard> {
 
 	protected colors: IColors = {
 		'софт-скил': 'card__category card__category_soft',
-		'другое': 'card__category card__category_other',
-		'дополнительное': 'card__category card__category_additional',
-		'кнопка': 'card__category card__category_button',
+		другое: 'card__category card__category_other',
+		дополнительное: 'card__category card__category_additional',
+		кнопка: 'card__category card__category_button',
 		'хард-скил': 'card__category card__category_hard',
 	};
 
@@ -70,7 +70,7 @@ export class Card extends Component<ICard> {
 		this.setText(this._category, value);
 		this._category.className = this.colors[value];
 	}
-	
+
 	set description(value: string) {
 		this.setText(this._description, value);
 	}
@@ -84,16 +84,12 @@ export class Card extends Component<ICard> {
 	}
 
 	set price(value: string) {
-		console.log(value)
-		this.setText(
-			this._price,
-			value !== null
-			? `${value} синапсов` 
-			: 'бесценно'
-		);
-		value === null
-			? this.setDisabled(this._button, true)
-			: this.setDisabled(this._button, false);
+		if (value !== null) {
+			this.setText(this._price, `${value} синапсов`);
+			this.setDisabled(this._button, false);
+		}
+		this.setText(this._price, `бесценно`);
+		this.setDisabled(this._button, true);
 	}
 
 	set id(value: string) {
