@@ -34,11 +34,12 @@ export class Card extends Component<ICard> {
 	protected _basketCardPrice: HTMLSpanElement;
 	protected _basketItemDelete: HTMLButtonElement;
 	protected _selectorPreview: HTMLElement;
+
 	protected colors: IColors = {
 		'софт-скил': 'card__category card__category_soft',
-		другое: 'card__category card__category_additional',
-		дополнительное: 'card__category card__category_other',
-		кнопка: 'card__category card__category_button',
+		'другое': 'card__category card__category_other',
+		'дополнительное': 'card__category card__category_additional',
+		'кнопка': 'card__category card__category_button',
 		'хард-скил': 'card__category card__category_hard',
 	};
 
@@ -69,7 +70,7 @@ export class Card extends Component<ICard> {
 		this.setText(this._category, value);
 		this._category.className = this.colors[value];
 	}
-
+	
 	set description(value: string) {
 		this.setText(this._description, value);
 	}
@@ -83,10 +84,16 @@ export class Card extends Component<ICard> {
 	}
 
 	set price(value: string) {
+		console.log(value)
 		this.setText(
 			this._price,
-			value !== null ? `${value} синапсов` : 'бесценно'
+			value !== null
+			? `${value} синапсов` 
+			: 'бесценно'
 		);
+		value === null
+			? this.setDisabled(this._button, true)
+			: this.setDisabled(this._button, false);
 	}
 
 	set id(value: string) {

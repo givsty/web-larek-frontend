@@ -18,7 +18,7 @@ import { BasketView } from './components/common/Basket';
 import { Order } from './components/Order';
 import { Contacts } from './components/Contacts';
 import { Success } from './components/common/Success';
-// ensureElement<HTMLTemplateElement>
+
 const cardBasket = ensureElement<HTMLTemplateElement>('#card-basket')
 const successTemplate = ensureElement<HTMLTemplateElement>('#success')
 const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts')
@@ -153,7 +153,6 @@ events.on('contacts:submit', () => {
 		.then(() => {
 			const success = new Success(cloneTemplate(successTemplate), events, {
 				onClick: () => {
-					appState.clearBasket()
 					modal.close();
 				},
 			});
@@ -163,6 +162,7 @@ events.on('contacts:submit', () => {
 				}),
 			});
 			modal.open();
+			appState.clearBasket()
 		})
 		.catch((error) => {
 			console.log(appState.order);
