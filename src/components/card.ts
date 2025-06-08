@@ -84,12 +84,14 @@ export class Card extends Component<ICard> {
 	}
 
 	set price(value: string) {
-		if (value !== null) {
+		console.log(value)
+		if (value === null) {
+			this.setText(this._price, `бесценно`);
+			this.setDisabled(this._button, true);
+		} else {
 			this.setText(this._price, `${value} синапсов`);
 			this.setDisabled(this._button, false);
 		}
-		this.setText(this._price, `бесценно`);
-		this.setDisabled(this._button, true);
 	}
 
 	set id(value: string) {
