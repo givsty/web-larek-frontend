@@ -2,7 +2,7 @@ import { Api } from './components/base/api';
 import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/events';
-import { Card } from './components/card';
+import { Card } from './components/Card';
 import { Page } from './components/Page';
 import {
 	ApiResponse,
